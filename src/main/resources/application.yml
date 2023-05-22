@@ -1,0 +1,11 @@
+spring:
+  profiles:
+    active: local
+
+  jpa:
+    database: mysql
+    show-sql: true
+    hibernate:
+      ddl-auto: create
+
+
