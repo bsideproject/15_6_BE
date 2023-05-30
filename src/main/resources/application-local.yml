@@ -8,3 +8,14 @@ spring:
     url: jdbc:mariadb://localhost:3306/bside
     username: root
     password: dhtlgns731!
+
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id:
+            client-secret:
+            scope:
+              - email
+              - profile
