@@ -1,8 +1,8 @@
 package bside.NotToDoClub.domain_name.api.login;
 
-import bside.NotToDoClub.domain_name.api.vo.JoinRequest;
-import bside.NotToDoClub.domain_name.api.vo.LoginRequest;
-import bside.NotToDoClub.domain_name.api.vo.ResponseUser;
+import bside.NotToDoClub.domain_name.api.login.vo.JoinRequest;
+import bside.NotToDoClub.domain_name.api.login.vo.LoginRequest;
+import bside.NotToDoClub.domain_name.api.login.vo.ResponseUser;
 import bside.NotToDoClub.domain_name.user.dto.UserDto;
 import bside.NotToDoClub.domain_name.user.service.UserService;
 import lombok.RequiredArgsConstructor;

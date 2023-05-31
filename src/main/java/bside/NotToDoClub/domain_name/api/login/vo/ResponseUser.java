@@ -1,4 +1,4 @@
-package bside.NotToDoClub.domain_name.api.vo;
+package bside.NotToDoClub.domain_name.api.login.vo;
 
 import bside.NotToDoClub.config.UserRole;
 import lombok.AllArgsConstructor;
