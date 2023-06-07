@@ -42,6 +42,9 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
         } else if(provider.equals("naver")) {
             log.info("네이버 로그인 요청");
             oAuth2UserInfo = new NaverUserInfo( (Map)oAuth2User.getAttributes().get("response") );
+        } else if(provider.equals("apple")) {
+            log.info("애플 로그인 요청");
+            oAuth2UserInfo = new AppleUserInfo( (Map)oAuth2User.getAttributes().get("response") );
         }
 //        else if(provider.equals("facebook")) {
 //            log.info("페이스북 로그인 요청");
