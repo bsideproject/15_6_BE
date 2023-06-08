@@ -1,8 +1,8 @@
 package bside.NotToDoClub.config;
 
-import bside.NotToDoClub.domain_name.auth.MyAccessDeniedHandler;
-import bside.NotToDoClub.domain_name.auth.MyAuthenticationEntryPoint;
-import bside.NotToDoClub.domain_name.auth.oauth.PrincipalOauth2UserService;
+import bside.NotToDoClub.domain_name.auth.config.MyAccessDeniedHandler;
+import bside.NotToDoClub.domain_name.auth.config.MyAuthenticationEntryPoint;
+import bside.NotToDoClub.domain_name.auth.config.oauth.PrincipalOauth2UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;

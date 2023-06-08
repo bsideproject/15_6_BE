@@ -1,4 +1,4 @@
-package bside.NotToDoClub.domain_name.auth.oauth;
+package bside.NotToDoClub.domain_name.auth.config.oauth;
 
 public interface SocialOauth {
     String getOauthRedirectURL();

@@ -1,5 +1,6 @@
-package bside.NotToDoClub.domain_name.auth;
+package bside.NotToDoClub.domain_name.auth.config.auth;
 
+import bside.NotToDoClub.domain_name.auth.config.auth.PrincipalDetails;
 import bside.NotToDoClub.domain_name.user.entity.UserEntity;
 import bside.NotToDoClub.domain_name.user.respository.UserRepository;
 import lombok.RequiredArgsConstructor;

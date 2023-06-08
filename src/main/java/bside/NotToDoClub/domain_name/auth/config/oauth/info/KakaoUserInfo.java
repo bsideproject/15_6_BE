@@ -1,11 +1,11 @@
-package bside.NotToDoClub.domain_name.auth.oauth;
+package bside.NotToDoClub.domain_name.auth.config.oauth.info;
 
 import lombok.AllArgsConstructor;
 
 import java.util.Map;
 
 @AllArgsConstructor
-public class KakaoUserInfo implements OAuth2UserInfo{
+public class KakaoUserInfo implements OAuth2UserInfo {
 
     private Map<String, Object> attributes;
 

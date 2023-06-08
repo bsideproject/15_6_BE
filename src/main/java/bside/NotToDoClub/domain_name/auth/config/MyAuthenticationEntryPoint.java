@@ -1,4 +1,4 @@
-package bside.NotToDoClub.domain_name.auth;
+package bside.NotToDoClub.domain_name.auth.config;
 
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;

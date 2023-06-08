@@ -1,4 +1,4 @@
-package bside.NotToDoClub.domain_name.api.login;
+package bside.NotToDoClub.domain_name.api.login.controller;
 
 import bside.NotToDoClub.domain_name.api.login.vo.JoinRequest;
 import bside.NotToDoClub.domain_name.api.login.vo.LoginRequest;

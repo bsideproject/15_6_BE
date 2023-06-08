@@ -1,4 +1,4 @@
-package bside.NotToDoClub.domain_name.auth;
+package bside.NotToDoClub.domain_name.auth.config;
 
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
