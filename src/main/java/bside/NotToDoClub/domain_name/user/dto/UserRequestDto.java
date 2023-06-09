@@ -13,11 +13,15 @@ import lombok.NoArgsConstructor;
 @Builder
 public class UserRequestDto {
     private String loginId;
+    private String accessToken;
+    private String refreshToken;
     private String nickname;
     private UserRole role;
 
     public UserRequestDto(UserEntity userEntity){
         loginId = userEntity.getLoginId();
+        accessToken = userEntity.getAccessToken();
+        refreshToken = userEntity.getRefreshToken();
         nickname = userEntity.getNickname();
         role = userEntity.getRole();
     }

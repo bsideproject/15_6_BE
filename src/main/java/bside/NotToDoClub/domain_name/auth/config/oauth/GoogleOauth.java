@@ -40,6 +40,9 @@ public class GoogleOauth implements SocialOauth {
     @Value("${spring.OAuth2.google.user-info-request-url}")
     private String GOOGLE_USERINFO_REQUEST_URL;
 
+    @Value("${spring.config.activate.on-profile}")
+    private String ACTIVATE_ON_PROFILE;
+
     private final ObjectMapper objectMapper;
 
     private final RestTemplate restTemplate;
@@ -52,6 +55,11 @@ public class GoogleOauth implements SocialOauth {
         params.put("response_type", "code");
         params.put("client_id", GOOGLE_CLIENT_ID);
         params.put("redirect_uri", GOOGLE_CALLBACK_URL);
+        //refresh token 받기 위한 url 셋팅
+        params.put("access_type", "offline");
+        if(ACTIVATE_ON_PROFILE.equals("local")){ //실제 운영에서는 최초 로그인시에만 refresh token을 발급 받기 위함
+            params.put("prompt", "consent"); //매 로그인마다 사용자에게 동의 요청
+        }
 
         //parameter를 형식에 맞춰 구성해주는 함수
         String parameterString = params.entrySet().stream()

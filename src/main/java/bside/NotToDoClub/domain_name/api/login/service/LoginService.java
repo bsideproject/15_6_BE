@@ -30,6 +30,8 @@ public class LoginService {
                             .nickname(googleUser.getName())
                             .password("google")
                             .role(UserRole.USER)
+                            .accessToken(googleUser.getAccess_token())
+                            .refreshToken(googleUser.getRefresh_token())
                             .build()
             );
 
@@ -37,11 +39,7 @@ public class LoginService {
                     () -> new CustomException(ErrorCode.TOKEN_AUTHENTICATION_FAIL)
             );
 
-            System.out.println("userEntity = " + userEntity.getLoginId());
-
             UserRequestDto userRequestDto = new UserRequestDto(userEntity);
-
-            System.out.println("userRequestDto = " + userRequestDto);
 
             return userRequestDto;
         }

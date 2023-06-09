@@ -39,6 +39,12 @@ public class OauthService {
         ResponseEntity<String> userInfoResponse = googleOauth.requestUserInfo(oAuthToken);
         GoogleUserInfoDto googleUser = googleOauth.getUserInfo(userInfoResponse);
 
+        String accessToken = oAuthToken.getAccess_token();
+        String refreshToken = oAuthToken.getRefresh_token();
+
+        googleUser.setAccess_token(accessToken);
+        googleUser.setRefresh_token(refreshToken);
+
         return googleUser;
     }
 

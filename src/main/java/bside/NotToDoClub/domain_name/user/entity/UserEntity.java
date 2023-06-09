@@ -29,11 +29,17 @@ public class UserEntity {
     private String provider;
     private String providerId;
 
+    private String accessToken;
+    private String refreshToken;
+
     public UserEntity createUserEntity(UserDto userDto){
         this.loginId = userDto.getLoginId();
         this.password = userDto.getPassword();
         this.nickname = userDto.getNickname();
         this.role = userDto.getRole();
+        this.accessToken = userDto.getAccessToken();
+        this.refreshToken = userDto.getRefreshToken();
+
         return this;
     }
 }
