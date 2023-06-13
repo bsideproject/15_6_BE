@@ -19,6 +19,13 @@ spring:
       callback-url: http://localhost:8080/login/auth/google-callback
       scope: https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile
 
+    kakao:
+      url: https://kauth.kakao.com/oauth/authorize
+      token-request-url: https://kauth.kakao.com/oauth/token
+      client-id: 5a93db408aa5e800df2c9f3ceaefd5e2
+      redirect-url: http://localhost:8080/login/auth/kakao-callback
+      user-info-uri: https://kapi.kakao.com/v2/user/me
+
   security:
     oauth2:
       client:
