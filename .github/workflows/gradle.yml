@@ -39,7 +39,7 @@ jobs:
       with:
         name: cicd
         path: build/libs/*.jar
-        
+
   deploy:
     needs: build
     runs-on: ubuntu-latest
@@ -53,7 +53,7 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
       - name: SCP transfer
-        run: scp *.jar ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }}:~/cicd
+        run: scp -p ${{ secrets.SERVER_PORT }} *.jar ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }}:~/cicd
       - name: Execute remote commands
         run: |
           ssh ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} -p ${{ secrets.SERVER_PORT }} "sudo fuser -k 8080/tcp"
