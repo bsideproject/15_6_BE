@@ -2,6 +2,7 @@ package bside.NotToDoClub.domain_name.auth.service;
 
 import bside.NotToDoClub.config.Constant;
 import bside.NotToDoClub.domain_name.auth.config.oauth.GoogleOauth;
+import bside.NotToDoClub.domain_name.auth.config.oauth.KakaoOauth;
 import bside.NotToDoClub.domain_name.auth.dto.GoogleOAuthTokenDto;
 import bside.NotToDoClub.domain_name.user.dto.GoogleUserInfoDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -16,6 +17,7 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class OauthService {
     private final GoogleOauth googleOauth;
+    private final KakaoOauth kakaoOauth;
     private final HttpServletResponse response;
 
     public String getRedirectUrl(Constant.SocialLoginType socialLoginType) throws IOException {
@@ -23,7 +25,10 @@ public class OauthService {
         switch (socialLoginType){
             case GOOGLE:{
                 redirectURL= googleOauth.getOauthRedirectURL();
-            } //
+            }
+            case KAKAO:{
+                redirectURL = kakaoOauth.getOauthRedirectURL();
+            }
             break;
             default:{
                 throw new IllegalArgumentException("알 수 없는 소셜 로그인 형식입니다.");
