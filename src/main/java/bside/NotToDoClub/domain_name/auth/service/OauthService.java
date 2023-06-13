@@ -4,7 +4,9 @@ import bside.NotToDoClub.config.Constant;
 import bside.NotToDoClub.domain_name.auth.config.oauth.GoogleOauth;
 import bside.NotToDoClub.domain_name.auth.config.oauth.KakaoOauth;
 import bside.NotToDoClub.domain_name.auth.dto.GoogleOAuthTokenDto;
+import bside.NotToDoClub.domain_name.auth.dto.KakaoOAuthTokenDto;
 import bside.NotToDoClub.domain_name.user.dto.GoogleUserInfoDto;
+import bside.NotToDoClub.domain_name.user.dto.KakaoUserInfoDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -52,6 +54,24 @@ public class OauthService {
         googleUser.setRefresh_token(refreshToken);
 
         return googleUser;
+    }
+
+    public KakaoUserInfoDto getKakaoUserInfo(String code) throws JsonProcessingException {
+        ResponseEntity<String> accessTokenResponse = kakaoOauth.requestAccessToken(code);
+        KakaoOAuthTokenDto oAuthToken = kakaoOauth.getAccessToken(accessTokenResponse);
+        ResponseEntity<String> userInfoResponse = kakaoOauth.requestUserInfo(oAuthToken);
+        KakaoUserInfoDto kakaoUser = kakaoOauth.getUserInfo(userInfoResponse);
+
+
+        System.out.println("userInfoResponse = " + userInfoResponse);
+
+        /*String accessToken = oAuthToken.getAccess_token();
+        String refreshToken = oAuthToken.getRefresh_token();
+
+        kakaoUser.setAccess_token(accessToken);
+        kakaoUser.setRefresh_token(refreshToken);*/
+
+        return kakaoUser;
     }
 
 }

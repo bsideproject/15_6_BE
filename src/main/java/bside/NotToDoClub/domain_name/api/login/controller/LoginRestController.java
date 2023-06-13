@@ -27,8 +27,14 @@ public class LoginRestController {
     }
 
     @GetMapping("/auth/google-callback")
-    public ResultResponse<UserRequestDto> callback(@RequestParam(name="code") String code) throws IOException{
+    public ResultResponse<UserRequestDto> googleCallback(@RequestParam(name="code") String code) throws IOException{
         UserRequestDto userRequestDto = loginService.googleLogin(code);
+        return ResultResponse.of(ResponseCode.GET_USER_INFO, userRequestDto);
+    }
+
+    @GetMapping("/auth/kakao-callback")
+    public ResultResponse<UserRequestDto> kakaoCallback(@RequestParam(name="code") String code) throws IOException{
+        UserRequestDto userRequestDto = loginService.kakaoLogin(code);
         return ResultResponse.of(ResponseCode.GET_USER_INFO, userRequestDto);
     }
 }
