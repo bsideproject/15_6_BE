@@ -23,7 +23,8 @@ public class OauthService {
         switch (socialLoginType){
             case GOOGLE:{
                 redirectURL= googleOauth.getOauthRedirectURL();
-            }break;
+            } //
+            break;
             default:{
                 throw new IllegalArgumentException("알 수 없는 소셜 로그인 형식입니다.");
             }
