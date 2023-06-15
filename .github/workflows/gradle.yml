@@ -31,14 +31,17 @@ jobs:
         java-version: '11'
         distribution: 'temurin'
     - name: Build with Gradle
-      uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
-      with:
-        arguments: build
-    - name: Upload artifact
-      uses: actions/upload-artifact@v2
-      with:
-        name: cicd
-        path: build/libs/*.jar
+      run: ./gradlew clean build --exclude-task test
+    
+          #    - name: Build with Gradle
+          #      uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
+          #      with:
+          #        arguments: build
+          #    - name: Upload artifact
+          #      uses: actions/upload-artifact@v2
+          #      with:
+          #        name: cicd
+          #        path: build/libs/*.jar
 
   deploy:
     needs: build
@@ -48,7 +51,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: cicd
-      - name: Publish to GitHub Packages Apache Maven
+      - name: Publish to GitHub Packages Gradle
         env:
           PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           HOST: ${{ secrets.SERVER_IP }}
