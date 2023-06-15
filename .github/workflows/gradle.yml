@@ -63,8 +63,8 @@ jobs:
         echo "$PRIVATE_KEY" > private_key.pem
         chmod 600 private_key.pem
         scp -i private_key.pem -P $PORT -o StrictHostKeyChecking=no -r *.jar $USERNAME@$HOST:/home/appuser/jars/
-        ssh -i private_key.pem -p $PORT -o StrictHostKeyChecking=no $USERNAME@$HOST 'bash -s' <<- EOF
-          nohup java -jar /home/appuser/jars/*.jar > /dev/null 2>&1 & disown
+        ssh -i private_key.pem -p $PORT -o StrictHostKeyChecking=no $USERNAME@$HOST 'bash -s' <<- EO
+          nohup java -jar /home/appuser/jars/*SNAPSHOT.jar > /dev/null 2>&1 & disown
           exit
         EOF
         rm -f private_key.pem
