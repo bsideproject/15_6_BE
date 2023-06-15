@@ -49,7 +49,7 @@ jobs:
         with:
           name: cicd
       - name: Deploy jar
-        uses: webfactory/ssh-agent@v0.5.4
+        uses: appleboy/ssh-agent@v0.5.4
         with:
           host: ${{ secrets.SERVER_IP }}
           username: ${{ secrets.SSH_USER }}
