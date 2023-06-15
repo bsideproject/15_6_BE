@@ -48,14 +48,22 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: cicd
-      - name: Setup SSH
+      - name: Deploy jar
         uses: webfactory/ssh-agent@v0.5.4
         with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-      - name: SCP transfer
-        run: scp -P ${{ secrets.SERVER_PORT }} *.jar ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }}:~/cicd
-      - name: Execute remote commands
-        run: |
-          ssh ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} -p ${{ secrets.SERVER_PORT }} "sudo fuser -k 8080/tcp"
-          ssh ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} -p ${{ secrets.SERVER_PORT }} "sudo nohup java -jar ~/cicd/*.jar &"
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SSH_USER }}
+          password: ${{ secrets.SERVER_PASSWORD }}
+          port: ${{ secrets.SERVER_PORT }}
+          timeout: 60s
+          script: |
+            scp -P ${{ secrets.SERVER_PORT }} *.jar ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }}:~/cicd
+            ssh ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} -p ${{ secrets.SERVER_PORT }} "sudo fuser -k 8080/tcp"
+            ssh ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} -p ${{ secrets.SERVER_PORT }} "sudo nohup java -jar ~/cicd/*.jar &"
+            #      - name: SCP transfer
+            #        run: scp -P ${{ secrets.SERVER_PORT }} *.jar ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }}:~/cicd
+            #      - name: Execute remote commands
+            #        run: |
+            #          ssh ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} -p ${{ secrets.SERVER_PORT }} "sudo fuser -k 8080/tcp"
+            #          ssh ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} -p ${{ secrets.SERVER_PORT }} "sudo nohup java -jar ~/cicd/*.jar &"
 
