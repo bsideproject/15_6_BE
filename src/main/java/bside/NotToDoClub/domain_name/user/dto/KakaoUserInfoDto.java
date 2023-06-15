@@ -12,6 +12,8 @@ public class KakaoUserInfoDto {
     private String connected_at;
     private Properties properties;
     private KakaoAccount kakao_account;
+    private String access_token;
+    private String refresh_token;
 
     @Data
     @NoArgsConstructor

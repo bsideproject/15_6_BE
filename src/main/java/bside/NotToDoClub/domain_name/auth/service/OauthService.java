@@ -62,14 +62,13 @@ public class OauthService {
         ResponseEntity<String> userInfoResponse = kakaoOauth.requestUserInfo(oAuthToken);
         KakaoUserInfoDto kakaoUser = kakaoOauth.getUserInfo(userInfoResponse);
 
-
         System.out.println("userInfoResponse = " + userInfoResponse);
 
-        /*String accessToken = oAuthToken.getAccess_token();
+        String accessToken = oAuthToken.getAccess_token();
         String refreshToken = oAuthToken.getRefresh_token();
 
         kakaoUser.setAccess_token(accessToken);
-        kakaoUser.setRefresh_token(refreshToken);*/
+        kakaoUser.setRefresh_token(refreshToken);
 
         return kakaoUser;
     }

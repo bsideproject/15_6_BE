@@ -77,6 +77,7 @@ public class KakaoOauth implements SocialOauth{
 
         ResponseEntity<String> responseEntity = restTemplate.postForEntity(KAKAO_TOKEN_REQUEST_URL, kakaoRequest, String.class);
 
+
         if(responseEntity.getStatusCode() == HttpStatus.OK){
             return responseEntity;
         }

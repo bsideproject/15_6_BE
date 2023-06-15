@@ -65,8 +65,8 @@ public class LoginService {
                             .nickname(kakaoUser.getProperties().getNickname())
                             .password("kakao")
                             .role(UserRole.USER)
-                            //.accessToken(kakaoUser.getAccess_token())
-                            //.refreshToken(kakaoUser.getRefresh_token())
+                            .accessToken(kakaoUser.getAccess_token())
+                            .refreshToken(kakaoUser.getRefresh_token())
                             .build()
             );
 
