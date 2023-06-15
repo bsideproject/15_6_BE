@@ -48,18 +48,36 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: cicd
-      - name: Deploy jar
-        uses: appleboy/ssh-agent@v0.1.4
-        with:
-          host: ${{ secrets.SERVER_IP }}
-          username: ${{ secrets.SSH_USER }}
-          password: ${{ secrets.SERVER_PASSWORD }}
-          port: ${{ secrets.SERVER_PORT }}
-          timeout: 60s
-          script: |
-            scp -P ${{ secrets.SERVER_PORT }} *.jar ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }}:~/cicd
-            ssh ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} -p ${{ secrets.SERVER_PORT }} "sudo fuser -k 8080/tcp"
-            ssh ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} -p ${{ secrets.SERVER_PORT }} "sudo nohup java -jar ~/cicd/*.jar &"
+      - name: Publish to GitHub Packages Apache Maven
+        env:
+          PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          HOST: ${{ secrets.SERVER_IP }}
+          USERNAME: ${{ secrets.SSH_USER }}
+          PORT: ${{ secrets.SERVER_PORT }}
+          #          scp -i private_key.pem -P $PORT -o StrictHostKeyChecking=no -r target/*.jar $USERNAME@$HOST:/home/$USERNAME/
+          #nohup java -jar /home/$USERNAME/*.jar > /dev/null 2>&1 & disown
+        run: |
+          echo "$PRIVATE_KEY" > private_key.pem
+          chmod 600 private_key.pem
+          scp -i private_key.pem -P $PORT -o StrictHostKeyChecking=no -r target/*.jar $USERNAME@$HOST:/home/appuser/jars/
+          ssh -i private_key.pem -p $PORT -o StrictHostKeyChecking=no $USERNAME@$HOST 'bash -s' <<- EOF
+            pgrep java | xargs kill -TERM || true
+            nohup java -jar /home/appuser/jars/*.jar > /dev/null 2>&1 & disown
+            exit
+          EOF
+          rm -f private_key.pem
+          #      - name: Deploy jar
+          #        uses: appleboy/ssh-agent@v0.1.4
+          #        with:
+          #          host: ${{ secrets.SERVER_IP }}
+          #          username: ${{ secrets.SSH_USER }}
+          #          password: ${{ secrets.SERVER_PASSWORD }}
+          #          port: ${{ secrets.SERVER_PORT }}
+          #          timeout: 60s
+          #          script: |
+          #            scp -P ${{ secrets.SERVER_PORT }} *.jar ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }}:~/cicd
+          #            ssh ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} -p ${{ secrets.SERVER_PORT }} "sudo fuser -k 8080/tcp"
+          #            ssh ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} -p ${{ secrets.SERVER_PORT }} "sudo nohup java -jar ~/cicd/*.jar &"
             #      - name: SCP transfer
             #        run: scp -P ${{ secrets.SERVER_PORT }} *.jar ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }}:~/cicd
             #      - name: Execute remote commands
