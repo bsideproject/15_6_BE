@@ -26,6 +26,14 @@ spring:
       redirect-url: http://localhost:8080/login/auth/kakao-callback
       user-info-uri: https://kapi.kakao.com/v2/user/me
 
+    apple:
+      url:
+      team-id:
+      redirect-url:
+      client-id:
+      key-id:
+      key-path:
+
   security:
     oauth2:
       client:
