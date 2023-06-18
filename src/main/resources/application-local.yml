@@ -27,12 +27,12 @@ spring:
       user-info-uri: https://kapi.kakao.com/v2/user/me
 
     apple:
-      url:
+      url: https://appleid.apple.com
       team-id:
-      redirect-url:
+      redirect-url: http://localhost:8080/login/auth/apple-callback
       client-id:
       key-id:
-      key-path:
+      key-path: #key.p8
 
   security:
     oauth2:

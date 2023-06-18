@@ -1,14 +1,18 @@
 package bside.NotToDoClub.domain_name.auth.service;
 
 import bside.NotToDoClub.config.Constant;
+import bside.NotToDoClub.domain_name.auth.config.oauth.AppleOauth;
 import bside.NotToDoClub.domain_name.auth.config.oauth.GoogleOauth;
 import bside.NotToDoClub.domain_name.auth.config.oauth.KakaoOauth;
 import bside.NotToDoClub.domain_name.auth.dto.GoogleOAuthTokenDto;
 import bside.NotToDoClub.domain_name.auth.dto.KakaoOAuthTokenDto;
+import bside.NotToDoClub.domain_name.user.dto.AppleUserInfoDto;
 import bside.NotToDoClub.domain_name.user.dto.GoogleUserInfoDto;
 import bside.NotToDoClub.domain_name.user.dto.KakaoUserInfoDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import net.sf.json.JSONObject;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +24,7 @@ import java.io.IOException;
 public class OauthService {
     private final GoogleOauth googleOauth;
     private final KakaoOauth kakaoOauth;
+    private final AppleOauth appleOauth;
     private final HttpServletResponse response;
 
     public String getRedirectUrl(Constant.SocialLoginType socialLoginType) throws IOException {
@@ -74,6 +79,33 @@ public class OauthService {
         kakaoUser.setRefresh_token(refreshToken);
 
         return kakaoUser;
+    }
+
+    public AppleUserInfoDto getAppleUserInfo(String code) throws Exception {
+        String apiResponse = appleOauth.getApiResponse(code);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        JSONObject tokenResponse = objectMapper.readValue(apiResponse, JSONObject.class);
+
+        // 애플 정보조회 성공
+        if (tokenResponse.get("error") == null ) {
+
+            JSONObject payload = appleOauth.decodeFromIdToken(tokenResponse.getString("id_token"));
+            //  회원 고유 식별자
+            String appleUniqueNo = payload.getString("sub");
+
+            /**
+
+             TO DO : 리턴받은 appleUniqueNo 해당하는 회원정보 조회 후 로그인 처리 후 메인으로 이동
+
+             */
+            return null;
+
+            // 애플 정보조회 실패
+        } else {
+//            throw new ErrorMessage("애플 정보조회에 실패했습니다.");
+            throw new Exception("애플 정보조회에 실패했습니다.");
+        }
     }
 
 }

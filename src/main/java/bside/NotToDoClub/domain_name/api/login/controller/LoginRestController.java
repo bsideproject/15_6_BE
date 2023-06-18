@@ -37,4 +37,9 @@ public class LoginRestController {
         UserRequestDto userRequestDto = loginService.kakaoLogin(code);
         return ResultResponse.of(ResponseCode.GET_USER_INFO, userRequestDto);
     }
+
+    @GetMapping("/auth/apple-callback")
+    public ResultResponse<UserRequestDto> appleCallback(@RequestParam(name="code") String code) throws IOException {
+        return null;
+    }
 }
