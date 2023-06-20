@@ -4,6 +4,7 @@ import bside.NotToDoClub.config.Constant;
 import bside.NotToDoClub.domain_name.api.login.service.LoginService;
 import bside.NotToDoClub.domain_name.auth.service.OauthService;
 import bside.NotToDoClub.domain_name.user.dto.UserRequestDto;
+import bside.NotToDoClub.global.response.AuthResponse;
 import bside.NotToDoClub.global.response.ResponseCode;
 import bside.NotToDoClub.global.response.ResultResponse;
 import lombok.RequiredArgsConstructor;
@@ -33,8 +34,8 @@ public class LoginRestController {
     }
 
     @GetMapping("/auth/kakao-callback")
-    public ResultResponse<UserRequestDto> kakaoCallback(@RequestParam(name="code") String code) throws IOException{
-        UserRequestDto userRequestDto = loginService.kakaoLogin(code);
-        return ResultResponse.of(ResponseCode.GET_USER_INFO, userRequestDto);
+    public ResultResponse<AuthResponse> kakaoCallback(@RequestParam(name="code") String code) throws IOException{
+        AuthResponse authResponse = loginService.kakaoLogin(code);
+        return ResultResponse.of(ResponseCode.PROVIDE_APP_TOKEN, authResponse);
     }
 }
