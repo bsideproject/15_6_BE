@@ -15,26 +15,31 @@ import javax.persistence.*;
 public class UserEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID")
     private Long id;
 
-    @Column(name = "login_id")
+    @Column(name = "LOGIN_ID")
     private String loginId;
 
-    @Column(name = "password")
+    @Column(name = "PASSWORD")
     private String password;
 
-    @Column(name = "nickname")
+    @Column(name = "NICKNAME")
     private String nickname;
 
-    @Column(name = "user_role")
+    @Column(name = "USER_ROLE")
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
     // OAuth 로그인에 사용
+    @Column(name = "PROVIDER")
     private String provider;
+    @Column(name = "PROVIDER_ID")
     private String providerId;
 
+    @Column(name = "ACCESS_TOKEN")
     private String accessToken;
+    @Column(name = "REFRESH_TOKEN")
     private String refreshToken;
 
     public UserEntity createUserEntity(UserDto userDto){
