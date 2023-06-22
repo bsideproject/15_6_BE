@@ -4,25 +4,30 @@ import bside.NotToDoClub.config.UserRole;
 import bside.NotToDoClub.domain_name.user.dto.UserDto;
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Builder
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "USER")
 public class UserEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "login_id")
     private String loginId;
+
+    @Column(name = "password")
     private String password;
+
+    @Column(name = "nickname")
     private String nickname;
 
+    @Column(name = "user_role")
+    @Enumerated(EnumType.STRING)
     private UserRole role;
 
     // OAuth 로그인에 사용

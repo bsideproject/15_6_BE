@@ -4,10 +4,10 @@ spring:
       on-profile: prod
 
   datasource:
-    driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://localhost:3306/bside
+    driver-class-name: org.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://45.119.146.21:3306/bside
     username: root
-    password:
+    password: bsideTeamDb6!
 
   OAuth2:
     google:
@@ -25,6 +25,7 @@ spring:
       client-id: 5a93db408aa5e800df2c9f3ceaefd5e2
       redirect-url: http://localhost:8080/login/auth/kakao-callback
       user-info-uri: https://kapi.kakao.com/v2/user/me
+
   security:
     oauth2:
       client:
