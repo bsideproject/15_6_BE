@@ -4,10 +4,10 @@ spring:
       on-profile: prod
 
   datasource:
-    driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://localhost:3306/bside
+    driver-class-name: org.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://45.119.146.21:3306/bside
     username: root
-    password:
+    password: bsideTeamDb6!
 
   OAuth2:
     google:
@@ -64,3 +64,7 @@ spring:
             authorization-uri: https://appleid.apple.com/auth/authorize?&response_mode=form_post
             token-uri: https://appleid.apple.com/auth/token
             user-info-uri: https://appleid.apple.com/auth/userinfo
+<<<<<<< HEAD
+=======
+ 
+>>>>>>> develop

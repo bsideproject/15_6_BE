@@ -12,6 +12,7 @@ public enum ErrorCode {
 
     /* 401 UNAUTHORIZED : 인증되지 않은 사용자 */
     INVALID_TOKEN(UNAUTHORIZED, "토큰이 유효하지 않습니다"),
+    TOKEN_AUTHENTICATION_FAIL(UNAUTHORIZED, "토큰을 받아오는데 실패했습니다."),
 
     /* 404 NOT_FOUND : Resource 를 찾을 수 없음 */
     USER_NOT_FOUND(NOT_FOUND, "해당 유저 정보를 찾을 수 없습니다"),
