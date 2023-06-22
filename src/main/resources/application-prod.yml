@@ -64,7 +64,3 @@ spring:
             authorization-uri: https://appleid.apple.com/auth/authorize?&response_mode=form_post
             token-uri: https://appleid.apple.com/auth/token
             user-info-uri: https://appleid.apple.com/auth/userinfo
-<<<<<<< HEAD
-=======
- 
->>>>>>> develop
