@@ -4,7 +4,7 @@ spring:
       on-profile: prod
 
   datasource:
-    driver-class-name: org.mysql.jdbc.Driver
+    driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://45.119.146.21:3306/bside
     username: root
     password: bsideTeamDb6!
