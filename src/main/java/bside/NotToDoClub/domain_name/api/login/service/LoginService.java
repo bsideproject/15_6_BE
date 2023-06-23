@@ -1,8 +1,8 @@
 package bside.NotToDoClub.domain_name.api.login.service;
 
-import bside.NotToDoClub.config.AuthToken;
 import bside.NotToDoClub.config.AuthTokenProvider;
 import bside.NotToDoClub.config.UserRole;
+import bside.NotToDoClub.domain_name.auth.dto.TokenDto;
 import bside.NotToDoClub.domain_name.auth.service.OauthService;
 import bside.NotToDoClub.domain_name.user.dto.GoogleUserInfoDto;
 import bside.NotToDoClub.domain_name.user.dto.KakaoUserInfoDto;
@@ -61,7 +61,8 @@ public class LoginService {
     public AuthResponse kakaoLogin(String code) throws JsonProcessingException {
         KakaoUserInfoDto kakaoUser = oAuthService.getKakaoUserInfo(code);
 
-        AuthToken appToken = authTokenProvider.createUserAppToken(kakaoUser.getKakao_account().getEmail());
+        //AuthToken appToken = authTokenProvider.createUserAppToken(kakaoUser.getKakao_account().getEmail());
+        TokenDto tokenDto = authTokenProvider.createAccessToken(kakaoUser.getKakao_account().getEmail(), UserRole.USER);
 
         //사용자 정보 없으면 DB 저장 (회원가입)
         if(!userRepository.existsByLoginId(kakaoUser.getKakao_account().getEmail())){
@@ -93,7 +94,8 @@ public class LoginService {
         UserRequestDto userRequestDto = new UserRequestDto(userEntity);*/
 
         return AuthResponse.builder()
-                .appToken(appToken.getToken())
+                .appAccessToken(tokenDto.getAccessToken())
+                .appRefreshToken(tokenDto.getRefreshToken())
                 .build();
 
     }

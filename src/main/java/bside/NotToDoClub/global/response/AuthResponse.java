@@ -7,5 +7,6 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AuthResponse<T> {
-    private String appToken;
+    private String appAccessToken;
+    private String appRefreshToken;
 }

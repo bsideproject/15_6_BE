@@ -83,3 +83,10 @@ spring:
             authorization-uri: https://appleid.apple.com/auth/authorize?&response_mode=form_post
             token-uri: https://appleid.apple.com/auth/token
             user-info-uri: https://appleid.apple.com/auth/userinfo
+
+app:
+  auth:
+    tokenExpiry: 10000
+    tokenSecret: c3ByaW5nLWJvb3Qtc2VjdXJpdHktand0LXR1dG9yaWFsLWppd29vbi1zcHJpbmctYm9vdC1zZWN1cml0eS1qd3QtdHV0b3JpYWwK
+    accessTokenSecret:
+    refreshTokenSecret:
