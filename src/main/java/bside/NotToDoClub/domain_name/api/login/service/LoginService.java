@@ -24,8 +24,10 @@ public class LoginService {
     private final UserRepository userRepository;
     private final AuthTokenProvider authTokenProvider;
 
-    public UserRequestDto googleLogin(String code) throws JsonProcessingException {
+    public AuthResponse googleLogin(String code) throws JsonProcessingException {
         GoogleUserInfoDto googleUser = oAuthService.getGoogleUserInfo(code);
+
+        TokenDto tokenDto = authTokenProvider.createAccessToken(googleUser.getEmail(), UserRole.USER);
 
         if(!userRepository.existsByLoginId(googleUser.getEmail())){
 
@@ -40,21 +42,24 @@ public class LoginService {
                             .build()
             );
 
-            UserEntity userEntity = userRepository.findByLoginId(googleUser.getEmail()).orElseThrow(
+            /*UserEntity userEntity = userRepository.findByLoginId(googleUser.getEmail()).orElseThrow(
                     () -> new CustomException(ErrorCode.TOKEN_AUTHENTICATION_FAIL)
             );
 
             UserRequestDto userRequestDto = new UserRequestDto(userEntity);
 
-            return userRequestDto;
+            return userRequestDto;*/
         }
 
-        UserEntity userEntity = userRepository.findByLoginId(googleUser.getEmail()).orElseThrow(
+        /*UserEntity userEntity = userRepository.findByLoginId(googleUser.getEmail()).orElseThrow(
                 () -> new CustomException(ErrorCode.TOKEN_AUTHENTICATION_FAIL)
         );
-        UserRequestDto userRequestDto = new UserRequestDto(userEntity);
+        UserRequestDto userRequestDto = new UserRequestDto(userEntity);*/
 
-        return userRequestDto;
+        return AuthResponse.builder()
+                .appAccessToken(tokenDto.getAccessToken())
+                .appRefreshToken(tokenDto.getRefreshToken())
+                .build();
 
     }
 
