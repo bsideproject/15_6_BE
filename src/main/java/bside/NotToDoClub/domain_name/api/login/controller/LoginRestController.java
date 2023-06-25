@@ -39,7 +39,8 @@ public class LoginRestController {
     }
 
     @GetMapping("/auth/apple-callback")
-    public ResultResponse<UserRequestDto> appleCallback(@RequestParam(name="code") String code) throws IOException {
+    public ResultResponse<UserRequestDto> appleCallback(@RequestParam(name="code") String code) throws Exception {
+        UserRequestDto userRequestDto = loginService.appleLogin(code);
         return null;
     }
 }

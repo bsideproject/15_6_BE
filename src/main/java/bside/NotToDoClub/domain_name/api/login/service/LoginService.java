@@ -2,6 +2,7 @@ package bside.NotToDoClub.domain_name.api.login.service;
 
 import bside.NotToDoClub.config.UserRole;
 import bside.NotToDoClub.domain_name.auth.service.OauthService;
+import bside.NotToDoClub.domain_name.user.dto.AppleUserInfoDto;
 import bside.NotToDoClub.domain_name.user.dto.GoogleUserInfoDto;
 import bside.NotToDoClub.domain_name.user.dto.KakaoUserInfoDto;
 import bside.NotToDoClub.domain_name.user.dto.UserRequestDto;
@@ -86,5 +87,11 @@ public class LoginService {
 
         return userRequestDto;
 
+    }
+
+    public UserRequestDto appleLogin(String code) throws Exception {
+        AppleUserInfoDto appleUser = oAuthService.getAppleUserInfo(code);
+
+        return null;
     }
 }

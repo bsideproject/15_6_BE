@@ -1,13 +1,13 @@
 spring:
   config:
     activate:
-      on-profile: local
+      on-profile: prod
 
   datasource:
-    driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://localhost:3306/bside
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://49.50.160.109:3306/bside?useSSL=false
     username: root
-    password:
+    password: bsideTeamDb6!
 
   OAuth2:
     google:
@@ -25,14 +25,6 @@ spring:
       client-id: 5a93db408aa5e800df2c9f3ceaefd5e2
       redirect-url: http://localhost:8080/login/auth/kakao-callback
       user-info-uri: https://kapi.kakao.com/v2/user/me
-
-    apple:
-      url: https://appleid.apple.com
-      team-id: XQ24HP64B3
-      redirect-url: http://localhost:8080/login/auth/apple-callback
-      client-id: com.bside.nottodo
-      key-id: T4JHR24JQW
-      key-path: /Users/sihun/dev/AuthKey_T4JHR24JQW.p8 #key.p8
 
   security:
     oauth2:
@@ -72,4 +64,4 @@ spring:
             authorization-uri: https://appleid.apple.com/auth/authorize?&response_mode=form_post
             token-uri: https://appleid.apple.com/auth/token
             user-info-uri: https://appleid.apple.com/auth/userinfo
-
+ 

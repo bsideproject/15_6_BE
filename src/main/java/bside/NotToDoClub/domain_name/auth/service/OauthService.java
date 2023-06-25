@@ -12,6 +12,7 @@ import bside.NotToDoClub.domain_name.user.dto.KakaoUserInfoDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSONObject;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class OauthService {
     private final GoogleOauth googleOauth;
@@ -86,6 +88,8 @@ public class OauthService {
 
         ObjectMapper objectMapper = new ObjectMapper();
         JSONObject tokenResponse = objectMapper.readValue(apiResponse, JSONObject.class);
+
+        log.info(String.valueOf(tokenResponse));
 
         // 애플 정보조회 성공
         if (tokenResponse.get("error") == null ) {
