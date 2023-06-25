@@ -91,7 +91,11 @@ public class LoginService {
 
     public UserRequestDto appleLogin(String code) throws Exception {
         AppleUserInfoDto appleUser = oAuthService.getAppleUserInfo(code);
-
+        /**
+         *
+         * TODO: 회원 정보 저장 후 회원정보 return -> LoginRestController(apple-callback) 값 넘겨주기
+         *
+         */
         return null;
     }
 }

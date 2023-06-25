@@ -81,13 +81,13 @@ public class AppleOauth {
         Map<String, Object> params = new HashMap<>();
         params.put("client_id", APPLE_CLIENT_ID);
         params.put("redirect_uri", APPLE_REDIRECT_URL);
-        params.put("response_type", "code id_token");
+        params.put("response_type", "code");
         params.put("response_mode", "form_post");
 
         String parameterString = params.entrySet().stream()
                 .map(x -> x.getKey() + "=" + x.getValue())
                 .collect(Collectors.joining("&"));
-        String redirectURL = APPLE_LOGIN_URL + "/auth/authorize?";
+        String redirectURL = APPLE_LOGIN_URL + "/auth/authorize?" + parameterString;
         log.info("redirectURL = {}", redirectURL);
 
         return redirectURL;

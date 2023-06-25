@@ -7,7 +7,7 @@ spring:
     driver-class-name: org.mariadb.jdbc.Driver
     url: jdbc:mariadb://localhost:3306/bside
     username: root
-    password:
+    password: dhtlgns731!
 
   OAuth2:
     google:
@@ -29,7 +29,7 @@ spring:
     apple:
       url: https://appleid.apple.com
       team-id: XQ24HP64B3
-      redirect-url: http://localhost:8080/login/auth/apple-callback
+      redirect-url: https://nottodo.store:8080/login/auth/apple-callback
       client-id: com.bside.nottodo
       key-id: T4JHR24JQW
       key-path: /Users/sihun/dev/AuthKey_T4JHR24JQW.p8 #key.p8
