@@ -38,3 +38,5 @@ out/
 ### VS Code ###
 .vscode/
 src/main/resources/application-prod.yml
+keystore.p12
+src/main/resources/AuthKey_T4JHR24JQW.p8
