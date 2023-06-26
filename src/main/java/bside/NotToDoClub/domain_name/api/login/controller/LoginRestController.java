@@ -2,6 +2,7 @@ package bside.NotToDoClub.domain_name.api.login.controller;
 
 import bside.NotToDoClub.config.Constant;
 import bside.NotToDoClub.domain_name.api.login.service.LoginService;
+import bside.NotToDoClub.domain_name.auth.dto.AuthRequestDto;
 import bside.NotToDoClub.domain_name.auth.service.OauthService;
 import bside.NotToDoClub.domain_name.user.dto.UserRequestDto;
 import bside.NotToDoClub.global.response.AuthResponse;
@@ -33,9 +34,9 @@ public class LoginRestController {
         return ResultResponse.of(ResponseCode.PROVIDE_APP_TOKEN, authResponse);
     }
 
-    @GetMapping("/auth/kakao-callback")
-    public ResultResponse<AuthResponse> kakaoCallback(@RequestParam(name="code") String code) throws IOException{
-        AuthResponse authResponse = loginService.kakaoLogin(code);
+    @PostMapping("/auth/kakao-callback")
+    public ResultResponse<AuthResponse> kakaoCallback(@RequestBody AuthRequestDto authRequestDto) throws IOException{
+        AuthResponse authResponse = loginService.kakaoLogin(authRequestDto.getCode());
         return ResultResponse.of(ResponseCode.PROVIDE_APP_TOKEN, authResponse);
     }
 }
