@@ -5,18 +5,18 @@ spring:
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/bside
+    url: jdbc:mysql://localhost:3306/bside?useSSL=false
     username: root
-    password: bsideTeam6!
+    password: dhtlgns731!
 
   OAuth2:
     google:
       url: https://accounts.google.com/o/oauth2/v2/auth
       token-request-url: https://oauth2.googleapis.com/token
       user-info-request-url: https://www.googleapis.com/oauth2/v1/userinfo
-      client-id:
-      client-secret:
-      callback-url: http://localhost:3000/login/kakao #http://localhost:8080/login/auth/google-callback
+      client-id: http://83894557482-v5cbgg6jot99hrs1rl80cj55gc75dhfc.apps.googleusercontent.com
+      client-secret: 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
+      callback-url: http://localhost:8080/login/auth/google-callback
       scope: https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile
 
     kakao:
@@ -26,19 +26,27 @@ spring:
       redirect-url: http://localhost:8080/login/auth/kakao-callback
       user-info-uri: https://kapi.kakao.com/v2/user/me
 
+    apple:
+      url: https://appleid.apple.com
+      team-id: XQ24HP64B3
+      redirect-url: https://nottodo.store:8080/login/auth/apple-callback
+      client-id: nottodo.bside.com #com.bside.nottodo
+      key-id: T4JHR24JQW
+      key-path: AuthKey_T4JHR24JQW.p8 #key.p8
+
   security:
     oauth2:
       client:
         registration:
           google:
-            client-id:
-            client-secret:
+            client-id: 823576274300-8qa3bceguhvjo8201lk0g03bt0j3j036.apps.googleusercontent.com
+            client-secret: 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
             scope:
               - email
               - profile
           kakao:
-            client-id:
-            client-secret:
+            client-id: cadf09063078f68abe9b618450a72d18
+            client-secret: Jcui3KnJ2joNJHsqayINbvDfoNCeNIxC
             scope:
               - account_email
               - profile_nickname
@@ -46,25 +54,6 @@ spring:
             redirect-uri: http://localhost:8080/login/oauth2/code/kakao
             client-name: Kakao
             client-authentication-method: POST
-          naver:
-            client-id:
-            client-secret:
-            scope:
-              - name
-              - email
-            client-name: Naver
-            authorization-grant-type: authorization_code
-            redirect-uri: http://localhost:8080/login/oauth2/code/naver
-          apple:
-            client-id:
-            client-secret:
-            redirect-uri: https://github.com
-            scope:
-              - name
-              - email
-            clkent-name: Apple
-            authorization-grant-type: authorization_code
-            response-mode: form_post
 
         provider:
           kakao:
@@ -83,10 +72,16 @@ spring:
             authorization-uri: https://appleid.apple.com/auth/authorize?&response_mode=form_post
             token-uri: https://appleid.apple.com/auth/token
             user-info-uri: https://appleid.apple.com/auth/userinfo
-
+server:
+  ssl:
+    enabled: true
+    key-store: keystore.p12
+    key-store-password: dhtlgns731!
+    key-store-type: PKCS12
+    key-alias: bns-ssl
 app:
   auth:
     tokenExpiry: 10000
     tokenSecret: c3ByaW5nLWJvb3Qtc2VjdXJpdHktand0LXR1dG9yaWFsLWppd29vbi1zcHJpbmctYm9vdC1zZWN1cml0eS1qd3QtdHV0b3JpYWwK
-    accessTokenSecret:
-    refreshTokenSecret:
+    accessTokenSecret: c3ByaW5nLWJvb3Qtc2VjdXJpdHktand0LXR1dG9yaWFsLXN1bmdhLXNwcmluZy1ib290LXNlY3VyaXR5LWp3dC10dXRvcmlhbC1hY2Nlc3MK
+    refreshTokenSecret: c3ByaW5nLWJvb3Qtc2VjdXJpdHktand0LXR1dG9yaWFsLXN1bmdhLXNwcmluZy1ib290LXNlY3VyaXR5LWp3dC10dXRvcmlhbC1yZWZyZXNoCg==
