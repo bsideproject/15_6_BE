@@ -1,7 +1,7 @@
 spring:
   config:
     activate:
-      on-profile: prod
+      on-profile: local
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -25,6 +25,14 @@ spring:
       client-id: 5a93db408aa5e800df2c9f3ceaefd5e2
       redirect-url: http://localhost:8080/login/auth/kakao-callback
       user-info-uri: https://kapi.kakao.com/v2/user/me
+
+    apple:
+      url: https://appleid.apple.com
+      team-id: XQ24HP64B3
+      redirect-url: https://nottodo.store:8080/login/auth/apple-callback
+      client-id: nottodo.bside.com #com.bside.nottodo
+      key-id: T4JHR24JQW
+      key-path: AuthKey_T4JHR24JQW.p8 #key.p8
 
   security:
     oauth2:
@@ -64,4 +72,10 @@ spring:
             authorization-uri: https://appleid.apple.com/auth/authorize?&response_mode=form_post
             token-uri: https://appleid.apple.com/auth/token
             user-info-uri: https://appleid.apple.com/auth/userinfo
- 
+server:
+  ssl:
+    enabled: true
+    key-store: keystore.p12
+    key-store-password: dhtlgns731!
+    key-store-type: PKCS12
+    key-alias: bns-ssl

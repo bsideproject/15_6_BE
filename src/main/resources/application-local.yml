@@ -4,8 +4,8 @@ spring:
       on-profile: local
 
   datasource:
-    driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://localhost:3306/bside
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/bside?useSSL=false
     username: root
     password: dhtlgns731!
 
@@ -30,9 +30,9 @@ spring:
       url: https://appleid.apple.com
       team-id: XQ24HP64B3
       redirect-url: https://nottodo.store:8080/login/auth/apple-callback
-      client-id: com.bside.nottodo
+      client-id: nottodo.bside.com #com.bside.nottodo
       key-id: T4JHR24JQW
-      key-path: /Users/sihun/dev/AuthKey_T4JHR24JQW.p8 #key.p8
+      key-path: AuthKey_T4JHR24JQW.p8 #key.p8
 
   security:
     oauth2:
@@ -73,3 +73,10 @@ spring:
             token-uri: https://appleid.apple.com/auth/token
             user-info-uri: https://appleid.apple.com/auth/userinfo
 
+server:
+  ssl:
+    enabled: true
+    key-store: keystore.p12
+    key-store-password: dhtlgns731!
+    key-store-type: PKCS12
+    key-alias: bns-ssl

@@ -91,24 +91,33 @@ public class OauthService {
 
         log.info(String.valueOf(tokenResponse));
 
+        String accessToken = tokenResponse.getString("access_token");
+        String refreshToken = tokenResponse.getString("refresh_token");
+
         // 애플 정보조회 성공
         if (tokenResponse.get("error") == null ) {
-
-            // 애플 회원 정보
-            JSONObject payload = appleOauth.decodeFromIdToken(tokenResponse.getString("id_token"));
-            log.info("apple user info= {}", payload);
-
-            //  회원 고유 식별자
-            String appleUniqueNo = payload.getString("sub");
-            log.info("apple unique no= {}",appleUniqueNo);
-
             /**
              *
              * TODO : 리턴받은 appleUniqueNo 해당하는 회원정보 LoginService로 넘겨주기(LoginService에서 회원정보 저장)
              * appleUniqueNo은 apple login 유저의 고유값을 넘겨주게 된다.
              *
              */
-            return null;
+            // 애플 회원 정보
+            JSONObject payload = appleOauth.decodeFromIdToken(tokenResponse.getString("id_token"));
+            log.info("apple user info= {}", payload);
+            String email = payload.getString("email") + ".apple";
+
+            //  회원 고유 식별자
+            String appleUniqueNo = payload.getString("sub");
+            log.info("apple unique no= {}",appleUniqueNo);
+
+            AppleUserInfoDto appleUserInfoDto = AppleUserInfoDto.builder()
+                    .access_token(accessToken)
+                    .refresh_token(refreshToken)
+                    .email(email)
+                    .uniqueId(appleUniqueNo).build();
+
+            return appleUserInfoDto;
 
         } else {
 //            throw new ErrorMessage("애플 정보조회에 실패했습니다.");
