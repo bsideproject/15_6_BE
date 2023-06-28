@@ -23,7 +23,7 @@ spring:
       url: https://kauth.kakao.com/oauth/authorize
       token-request-url: https://kauth.kakao.com/oauth/token
       client-id: 5a93db408aa5e800df2c9f3ceaefd5e2
-      redirect-url: http://localhost:3000/login/kakao #http://localhost:8080/login/auth/kakao-callback
+      redirect-url: http://localhost:8080/login/kakao #http://localhost:8080/login/auth/kakao-callback
       user-info-uri: https://kapi.kakao.com/v2/user/me
 
   security:
