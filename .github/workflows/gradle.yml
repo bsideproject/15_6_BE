@@ -71,7 +71,7 @@ jobs:
         scp -i private_key.pem -P $PORT -o StrictHostKeyChecking=no -r *.jar $USERNAME@$HOST:/home/appuser/jars/
         ssh -i private_key.pem -p $PORT -o StrictHostKeyChecking=no $USERNAME@$HOST 'bash -s' <<- EOF
           pgrep java | xargs kill -9 || true          
-          nohup java -jar /home/appuser/jars/*SNAPSHOT.jar &
+          nohup java -jar /home/appuser/jars/*SNAPSHOT.jar > application.log 2>&1 &
           exit
         EOF
         rm -f private_key.pem
