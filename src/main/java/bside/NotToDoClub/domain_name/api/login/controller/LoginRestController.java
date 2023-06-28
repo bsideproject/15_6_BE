@@ -38,7 +38,7 @@ public class LoginRestController {
         return ResultResponse.of(ResponseCode.GET_USER_INFO, userRequestDto);
     }
 
-    @GetMapping("/auth/apple-callback")
+    @PostMapping("/auth/apple-callback")
     public ResultResponse<UserRequestDto> appleCallback(@RequestParam(name="code") String code) throws Exception {
         UserRequestDto userRequestDto = loginService.appleLogin(code);
         return null;

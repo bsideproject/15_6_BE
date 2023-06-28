@@ -105,6 +105,7 @@ public class OauthService {
             /**
              *
              * TODO : 리턴받은 appleUniqueNo 해당하는 회원정보 LoginService로 넘겨주기(LoginService에서 회원정보 저장)
+             * appleUniqueNo은 apple login 유저의 고유값을 넘겨주게 된다.
              *
              */
             return null;

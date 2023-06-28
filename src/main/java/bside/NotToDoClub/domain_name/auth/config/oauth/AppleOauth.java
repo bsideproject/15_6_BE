@@ -81,7 +81,8 @@ public class AppleOauth {
         Map<String, Object> params = new HashMap<>();
         params.put("client_id", APPLE_CLIENT_ID);
         params.put("redirect_uri", APPLE_REDIRECT_URL);
-        params.put("response_type", "code");
+        params.put("response_type", "code id_token");
+        params.put("scope", "email name");
         params.put("response_mode", "form_post");
 
         String parameterString = params.entrySet().stream()
@@ -105,7 +106,10 @@ public class AppleOauth {
         tokenRequest.put("client_id", client_id);
         tokenRequest.put("client_secret", client_secret);
         tokenRequest.put("code", code);
+//        tokenRequest.put("scope", "name email");
         tokenRequest.put("grant_type", "authorization_code");
+
+        log.info("api response param = {}", tokenRequest);
 
         String apiResponse = doPost(reqUrl, tokenRequest);
         log.info("api response = {}", apiResponse);
