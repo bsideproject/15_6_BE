@@ -43,4 +43,18 @@ public class LoginRestController {
         AuthResponse authResponse = loginService.kakaoLogin(authRequestDto.getCode());
         return ResultResponse.of(ResponseCode.PROVIDE_APP_TOKEN, authResponse);
     }
+
+    /**
+     * @sihun
+     * 로컬PC에서 카카오 응답 테스트를 위해 만든 GET 방식의 컨트롤러
+     * @param code : 응답 코드
+     * @return
+     * @throws IOException
+     */
+    @GetMapping("/kakao")
+    public ResultResponse<AuthResponse> kakaoCallbacks(@RequestParam(name="code") String code) throws IOException{
+        log.info("kakao login code = {}", code);
+        AuthResponse authResponse = loginService.kakaoLogin(code);
+        return ResultResponse.of(ResponseCode.PROVIDE_APP_TOKEN, authResponse);
+    }
 }
