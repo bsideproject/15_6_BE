@@ -14,7 +14,6 @@ public class NotToDoClubApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(NotToDoClubApplication.class, args);
-//        System.setProperty("https.protocols", "TLSv1 TLSv1.1 TLSv1.2 TLSv1.3");
     }
 
     @Bean
