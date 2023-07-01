@@ -48,6 +48,11 @@ jobs:
       with:
         name: cicd
         path: build/libs/*.jar
+    - name: Upload property file
+      uses: actions/upload-artifact@v2
+      with:
+        name: property
+        path: ./src/main/resources/application-prod.yml
 
   deploy:
     needs: build
@@ -57,6 +62,10 @@ jobs:
       uses: actions/download-artifact@v2
       with:
         name: cicd
+    - name: Download property
+      uses: actions/download-artifact@v2
+      with:
+        name: property
     - name: Publish to GitHub Packages Gradle
       env:
         PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
@@ -68,7 +77,7 @@ jobs:
       run: |
         echo "$PRIVATE_KEY" > private_key.pem
         chmod 600 private_key.pem
-        scp -i private_key.pem -P $PORT -o StrictHostKeyChecking=no -r ./src/main/resources/application-prod.yml $USERNAME@$HOST:/home/appuser
+        scp -i private_key.pem -P $PORT -o StrictHostKeyChecking=no -r application-prod.yml $USERNAME@$HOST:/home/appuser
         scp -i private_key.pem -P $PORT -o StrictHostKeyChecking=no -r *.jar $USERNAME@$HOST:/home/appuser/jars/
         ssh -i private_key.pem -p $PORT -o StrictHostKeyChecking=no $USERNAME@$HOST 'bash -s' <<- EOF
           pgrep java | xargs kill -9 || true          
