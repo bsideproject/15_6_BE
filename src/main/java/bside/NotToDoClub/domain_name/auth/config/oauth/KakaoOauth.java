@@ -6,6 +6,7 @@ import bside.NotToDoClub.domain_name.user.dto.KakaoUserInfoDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
@@ -17,7 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-@Component
+@Component @Slf4j
 @RequiredArgsConstructor
 public class KakaoOauth implements SocialOauth{
 
@@ -73,7 +74,10 @@ public class KakaoOauth implements SocialOauth{
         params.add("redirect_uri", KAKAO_REDIRECT_URL);
         params.add("code", code);
 
+
         HttpEntity<MultiValueMap<String, String>> kakaoRequest = new HttpEntity<>(params, headersAccess);
+        log.info("kakao token 요청 uri = {}", KAKAO_TOKEN_REQUEST_URL);
+        log.info("kakao token 요청 파라미터 = {}", params);
 
         ResponseEntity<String> responseEntity = restTemplate.postForEntity(KAKAO_TOKEN_REQUEST_URL, kakaoRequest, String.class);
 
