@@ -1,5 +1,6 @@
 package bside.NotToDoClub.domain_name.api.login.service;
 
+import bside.NotToDoClub.config.AuthToken;
 import bside.NotToDoClub.config.AuthTokenProvider;
 import bside.NotToDoClub.config.UserRole;
 import bside.NotToDoClub.domain_name.auth.dto.TokenDto;
@@ -39,8 +40,8 @@ public class LoginService {
                             .nickname(googleUser.getName())
                             .password("google")
                             .role(UserRole.USER)
-                            .accessToken(googleUser.getAccess_token())
-                            .refreshToken(googleUser.getRefresh_token())
+                            .accessToken(tokenDto.getAccessToken())
+                            .refreshToken(tokenDto.getRefreshToken())
                             .build()
             );
 
@@ -80,8 +81,8 @@ public class LoginService {
                             .nickname(kakaoUser.getProperties().getNickname())
                             .password("kakao")
                             .role(UserRole.USER)
-                            .accessToken(kakaoUser.getAccess_token())
-                            .refreshToken(kakaoUser.getRefresh_token())
+                            .accessToken(tokenDto.getAccessToken())
+                            .refreshToken(tokenDto.getRefreshToken())
                             .tosYn(false)
                             .build()
             );
