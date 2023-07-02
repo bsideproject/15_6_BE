@@ -76,8 +76,8 @@ public class KakaoOauth implements SocialOauth{
 
 
         HttpEntity<MultiValueMap<String, String>> kakaoRequest = new HttpEntity<>(params, headersAccess);
-        log.info("kakao token 요청 uri = {}", KAKAO_TOKEN_REQUEST_URL);
-        log.info("kakao token 요청 파라미터 = {}", params);
+        log.info("kakao token request uri = {}", KAKAO_TOKEN_REQUEST_URL);
+        log.info("kakao token request parameters = {}", params);
 
         ResponseEntity<String> responseEntity = restTemplate.postForEntity(KAKAO_TOKEN_REQUEST_URL, kakaoRequest, String.class);
 
