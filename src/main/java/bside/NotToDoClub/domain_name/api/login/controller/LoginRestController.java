@@ -17,6 +17,7 @@ import java.io.IOException;
 
 @RestController @Slf4j
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:8080")
 @RequestMapping("/login")
 public class LoginRestController {
 
@@ -52,9 +53,15 @@ public class LoginRestController {
      * @throws IOException
      */
     @GetMapping("/kakao")
-    public ResultResponse<AuthResponse> kakaoCallbacks(@RequestParam(name="code") String code) throws IOException{
+    public ResultResponse<AuthResponse> kakaoCallbacks(@RequestParam(name="code") String code) throws IOException {
         log.info("kakao login code = {}", code);
         AuthResponse authResponse = loginService.kakaoLogin(code);
         return ResultResponse.of(ResponseCode.PROVIDE_APP_TOKEN, authResponse);
+    }
+    
+    @PostMapping("/auth/apple-callback")
+    public ResultResponse<UserRequestDto> appleCallback(@RequestParam(name="code") String code) throws Exception {
+        UserRequestDto userRequestDto = loginService.appleLogin(code);
+        return ResultResponse.of(ResponseCode.GET_USER_INFO, userRequestDto);
     }
 }
