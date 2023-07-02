@@ -3,6 +3,7 @@ package bside.NotToDoClub.domain_name.user.service;
 import bside.NotToDoClub.domain_name.user.dto.UserDto;
 import bside.NotToDoClub.domain_name.user.entity.UserEntity;
 import bside.NotToDoClub.domain_name.user.respository.UserRepository;
+import bside.NotToDoClub.global.BooleanToYNConverter;
 import lombok.RequiredArgsConstructor;
 import org.apache.catalina.User;
 import org.modelmapper.ModelMapper;
@@ -142,6 +143,22 @@ public class UserServiceImplV1 implements UserService {
         UserDto userDto = mapper.map(userEntity, UserDto.class);
 
         return userDto;
+    }
+
+    @Override
+    public String tosAgree(String accessToken) {
+        Optional<UserEntity> findUser = userRepository.findByAccessToken(accessToken);
+
+        if(findUser.isEmpty()){
+            throw new RuntimeException("해당 token을 가진 유저가 존재하지 않습니다.");
+        }
+
+        UserEntity userEntity = findUser.get();
+        userEntity.agreeTos();
+
+        BooleanToYNConverter booleanToYNConverter = new BooleanToYNConverter();
+
+        return booleanToYNConverter.convertToDatabaseColumn(userEntity.isTosYn());
     }
 
 

@@ -57,4 +57,12 @@ public class UserEntity {
 
         return this;
     }
+
+    public void agreeTos(){
+        if(this.tosYn){
+            throw new IllegalStateException("이미 약관에 동의한 회원입니다.");
+        }
+
+        this.tosYn = true;
+    }
 }

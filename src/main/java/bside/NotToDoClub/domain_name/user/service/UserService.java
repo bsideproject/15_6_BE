@@ -12,4 +12,6 @@ public interface UserService {
     UserDto getLoginUserByLoginId(String loginId);
 
     UserDto getLoginUserByAccessToken(String accessToken);
+
+    String tosAgree(String accessToken);
 }
