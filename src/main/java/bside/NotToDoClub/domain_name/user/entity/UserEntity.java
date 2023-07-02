@@ -2,6 +2,7 @@ package bside.NotToDoClub.domain_name.user.entity;
 
 import bside.NotToDoClub.config.UserRole;
 import bside.NotToDoClub.domain_name.user.dto.UserDto;
+import bside.NotToDoClub.global.BooleanToYNConverter;
 import lombok.*;
 
 import javax.persistence.*;
@@ -41,6 +42,10 @@ public class UserEntity {
     private String accessToken;
     @Column(name = "REFRESH_TOKEN")
     private String refreshToken;
+
+    @Column(name = "TOS_YN", length = 2)
+    @Convert(converter = BooleanToYNConverter.class)
+    private boolean tosYn;
 
     public UserEntity createUserEntity(UserDto userDto){
         this.loginId = userDto.getLoginId();

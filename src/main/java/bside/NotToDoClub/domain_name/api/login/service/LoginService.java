@@ -81,6 +81,7 @@ public class LoginService {
                             .role(UserRole.USER)
                             .accessToken(kakaoUser.getAccess_token())
                             .refreshToken(kakaoUser.getRefresh_token())
+                            .tosYn(false)
                             .build()
             );
 
@@ -102,6 +103,8 @@ public class LoginService {
         return AuthResponse.builder()
                 .appAccessToken(tokenDto.getAccessToken())
                 .appRefreshToken(tokenDto.getRefreshToken())
+                .email(kakaoUser.getKakao_account().getEmail())
+                .nickname(kakaoUser.getProperties().getNickname())
                 .build();
 
     }
