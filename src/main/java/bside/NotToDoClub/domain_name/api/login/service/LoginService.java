@@ -99,7 +99,7 @@ public class LoginService {
                 .appRefreshToken(tokenDto.getRefreshToken())
                 .email(kakaoUser.getKakao_account().getEmail())
                 .nickname(kakaoUser.getProperties().getNickname())
-                .tosYn(booleanToYNConverter.convertToDatabaseColumn(userEntity.isTosYn()))
+                .isNew(booleanToYNConverter.convertToDatabaseColumnReverse(userEntity.isTosYn()))
                 .build();
 
     }
