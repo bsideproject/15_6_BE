@@ -10,4 +10,6 @@ public interface UserService {
     UserDto login(UserDto req);
     UserDto getLoginUserById(Long userId);
     UserDto getLoginUserByLoginId(String loginId);
+
+    UserDto getLoginUserByAccessToken(String accessToken);
 }

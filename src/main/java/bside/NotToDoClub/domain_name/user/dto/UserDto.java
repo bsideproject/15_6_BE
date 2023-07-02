@@ -1,15 +1,12 @@
 package bside.NotToDoClub.domain_name.user.dto;
 
 import bside.NotToDoClub.config.UserRole;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
+@Builder @ToString
 public class UserDto {
 
     private String loginId;
