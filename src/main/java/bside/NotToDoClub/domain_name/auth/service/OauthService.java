@@ -89,7 +89,7 @@ public class OauthService {
         ObjectMapper objectMapper = new ObjectMapper();
         JSONObject tokenResponse = objectMapper.readValue(apiResponse, JSONObject.class);
 
-        log.info(String.valueOf(tokenResponse));
+        log.info("apple token response value {}", String.valueOf(tokenResponse));
 
         String accessToken = tokenResponse.getString("access_token");
         String refreshToken = tokenResponse.getString("refresh_token");
