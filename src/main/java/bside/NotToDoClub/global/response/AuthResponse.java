@@ -11,4 +11,5 @@ public class AuthResponse<T> {
     private String appRefreshToken;
     private String email;
     private String nickname;
+    private String tosYn;
 }

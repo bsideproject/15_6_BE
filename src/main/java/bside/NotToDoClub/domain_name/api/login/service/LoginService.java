@@ -10,6 +10,7 @@ import bside.NotToDoClub.domain_name.user.dto.KakaoUserInfoDto;
 import bside.NotToDoClub.domain_name.user.dto.UserRequestDto;
 import bside.NotToDoClub.domain_name.user.entity.UserEntity;
 import bside.NotToDoClub.domain_name.user.respository.UserRepository;
+import bside.NotToDoClub.global.BooleanToYNConverter;
 import bside.NotToDoClub.global.error.CustomException;
 import bside.NotToDoClub.global.error.ErrorCode;
 import bside.NotToDoClub.global.response.AuthResponse;
@@ -85,26 +86,20 @@ public class LoginService {
                             .build()
             );
 
-            /*UserEntity userEntity = userRepository.findByLoginId(kakaoUser.getKakao_account().getEmail()).orElseThrow(
-                    () -> new CustomException(ErrorCode.TOKEN_AUTHENTICATION_FAIL)
-            );
-
-            UserRequestDto userRequestDto = new UserRequestDto(userEntity);
-
-            return userRequestDto;*/
         }
 
-        /*UserEntity userEntity = userRepository.findByLoginId(kakaoUser.getKakao_account().getEmail()).orElseThrow(
+        UserEntity userEntity = userRepository.findByLoginId(kakaoUser.getKakao_account().getEmail()).orElseThrow(
                 () -> new CustomException(ErrorCode.TOKEN_AUTHENTICATION_FAIL)
         );
 
-        UserRequestDto userRequestDto = new UserRequestDto(userEntity);*/
+        BooleanToYNConverter booleanToYNConverter = new BooleanToYNConverter();
 
         return AuthResponse.builder()
                 .appAccessToken(tokenDto.getAccessToken())
                 .appRefreshToken(tokenDto.getRefreshToken())
                 .email(kakaoUser.getKakao_account().getEmail())
                 .nickname(kakaoUser.getProperties().getNickname())
+                .tosYn(booleanToYNConverter.convertToDatabaseColumn(userEntity.isTosYn()))
                 .build();
 
     }
