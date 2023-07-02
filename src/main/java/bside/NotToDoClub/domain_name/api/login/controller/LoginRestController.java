@@ -58,7 +58,7 @@ public class LoginRestController {
         AuthResponse authResponse = loginService.kakaoLogin(code);
         return ResultResponse.of(ResponseCode.PROVIDE_APP_TOKEN, authResponse);
     }
-    
+
     @PostMapping("/auth/apple-callback")
     public ResultResponse<UserRequestDto> appleCallback(@RequestParam(name="code") String code) throws Exception {
         UserRequestDto userRequestDto = loginService.appleLogin(code);
