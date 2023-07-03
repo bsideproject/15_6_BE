@@ -65,4 +65,12 @@ public class UserEntity {
 
         this.tosYn = true;
     }
+
+    public void updateAccessToken(String accessToken){
+        this.accessToken = accessToken;
+    }
+
+    public void updateRefreshToken(String refreshToken){
+        this.refreshToken = refreshToken;
+    }
 }

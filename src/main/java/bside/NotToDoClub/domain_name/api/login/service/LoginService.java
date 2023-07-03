@@ -19,6 +19,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+import java.util.Optional;
+
 @Service
 @AllArgsConstructor
 public class LoginService {
@@ -66,6 +69,7 @@ public class LoginService {
 
     }
 
+    @Transactional
     public AuthResponse kakaoLogin(String code) throws JsonProcessingException {
         KakaoUserInfoDto kakaoUser = oAuthService.getKakaoUserInfo(code);
 
@@ -90,8 +94,13 @@ public class LoginService {
         }
 
         UserEntity userEntity = userRepository.findByLoginId(kakaoUser.getKakao_account().getEmail()).orElseThrow(
-                () -> new CustomException(ErrorCode.TOKEN_AUTHENTICATION_FAIL)
+                () -> new CustomException(ErrorCode.USER_NOT_FOUND)
         );
+
+        if (userEntity.isTosYn()) {
+            userEntity.updateAccessToken(tokenDto.getAccessToken());
+            userEntity.updateRefreshToken(tokenDto.getRefreshToken());
+        }
 
         BooleanToYNConverter booleanToYNConverter = new BooleanToYNConverter();
 
