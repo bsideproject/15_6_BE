@@ -97,10 +97,10 @@ public class LoginService {
                 () -> new CustomException(ErrorCode.USER_NOT_FOUND)
         );
 
-        if (userEntity.isTosYn()) {
-            userEntity.updateAccessToken(tokenDto.getAccessToken());
-            userEntity.updateRefreshToken(tokenDto.getRefreshToken());
-        }
+
+        userEntity.updateAccessToken(tokenDto.getAccessToken());
+        userEntity.updateRefreshToken(tokenDto.getRefreshToken());
+
 
         BooleanToYNConverter booleanToYNConverter = new BooleanToYNConverter();
 
