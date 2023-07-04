@@ -4,30 +4,50 @@ import bside.NotToDoClub.config.UserRole;
 import bside.NotToDoClub.domain_name.user.dto.UserDto;
 import bside.NotToDoClub.global.BooleanToYNConverter;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Builder
-@Getter
+@Getter @ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "USER")
+@EntityListeners(AuditingEntityListener.class)
 public class UserEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     private Long id;
 
+    /**
+     * 소셜 로그인 id
+     * kakao: kakao email id
+     * google: google email id
+     */
     @Column(name = "LOGIN_ID")
     private String loginId;
 
+    /**
+     * 비밀번호
+     */
     @Column(name = "PASSWORD")
     private String password;
 
+    /**
+     * 사용자 닉네임
+     */
     @Column(name = "NICKNAME")
     private String nickname;
 
+    /**
+     * 어플리케이션내 유저 권한
+     * ADMIN, USER
+     */
     @Column(name = "USER_ROLE")
     @Enumerated(EnumType.STRING)
     private UserRole role;
@@ -38,14 +58,28 @@ public class UserEntity {
     @Column(name = "PROVIDER_ID")
     private String providerId;
 
+    /**
+     * 소셜 로그인 code 발급후 사용자 인증 token
+     */
     @Column(name = "ACCESS_TOKEN")
     private String accessToken;
     @Column(name = "REFRESH_TOKEN")
     private String refreshToken;
 
+    /**
+     * 이용약관 동의 여부
+     */
     @Column(name = "TOS_YN", length = 2)
     @Convert(converter = BooleanToYNConverter.class)
     private boolean tosYn;
+
+    @Column(name = "REG_DTM")
+    @CreatedDate
+    private LocalDateTime createdAt;
+
+    @Column(name = "MOD_DTM")
+    @LastModifiedDate
+    private LocalDateTime updatedAt;
 
     public UserEntity createUserEntity(UserDto userDto){
         this.loginId = userDto.getLoginId();
