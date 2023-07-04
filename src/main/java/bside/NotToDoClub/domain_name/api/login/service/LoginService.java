@@ -1,5 +1,6 @@
 package bside.NotToDoClub.domain_name.api.login.service;
 
+import bside.NotToDoClub.config.AuthToken;
 import bside.NotToDoClub.config.AuthTokenProvider;
 import bside.NotToDoClub.config.UserRole;
 import bside.NotToDoClub.domain_name.auth.dto.TokenDto;
@@ -17,6 +18,9 @@ import bside.NotToDoClub.global.response.AuthResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -39,8 +43,8 @@ public class LoginService {
                             .nickname(googleUser.getName())
                             .password("google")
                             .role(UserRole.USER)
-                            .accessToken(googleUser.getAccess_token())
-                            .refreshToken(googleUser.getRefresh_token())
+                            .accessToken(tokenDto.getAccessToken())
+                            .refreshToken(tokenDto.getRefreshToken())
                             .build()
             );
 
@@ -65,6 +69,7 @@ public class LoginService {
 
     }
 
+    @Transactional
     public AuthResponse kakaoLogin(String code) throws JsonProcessingException {
         KakaoUserInfoDto kakaoUser = oAuthService.getKakaoUserInfo(code);
 
@@ -80,8 +85,8 @@ public class LoginService {
                             .nickname(kakaoUser.getProperties().getNickname())
                             .password("kakao")
                             .role(UserRole.USER)
-                            .accessToken(kakaoUser.getAccess_token())
-                            .refreshToken(kakaoUser.getRefresh_token())
+                            .accessToken(tokenDto.getAccessToken())
+                            .refreshToken(tokenDto.getRefreshToken())
                             .tosYn(false)
                             .build()
             );
@@ -89,8 +94,13 @@ public class LoginService {
         }
 
         UserEntity userEntity = userRepository.findByLoginId(kakaoUser.getKakao_account().getEmail()).orElseThrow(
-                () -> new CustomException(ErrorCode.TOKEN_AUTHENTICATION_FAIL)
+                () -> new CustomException(ErrorCode.USER_NOT_FOUND)
         );
+
+
+        userEntity.updateAccessToken(tokenDto.getAccessToken());
+        userEntity.updateRefreshToken(tokenDto.getRefreshToken());
+
 
         BooleanToYNConverter booleanToYNConverter = new BooleanToYNConverter();
 

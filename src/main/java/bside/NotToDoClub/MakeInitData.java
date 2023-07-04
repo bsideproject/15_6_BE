@@ -16,7 +16,7 @@ public class MakeInitData {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder encoder;
 
-//    @PostConstruct
+    /*@PostConstruct
     public void makeAdminAndUser() {
         UserEntity admin1 = UserEntity.builder()
                 .loginId("admin1")
@@ -49,5 +49,5 @@ public class MakeInitData {
                 .role(UserRole.USER)
                 .build();
         userRepository.save(user2);
-    }
+    }*/
 }
