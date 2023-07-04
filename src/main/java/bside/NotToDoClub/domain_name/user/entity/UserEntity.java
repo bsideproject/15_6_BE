@@ -10,6 +10,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Builder
@@ -21,7 +23,7 @@ import java.time.LocalDateTime;
 public class UserEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID")
+    @Column(name = "USER_ID")
     private Long id;
 
     /**
@@ -72,6 +74,10 @@ public class UserEntity {
     @Column(name = "TOS_YN", length = 2)
     @Convert(converter = BooleanToYNConverter.class)
     private boolean tosYn;
+
+    @OneToMany(mappedBy = "user")
+    @Builder.Default
+    private List<UserBadge> badges = new ArrayList<>();
 
     @Column(name = "REG_DTM")
     @CreatedDate
