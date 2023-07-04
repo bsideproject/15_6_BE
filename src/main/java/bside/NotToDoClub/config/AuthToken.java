@@ -4,9 +4,12 @@ import io.jsonwebtoken.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.security.Key;
 import java.util.Date;
+
+import static io.jsonwebtoken.security.Keys.hmacShaKeyFor;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -22,6 +25,11 @@ public class AuthToken {
         String role = roleType.toString();
         this.key = key;
         this.token = createAuthToken(socialId, role, expiry);
+    }
+
+    public AuthToken(String token, String accessSecretKey) {
+        this.token = token;
+        this.key = hmacShaKeyFor(accessSecretKey.getBytes());
     }
 
     private String createAuthToken(String socialId, String role, Date expiry) {
