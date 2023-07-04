@@ -75,6 +75,10 @@ public class UserEntity {
     @Convert(converter = BooleanToYNConverter.class)
     private boolean tosYn;
 
+    /**
+     * user - badge
+     * N:M 관계 테이블 매핑을 위한 user-badge 테이블
+     */
     @OneToMany(mappedBy = "user")
     @Builder.Default
     private List<UserBadge> badges = new ArrayList<>();

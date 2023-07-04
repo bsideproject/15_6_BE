@@ -26,18 +26,35 @@ public class Badge {
     @Column(name = "BADGE_ID")
     private Long id;
 
+    /**
+     * 뱃지 이름
+     */
     @Column(name = "NAME")
     private String name;
 
+    /**
+     * 서버 내 이미지 저장 경로
+     * 절대 경로
+     */
     @Column(name = "IMAGE_URL")
     private String imageUrl;
 
+    /**
+     * 뱃지 획득 조건
+     */
     @Column(name = "QUALIFICATION")
     private String qualification;
 
+    /**
+     * 뱃지 설명
+     */
     @Column(name = "EXPLANATION")
     private String explanation;
 
+    /**
+     * user - badge
+     * N:M 관계 테이블 매핑을 위한 user-badge 테이블
+     */
     @OneToMany(mappedBy = "user")
     @Builder.Default
     private List<UserBadge> users = new ArrayList<>();

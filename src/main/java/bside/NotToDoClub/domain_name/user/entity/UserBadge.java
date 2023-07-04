@@ -9,6 +9,10 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+/**
+ * user - badge
+ * N:M 관계 테이블 매핑을 위한 user-badge 테이블
+ */
 @Entity
 @Builder
 @Getter
