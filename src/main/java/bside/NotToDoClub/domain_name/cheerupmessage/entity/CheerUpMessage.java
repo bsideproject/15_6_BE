@@ -25,7 +25,7 @@ public class CheerUpMessage {
     @Column(name = "MODERATION_RECORD_ID")
     private Long id;
 
-    @JoinColumn(name = "MODERATION_RECORD_ID")
+    @JoinColumn(name = "MODERATION_RECORD_ID", insertable = false, updatable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     private ModerationRecord moderationRecord;
 
