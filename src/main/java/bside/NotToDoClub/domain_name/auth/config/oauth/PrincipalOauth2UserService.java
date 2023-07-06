@@ -4,7 +4,7 @@ import bside.NotToDoClub.config.UserRole;
 import bside.NotToDoClub.domain_name.auth.config.auth.PrincipalDetails;
 import bside.NotToDoClub.domain_name.auth.config.oauth.info.*;
 import bside.NotToDoClub.domain_name.user.entity.UserEntity;
-import bside.NotToDoClub.domain_name.user.respository.UserRepository;
+import bside.NotToDoClub.domain_name.user.respository.UserJpaRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -22,7 +22,7 @@ import java.util.Optional;
 @Slf4j
 public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 
-    private final UserRepository userRepository;
+    private final UserJpaRepository userRepository;
     private final BCryptPasswordEncoder encoder;
 
     @Override

@@ -4,13 +4,12 @@ import bside.NotToDoClub.config.AuthTokenProvider;
 import bside.NotToDoClub.config.UserRole;
 import bside.NotToDoClub.domain_name.auth.dto.TokenDto;
 import bside.NotToDoClub.domain_name.auth.service.OauthService;
-import bside.NotToDoClub.domain_name.auth.service.OauthServiceImplV1;
 import bside.NotToDoClub.domain_name.user.dto.AppleUserInfoDto;
 import bside.NotToDoClub.domain_name.user.dto.GoogleUserInfoDto;
 import bside.NotToDoClub.domain_name.user.dto.KakaoUserInfoDto;
 import bside.NotToDoClub.domain_name.user.dto.UserRequestDto;
 import bside.NotToDoClub.domain_name.user.entity.UserEntity;
-import bside.NotToDoClub.domain_name.user.respository.UserRepository;
+import bside.NotToDoClub.domain_name.user.respository.UserJpaRepository;
 import bside.NotToDoClub.global.BooleanToYNConverter;
 import bside.NotToDoClub.global.error.CustomException;
 import bside.NotToDoClub.global.error.ErrorCode;
@@ -26,7 +25,7 @@ import javax.transaction.Transactional;
 public class LoginService {
 
     private final OauthService oAuthService;
-    private final UserRepository userRepository;
+    private final UserJpaRepository userRepository;
     private final AuthTokenProvider authTokenProvider;
 
     public AuthResponse googleLogin(String code) throws JsonProcessingException {

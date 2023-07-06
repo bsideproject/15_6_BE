@@ -2,10 +2,9 @@ package bside.NotToDoClub.domain_name.user.service;
 
 import bside.NotToDoClub.domain_name.user.dto.UserDto;
 import bside.NotToDoClub.domain_name.user.entity.UserEntity;
-import bside.NotToDoClub.domain_name.user.respository.UserRepository;
+import bside.NotToDoClub.domain_name.user.respository.UserJpaRepository;
 import bside.NotToDoClub.global.BooleanToYNConverter;
 import lombok.RequiredArgsConstructor;
-import org.apache.catalina.User;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -18,7 +17,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserServiceImplV1 implements UserService {
 
-    private final UserRepository userRepository;
+    private final UserJpaRepository userRepository;
     private final BCryptPasswordEncoder encoder;
     private final ModelMapper mapper;
 

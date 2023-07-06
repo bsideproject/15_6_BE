@@ -1,19 +1,15 @@
 package bside.NotToDoClub;
 
-import bside.NotToDoClub.config.UserRole;
-import bside.NotToDoClub.domain_name.user.entity.UserEntity;
-import bside.NotToDoClub.domain_name.user.respository.UserRepository;
+import bside.NotToDoClub.domain_name.user.respository.UserJpaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
-
-import javax.annotation.PostConstruct;
 
 @Component
 @RequiredArgsConstructor
 public class MakeInitData {
 
-    private final UserRepository userRepository;
+    private final UserJpaRepository userRepository;
     private final BCryptPasswordEncoder encoder;
 
     /*@PostConstruct
