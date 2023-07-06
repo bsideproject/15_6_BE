@@ -5,6 +5,8 @@ import bside.NotToDoClub.domain_name.cheerupmessage.entity.CheerUpMessage;
 import bside.NotToDoClub.domain_name.nottodo.entity.UserNotToDo;
 import bside.NotToDoClub.domain_name.user.dto.UserDto;
 import bside.NotToDoClub.global.BooleanToYNConverter;
+import bside.NotToDoClub.global.error.CustomException;
+import bside.NotToDoClub.global.error.ErrorCode;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -112,9 +114,9 @@ public class UserEntity {
         return this;
     }
 
-    public void agreeTos(){
-        if(this.tosYn){
-            throw new IllegalStateException("이미 약관에 동의한 회원입니다.");
+    public void agreeTos(UserEntity userEntity){
+        if(userEntity.isTosYn()){
+            throw new CustomException(ErrorCode.ALREADY_TOS_AGREE);
         }
 
         this.tosYn = true;

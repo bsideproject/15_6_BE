@@ -162,7 +162,7 @@ public class UserServiceImplV1 implements UserService {
         UserEntity userEntity = userRepository.findByLoginId(email).orElseThrow(
                 () -> new CustomException(ErrorCode.USER_NOT_FOUND)
         );
-        userEntity.agreeTos();
+        userEntity.agreeTos(userEntity);
 
         BooleanToYNConverter booleanToYNConverter = new BooleanToYNConverter();
 

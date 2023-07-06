@@ -19,7 +19,9 @@ public enum ErrorCode {
     USER_NOT_FOUND(NOT_FOUND, "해당 유저 정보를 찾을 수 없습니다"),
 
     /* 409 CONFLICT : Resource 의 현재 상태와 충돌. 보통 중복된 데이터 존재 */
-    DUPLICATE_RESOURCE(CONFLICT, "데이터가 이미 존재합니다");
+    DUPLICATE_RESOURCE(CONFLICT, "데이터가 이미 존재합니다"),
+
+    ALREADY_TOS_AGREE(INTERNAL_SERVER_ERROR,"이미 이용약관에 동의한 회원입니다.");
 
 
     private final HttpStatus status;
