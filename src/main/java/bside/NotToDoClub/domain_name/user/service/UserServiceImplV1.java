@@ -1,12 +1,17 @@
 package bside.NotToDoClub.domain_name.user.service;
-
+import bside.NotToDoClub.config.AuthToken;
+import bside.NotToDoClub.config.AuthTokenProvider;
 import bside.NotToDoClub.domain_name.user.dto.UserDto;
 import bside.NotToDoClub.domain_name.user.entity.UserEntity;
 import bside.NotToDoClub.domain_name.user.respository.UserRepository;
 import bside.NotToDoClub.global.BooleanToYNConverter;
+import bside.NotToDoClub.global.error.CustomException;
+import bside.NotToDoClub.global.error.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.apache.catalina.User;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +26,10 @@ public class UserServiceImplV1 implements UserService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder encoder;
     private final ModelMapper mapper;
+    private final AuthTokenProvider authTokenProvider;
+
+    @Value("${app.auth.accessTokenSecret}")
+    private String key;
 
     /**
      * loginId 중복 체크
@@ -134,12 +143,13 @@ public class UserServiceImplV1 implements UserService {
      */
     @Override
     public UserDto getLoginUserByAccessToken(String accessToken) {
-        Optional<UserEntity> findUser = userRepository.findByAccessToken(accessToken);
-        if(findUser.isEmpty()){
-            throw new RuntimeException("해당 token을 가진 유저가 존재하지 않습니다.");
-        }
+        AuthToken authToken = new AuthToken(accessToken, key);
+        String email = authTokenProvider.getEmailByToken(authToken);
 
-        UserEntity userEntity = findUser.get();
+        UserEntity userEntity = userRepository.findByLoginId(email).orElseThrow(
+                () -> new CustomException(ErrorCode.USER_NOT_FOUND)
+        );
+
         UserDto userDto = mapper.map(userEntity, UserDto.class);
 
         return userDto;
@@ -147,13 +157,12 @@ public class UserServiceImplV1 implements UserService {
 
     @Override
     public String tosAgree(String accessToken) {
-        Optional<UserEntity> findUser = userRepository.findByAccessToken(accessToken);
+        AuthToken authToken = new AuthToken(accessToken, key);
+        String email = authTokenProvider.getEmailByToken(authToken);
 
-        if(findUser.isEmpty()){
-            throw new RuntimeException("해당 token을 가진 유저가 존재하지 않습니다.");
-        }
-
-        UserEntity userEntity = findUser.get();
+        UserEntity userEntity = userRepository.findByLoginId(email).orElseThrow(
+                () -> new CustomException(ErrorCode.USER_NOT_FOUND)
+        );
         userEntity.agreeTos();
 
         BooleanToYNConverter booleanToYNConverter = new BooleanToYNConverter();
