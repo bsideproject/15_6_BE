@@ -1,5 +1,6 @@
 package bside.NotToDoClub.domain_name.nottodo.entity;
 
+import bside.NotToDoClub.domain_name.moderationrecord.entity.ModerationRecord;
 import bside.NotToDoClub.domain_name.user.entity.UserEntity;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -8,6 +9,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Builder
@@ -53,6 +56,10 @@ public class UserNotToDo {
 
     @Column(name = "USE_YN")
     private Boolean useYn;
+
+    @OneToMany(mappedBy = "userNotToDo")
+    @Builder.Default
+    private List<ModerationRecord> moderationRecords = new ArrayList<>();
 
     @Column(name = "REG_DTM")
     @CreatedDate
