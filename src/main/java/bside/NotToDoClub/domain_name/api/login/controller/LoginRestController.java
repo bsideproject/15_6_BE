@@ -4,6 +4,7 @@ import bside.NotToDoClub.config.Constant;
 import bside.NotToDoClub.domain_name.api.login.service.LoginService;
 import bside.NotToDoClub.domain_name.auth.dto.AuthRequestDto;
 import bside.NotToDoClub.domain_name.auth.service.OauthService;
+import bside.NotToDoClub.domain_name.auth.service.OauthServiceImplV1;
 import bside.NotToDoClub.domain_name.user.dto.UserRequestDto;
 import bside.NotToDoClub.domain_name.user.service.UserService;
 import bside.NotToDoClub.global.response.AuthResponse;

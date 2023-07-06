@@ -1,10 +1,10 @@
 package bside.NotToDoClub.domain_name.api.login.service;
 
-import bside.NotToDoClub.config.AuthToken;
 import bside.NotToDoClub.config.AuthTokenProvider;
 import bside.NotToDoClub.config.UserRole;
 import bside.NotToDoClub.domain_name.auth.dto.TokenDto;
 import bside.NotToDoClub.domain_name.auth.service.OauthService;
+import bside.NotToDoClub.domain_name.auth.service.OauthServiceImplV1;
 import bside.NotToDoClub.domain_name.user.dto.AppleUserInfoDto;
 import bside.NotToDoClub.domain_name.user.dto.GoogleUserInfoDto;
 import bside.NotToDoClub.domain_name.user.dto.KakaoUserInfoDto;
@@ -20,7 +20,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
