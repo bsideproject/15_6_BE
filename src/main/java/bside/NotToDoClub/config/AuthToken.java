@@ -21,25 +21,25 @@ public class AuthToken {
 
     private static final String AUTHORITIES_KEY = "role";
 
-    AuthToken(String socialId, UserRole roleType, Date expiry, Key key) {
+    /*AuthToken(String socialId, UserRole roleType, Date expiry, Key key) {
         String role = roleType.toString();
         this.key = key;
         this.token = createAuthToken(socialId, role, expiry);
-    }
+    }*/
 
     public AuthToken(String token, String accessSecretKey) {
         this.token = token;
         this.key = hmacShaKeyFor(accessSecretKey.getBytes());
     }
 
-    private String createAuthToken(String socialId, String role, Date expiry) {
+    /*private String createAuthToken(String socialId, String role, Date expiry) {
         return Jwts.builder()
                 .setSubject(socialId)
                 .claim(AUTHORITIES_KEY, role)
                 .signWith(SignatureAlgorithm.HS256, key)
                 .setExpiration(expiry)
                 .compact();
-    }
+    }*/
 
     public boolean validate() {
         return this.getTokenClaims() != null;

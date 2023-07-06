@@ -1,26 +1,19 @@
 package bside.NotToDoClub.config;
 
 import bside.NotToDoClub.domain_name.auth.dto.TokenDto;
+import bside.NotToDoClub.domain_name.user.entity.UserEntity;
+import bside.NotToDoClub.domain_name.user.respository.UserRepository;
 import bside.NotToDoClub.global.error.CustomException;
 import bside.NotToDoClub.global.error.ErrorCode;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.time.Duration;
+import java.util.*;
 
 import static io.jsonwebtoken.security.Keys.hmacShaKeyFor;
 
@@ -31,13 +24,17 @@ public class AuthTokenProvider {
 
     private static final String AUTHORITIES_KEY = "role";
 
-    public AuthTokenProvider(@Value("${app.auth.accessTokenSecret}") String accessSecretKey) {
+    private final UserRepository userRepository;
+
+    public AuthTokenProvider(@Value("${app.auth.accessTokenSecret}") String accessSecretKey, UserRepository userRepository) {
         this.key = hmacShaKeyFor(accessSecretKey.getBytes());
+        this.userRepository = userRepository;
     }
 
     public TokenDto createAccessToken(String userEmail, UserRole roles) {
-        long accessTokenValidTime = 1000L * 60L * 10L;
-        long refreshTokenValidTime = 1000L * 60L * 60L * 24L * 30L * 3L;
+        //long accessTokenValidTime = 1000L * 60L * 10L; //10분
+        long accessTokenValidTime = Duration.ofDays(30).toMillis(); //30일
+        long refreshTokenValidTime = Duration.ofDays(60).toMillis(); //60일
 
         Claims claims = Jwts.claims().setSubject(userEmail); // JWT payload 에 저장되는 정보단위
         claims.put("roles", roles); // 정보는 key / value 쌍으로 저장된다.
@@ -80,7 +77,11 @@ public class AuthTokenProvider {
             Claims claims = authToken.getTokenClaims();
             String email = claims.getSubject();
 
-            return email;
+            UserEntity userEntity = userRepository.findByLoginId(email).orElseThrow(
+                    () -> new CustomException(ErrorCode.USER_NOT_FOUND)
+            );
+
+            return userEntity.getLoginId();
         } else {
             throw new CustomException(ErrorCode.TOKEN_VALID_FAIL);
         }
