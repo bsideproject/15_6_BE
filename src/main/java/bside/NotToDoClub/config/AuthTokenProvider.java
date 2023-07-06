@@ -2,7 +2,7 @@ package bside.NotToDoClub.config;
 
 import bside.NotToDoClub.domain_name.auth.dto.TokenDto;
 import bside.NotToDoClub.domain_name.user.entity.UserEntity;
-import bside.NotToDoClub.domain_name.user.respository.UserRepository;
+import bside.NotToDoClub.domain_name.user.respository.UserJpaRepository;
 import bside.NotToDoClub.global.error.CustomException;
 import bside.NotToDoClub.global.error.ErrorCode;
 import io.jsonwebtoken.Claims;
@@ -24,9 +24,9 @@ public class AuthTokenProvider {
 
     private static final String AUTHORITIES_KEY = "role";
 
-    private final UserRepository userRepository;
+    private final UserJpaRepository userRepository;
 
-    public AuthTokenProvider(@Value("${app.auth.accessTokenSecret}") String accessSecretKey, UserRepository userRepository) {
+    public AuthTokenProvider(@Value("${app.auth.accessTokenSecret}") String accessSecretKey, UserJpaRepository userRepository) {
         this.key = hmacShaKeyFor(accessSecretKey.getBytes());
         this.userRepository = userRepository;
     }
