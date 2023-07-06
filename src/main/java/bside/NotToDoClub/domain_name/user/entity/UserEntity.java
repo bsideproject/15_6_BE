@@ -1,33 +1,57 @@
 package bside.NotToDoClub.domain_name.user.entity;
 
 import bside.NotToDoClub.config.UserRole;
+import bside.NotToDoClub.domain_name.cheerupmessage.entity.CheerUpMessage;
+import bside.NotToDoClub.domain_name.nottodo.entity.UserNotToDo;
 import bside.NotToDoClub.domain_name.user.dto.UserDto;
 import bside.NotToDoClub.global.BooleanToYNConverter;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Builder
-@Getter
+@Getter @ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "USER")
+@EntityListeners(AuditingEntityListener.class)
 public class UserEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID")
+    @Column(name = "USER_ID")
     private Long id;
 
+    /**
+     * 소셜 로그인 id
+     * kakao: kakao email id
+     * google: google email id
+     */
     @Column(name = "LOGIN_ID")
     private String loginId;
 
+    /**
+     * 비밀번호
+     */
     @Column(name = "PASSWORD")
     private String password;
 
+    /**
+     * 사용자 닉네임
+     */
     @Column(name = "NICKNAME")
     private String nickname;
 
+    /**
+     * 어플리케이션내 유저 권한
+     * ADMIN, USER
+     */
     @Column(name = "USER_ROLE")
     @Enumerated(EnumType.STRING)
     private UserRole role;
@@ -38,14 +62,44 @@ public class UserEntity {
     @Column(name = "PROVIDER_ID")
     private String providerId;
 
+    /**
+     * 소셜 로그인 code 발급후 사용자 인증 token
+     */
     @Column(name = "ACCESS_TOKEN")
     private String accessToken;
     @Column(name = "REFRESH_TOKEN")
     private String refreshToken;
 
+    /**
+     * 이용약관 동의 여부
+     */
     @Column(name = "TOS_YN", length = 2)
     @Convert(converter = BooleanToYNConverter.class)
     private boolean tosYn;
+
+    /**
+     * user - badge
+     * N:M 관계 테이블 매핑을 위한 user-badge 테이블
+     */
+    @OneToMany(mappedBy = "user")
+    @Builder.Default
+    private List<UserBadge> badges = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    @Builder.Default
+    private List<UserNotToDo> userNotToDoList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "registerUser")
+    @Builder.Default
+    private List<CheerUpMessage> cheerUpMessages = new ArrayList<>();
+
+    @Column(name = "REG_DTM")
+    @CreatedDate
+    private LocalDateTime createdAt;
+
+    @Column(name = "MOD_DTM")
+    @LastModifiedDate
+    private LocalDateTime updatedAt;
 
     public UserEntity createUserEntity(UserDto userDto){
         this.loginId = userDto.getLoginId();

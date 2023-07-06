@@ -1,22 +1,19 @@
 package bside.NotToDoClub.domain_name.user.service;
 
 import bside.NotToDoClub.domain_name.user.entity.UserEntity;
-import bside.NotToDoClub.domain_name.user.respository.UserRepository;
+import bside.NotToDoClub.domain_name.user.respository.UserJpaRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 
-import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.*;
-
 @SpringBootTest
 class UserServiceImplV1Test {
 
     @Autowired UserService userService;
-    @Autowired UserRepository userRepository;
+    @Autowired
+    UserJpaRepository userRepository;
 
     @Test @Rollback
     void getLoginUserByAccessTokenTest(){

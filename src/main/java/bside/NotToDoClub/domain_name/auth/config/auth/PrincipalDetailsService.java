@@ -1,8 +1,7 @@
 package bside.NotToDoClub.domain_name.auth.config.auth;
 
-import bside.NotToDoClub.domain_name.auth.config.auth.PrincipalDetails;
 import bside.NotToDoClub.domain_name.user.entity.UserEntity;
-import bside.NotToDoClub.domain_name.user.respository.UserRepository;
+import bside.NotToDoClub.domain_name.user.respository.UserJpaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -16,7 +15,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class PrincipalDetailsService  implements UserDetailsService {
 
-    private final UserRepository userRepository;
+    private final UserJpaRepository userRepository;
 
     @Override
         public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
