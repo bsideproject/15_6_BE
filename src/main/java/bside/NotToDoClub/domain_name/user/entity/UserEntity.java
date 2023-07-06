@@ -1,6 +1,7 @@
 package bside.NotToDoClub.domain_name.user.entity;
 
 import bside.NotToDoClub.config.UserRole;
+import bside.NotToDoClub.domain_name.nottodo.entity.UserNotToDo;
 import bside.NotToDoClub.domain_name.user.dto.UserDto;
 import bside.NotToDoClub.global.BooleanToYNConverter;
 import lombok.*;
@@ -82,6 +83,10 @@ public class UserEntity {
     @OneToMany(mappedBy = "user")
     @Builder.Default
     private List<UserBadge> badges = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    @Builder.Default
+    private List<UserNotToDo> userNotToDoList = new ArrayList<>();
 
     @Column(name = "REG_DTM")
     @CreatedDate
