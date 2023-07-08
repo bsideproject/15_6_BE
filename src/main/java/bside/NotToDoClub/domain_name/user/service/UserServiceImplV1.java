@@ -141,7 +141,7 @@ public class UserServiceImplV1 implements UserService {
      * AccessToken을 통해 소셜 로그인 로그인 유저에 대해서 조회
      */
     @Override
-    public UserDto getLoginUserByAccessToken(String accessToken) {
+    public UserDto getLoginUserInfo(String accessToken) {
         AuthToken authToken = new AuthToken(accessToken, key);
         String email = authTokenProvider.getEmailByToken(authToken);
 

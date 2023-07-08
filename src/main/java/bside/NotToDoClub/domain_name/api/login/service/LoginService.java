@@ -100,14 +100,12 @@ public class LoginService {
         userEntity.updateRefreshToken(tokenDto.getRefreshToken());
 
 
-        BooleanToYNConverter booleanToYNConverter = new BooleanToYNConverter();
-
         return AuthResponse.builder()
                 .appAccessToken(tokenDto.getAccessToken())
                 .appRefreshToken(tokenDto.getRefreshToken())
                 .email(kakaoUser.getKakao_account().getEmail())
                 .nickname(kakaoUser.getProperties().getNickname())
-                .isNew(booleanToYNConverter.convertToDatabaseColumnReverse(userEntity.isTosYn()))
+                //.isNew(booleanToYNConverter.convertToDatabaseColumnReverse(userEntity.isTosYn()))
                 .build();
 
     }

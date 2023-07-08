@@ -11,5 +11,5 @@ public class AuthResponse<T> {
     private String appRefreshToken;
     private String email;
     private String nickname;
-    private String isNew;
+    //private String isNew;
 }

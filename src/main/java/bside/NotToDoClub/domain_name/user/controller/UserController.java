@@ -3,6 +3,7 @@ package bside.NotToDoClub.domain_name.user.controller;
 import bside.NotToDoClub.domain_name.user.dto.UserDto;
 import bside.NotToDoClub.domain_name.user.dto.UserResponseDto;
 import bside.NotToDoClub.domain_name.user.service.UserService;
+import bside.NotToDoClub.global.BooleanToYNConverter;
 import bside.NotToDoClub.global.response.ResponseCode;
 import bside.NotToDoClub.global.response.ResultResponse;
 import lombok.RequiredArgsConstructor;
@@ -25,12 +26,15 @@ public class UserController {
     @PostMapping("/info")
     public ResultResponse<UserResponseDto> getUserInfo(@RequestHeader(value="access-token")String accessToken){
         log.info("access token = {}", accessToken);
-        UserDto findUser = userService.getLoginUserByAccessToken(accessToken);
+        UserDto findUser = userService.getLoginUserInfo(accessToken);
         log.info("find user by token = {}", findUser);
+
+        BooleanToYNConverter booleanToYNConverter = new BooleanToYNConverter();
 
         UserResponseDto userResponseDto = UserResponseDto.builder()
                 .email(findUser.getLoginId())
                 .nickname(findUser.getNickname())
+                .tosYn(booleanToYNConverter.convertToDatabaseColumn(findUser.isTosYn()))
                 .build();
 
         return ResultResponse.of(ResponseCode.GET_USER_INFO, userResponseDto);
