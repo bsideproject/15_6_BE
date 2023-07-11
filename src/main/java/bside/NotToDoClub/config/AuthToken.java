@@ -1,5 +1,7 @@
 package bside.NotToDoClub.config;
 
+import bside.NotToDoClub.global.error.CustomException;
+import bside.NotToDoClub.global.error.ErrorCode;
 import io.jsonwebtoken.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -58,6 +60,7 @@ public class AuthToken {
             log.info("Invalid JWT token.");
         } catch (ExpiredJwtException e) {
             log.info("Expired JWT token.");
+            throw new CustomException(ErrorCode.TOKEN_EXPIRED);
         } catch (UnsupportedJwtException e) {
             log.info("Unsupported JWT token.");
         } catch (IllegalArgumentException e) {

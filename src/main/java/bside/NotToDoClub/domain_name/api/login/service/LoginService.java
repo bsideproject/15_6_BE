@@ -83,8 +83,8 @@ public class LoginService {
                             .nickname(kakaoUser.getProperties().getNickname())
                             .password("kakao")
                             .role(UserRole.USER)
-                            .accessToken(tokenDto.getAccessToken())
-                            .refreshToken(tokenDto.getRefreshToken())
+                            //.accessToken(tokenDto.getAccessToken())
+                            //.refreshToken(tokenDto.getRefreshToken())
                             .tosYn(false)
                             .build()
             );
@@ -96,7 +96,7 @@ public class LoginService {
         );
 
 
-        userEntity.updateAccessToken(tokenDto.getAccessToken());
+        //userEntity.updateAccessToken(tokenDto.getAccessToken());
         userEntity.updateRefreshToken(tokenDto.getRefreshToken());
 
 
