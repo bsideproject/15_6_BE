@@ -13,7 +13,9 @@ public enum ResponseCode {
     GET_USER_INFO(OK, "사용자 정보 조회 성공"),
     PROVIDE_APP_TOKEN(OK, "토큰 발급 성공"),
 
-    TOS_AGREE(OK, "이용약관 동의 완료");
+    TOS_AGREE(OK, "이용약관 동의 완료"),
+
+    CREATE_USER_NOT_TO_DO(CREATED, "낫투두 생성 완료");
 
     private HttpStatus status;
     private final String message;
