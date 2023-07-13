@@ -1,4 +1,4 @@
-package bside.NotToDoClub.domain_name.cheerupmessage.entity;
+package bside.NotToDoClub.domain_name.nottodo.entity;
 
 import bside.NotToDoClub.domain_name.moderationrecord.entity.ModerationRecord;
 import bside.NotToDoClub.domain_name.user.entity.UserEntity;

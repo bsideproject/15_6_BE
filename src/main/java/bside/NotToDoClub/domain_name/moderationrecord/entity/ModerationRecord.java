@@ -1,6 +1,6 @@
 package bside.NotToDoClub.domain_name.moderationrecord.entity;
 
-import bside.NotToDoClub.domain_name.cheerupmessage.entity.CheerUpMessage;
+import bside.NotToDoClub.domain_name.nottodo.entity.CheerUpMessage;
 import bside.NotToDoClub.domain_name.nottodo.entity.UserNotToDo;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;

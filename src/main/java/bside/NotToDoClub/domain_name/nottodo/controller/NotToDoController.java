@@ -31,11 +31,11 @@ public class NotToDoController {
     /**
      * 낫투두 등록
      */
-    @PostMapping("/")
+    @PostMapping("")
     public ResultResponse<NotToDoResponseDto> createNotToDo(
             @RequestHeader(value="access-token")String accessToken,
             @RequestBody @Valid NotToDoCreateRequestDto notToDoCreateRequestDto){
-        NotToDoResponseDto notToDo = notToDoService.createNotToDo();
+        NotToDoResponseDto notToDo = notToDoService.createNotToDo(accessToken, notToDoCreateRequestDto);
         return ResultResponse.of(ResponseCode.CREATE_USER_NOT_TO_DO, notToDo);
     }
 

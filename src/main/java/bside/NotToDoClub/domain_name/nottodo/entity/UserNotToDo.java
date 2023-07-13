@@ -30,6 +30,9 @@ public class UserNotToDo {
     @ManyToOne(fetch = FetchType.LAZY)
     private UserEntity user;
 
+    @Column(name = "USER_LOGIN_ID")
+    private String userLoginId;
+
     @Column(name = "NOT_TO_DO_TEXT")
     private String notToDoText;
 

@@ -4,9 +4,11 @@ import bside.NotToDoClub.global.error.CustomException;
 import bside.NotToDoClub.global.error.ErrorCode;
 import io.jsonwebtoken.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import java.security.Key;
 import java.util.Date;
@@ -29,9 +31,9 @@ public class AuthToken {
         this.token = createAuthToken(socialId, role, expiry);
     }*/
 
-    public AuthToken(String token, String accessSecretKey) {
+    public AuthToken(String key, String token) {
         this.token = token;
-        this.key = hmacShaKeyFor(accessSecretKey.getBytes());
+        this.key = hmacShaKeyFor(key.getBytes());
     }
 
     /*private String createAuthToken(String socialId, String role, Date expiry) {

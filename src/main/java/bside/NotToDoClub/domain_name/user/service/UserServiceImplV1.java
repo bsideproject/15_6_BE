@@ -142,7 +142,7 @@ public class UserServiceImplV1 implements UserService {
      */
     @Override
     public UserDto getLoginUserInfo(String accessToken) {
-        AuthToken authToken = new AuthToken(accessToken, key);
+        AuthToken authToken = new AuthToken(key, accessToken);
         String email = authTokenProvider.getEmailByToken(authToken);
 
         UserEntity userEntity = userRepository.findByLoginId(email).orElseThrow(
@@ -156,7 +156,7 @@ public class UserServiceImplV1 implements UserService {
 
     @Override
     public String tosAgree(String accessToken) {
-        AuthToken authToken = new AuthToken(accessToken, key);
+        AuthToken authToken = new AuthToken(key, accessToken);
         String email = authTokenProvider.getEmailByToken(authToken);
 
         UserEntity userEntity = userRepository.findByLoginId(email).orElseThrow(
