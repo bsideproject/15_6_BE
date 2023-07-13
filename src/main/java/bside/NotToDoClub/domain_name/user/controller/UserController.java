@@ -34,6 +34,7 @@ public class UserController {
         UserResponseDto userResponseDto = UserResponseDto.builder()
                 .email(findUser.getLoginId())
                 .nickname(findUser.getNickname())
+                .profileImgUrl(findUser.getProfileImgUrl())
                 .tosYn(booleanToYNConverter.convertToDatabaseColumn(findUser.isTosYn()))
                 .build();
 

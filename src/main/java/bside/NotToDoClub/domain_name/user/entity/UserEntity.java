@@ -50,6 +50,9 @@ public class UserEntity {
     @Column(name = "NICKNAME")
     private String nickname;
 
+    @Column(name = "PROFILE_IMG_URL")
+    private String profileImgUrl;
+
     /**
      * 어플리케이션내 유저 권한
      * ADMIN, USER

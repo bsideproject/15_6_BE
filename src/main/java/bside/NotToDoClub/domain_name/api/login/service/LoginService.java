@@ -83,6 +83,7 @@ public class LoginService {
                             .nickname(kakaoUser.getProperties().getNickname())
                             .password("kakao")
                             .role(UserRole.USER)
+                            .profileImgUrl(kakaoUser.getKakao_account().getProfile().getProfile_image_url())
                             //.accessToken(tokenDto.getAccessToken())
                             //.refreshToken(tokenDto.getRefreshToken())
                             .tosYn(false)
@@ -105,6 +106,7 @@ public class LoginService {
                 .appRefreshToken(tokenDto.getRefreshToken())
                 .email(kakaoUser.getKakao_account().getEmail())
                 .nickname(kakaoUser.getProperties().getNickname())
+                .profileImgUrl(kakaoUser.getKakao_account().getProfile().getProfile_image_url())
                 //.isNew(booleanToYNConverter.convertToDatabaseColumnReverse(userEntity.isTosYn()))
                 .build();
 

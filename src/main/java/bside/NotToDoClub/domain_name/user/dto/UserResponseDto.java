@@ -9,5 +9,6 @@ public class UserResponseDto {
 
     private String nickname;
     private String email;
+    private String profileImgUrl;
     private String tosYn;
 }
