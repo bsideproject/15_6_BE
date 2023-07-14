@@ -117,6 +117,10 @@ public class UserEntity {
         return this;
     }
 
+    public void updateNickname(String nickname){
+        this.nickname = nickname;
+    }
+
     public void agreeTos(UserEntity userEntity){
         if(userEntity.isTosYn()){
             throw new CustomException(ErrorCode.ALREADY_TOS_AGREE);

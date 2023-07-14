@@ -1,37 +1,38 @@
 package bside.NotToDoClub.domain_name.user.service;
 
+import bside.NotToDoClub.domain_name.user.dto.UserDto;
 import bside.NotToDoClub.domain_name.user.entity.UserEntity;
 import bside.NotToDoClub.domain_name.user.respository.UserJpaRepository;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 
+import static org.junit.jupiter.api.Assertions.*;
+
+@Rollback(value = false)
 @SpringBootTest
 class UserServiceImplV1Test {
 
     @Autowired UserService userService;
-    @Autowired
-    UserJpaRepository userRepository;
+    @Autowired UserLoginService userLoginService;
+    @Autowired UserJpaRepository userJpaRepository;
 
-    @Test @Rollback
-    void getLoginUserByAccessTokenTest(){
+    @Test
+    void updateUserNicknameTest(){
+        String accessToken = "8dsyP5MsZZS_LtEXQ1kjARo89vKhzq0DjVZ3d8AmCioljwAAAYkK4tdH";
 
-        String accessToken = "abcde-abcde-abcde";
-
-        UserEntity user = UserEntity.builder()
+        UserEntity sihun = new UserEntity().builder()
+                .nickname("시훈")
+                .loginId("osh0731@hanmail.net")
                 .accessToken(accessToken)
-                .nickname("sihun")
-                .loginId("bside.sihun@gmail.com")
                 .build();
 
-        userRepository.save(user);
+        UserEntity save = userJpaRepository.save(sihun);
 
+        UserDto userDto = userService.updateUserNickname(accessToken, "지훈");
 
-        UserEntity findUser = userRepository.findByAccessToken(accessToken).get();
-
-        Assertions.assertThat(findUser.getNickname()).isEqualTo("sihun");
-        Assertions.assertThat(findUser.getLoginId()).isEqualTo("bside.sihun@gmail.com");
+        UserDto loginUserInfo = userLoginService.getLoginUserInfo(accessToken);
+        assertEquals(loginUserInfo.getNickname(), "지훈");
     }
 }

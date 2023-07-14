@@ -15,7 +15,9 @@ public enum ResponseCode {
 
     TOS_AGREE(OK, "이용약관 동의 완료"),
 
-    CREATE_USER_NOT_TO_DO(CREATED, "낫투두 생성 완료");
+    CREATE_USER_NOT_TO_DO(CREATED, "낫투두 생성 완료"),
+
+    UPDATE_USER(OK, "사용자 정보 변경 성공");
 
     private HttpStatus status;
     private final String message;
