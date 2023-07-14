@@ -57,7 +57,10 @@ public class UserController {
     public ResultResponse<UserResponseDto> deleteUser(
             @RequestHeader(value = "access-token") String accessToken
     ){
-        userService.deleteUser(accessToken);
-        return null;
+        UserDto userDto = userService.deleteUser(accessToken);
+
+        UserResponseDto userResponseDto = mapper.map(userDto, UserResponseDto.class);
+
+        return ResultResponse.of(ResponseCode.DELETE_USER, userResponseDto);
     }
 }
