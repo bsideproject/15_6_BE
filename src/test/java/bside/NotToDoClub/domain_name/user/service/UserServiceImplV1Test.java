@@ -18,9 +18,9 @@ class UserServiceImplV1Test {
     @Autowired UserLoginService userLoginService;
     @Autowired UserJpaRepository userJpaRepository;
 
-    @Test
+    @Test @Rollback
     void updateUserNicknameTest(){
-        String accessToken = "8dsyP5MsZZS_LtEXQ1kjARo89vKhzq0DjVZ3d8AmCioljwAAAYkK4tdH";
+        String accessToken = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqdW5zbGltMTFAZ21haWwuY29tIiwicm9sZXMiOiJVU0VSIiwiaWF0IjoxNjg4ODg3MDM3LCJleHAiOjE2OTE0NzkwMzd9.rwUvNDEy10ISKykL9KP6KDA62Vg2rgowj0VKjfkUzjI";
 
         UserEntity sihun = new UserEntity().builder()
                 .nickname("시훈")

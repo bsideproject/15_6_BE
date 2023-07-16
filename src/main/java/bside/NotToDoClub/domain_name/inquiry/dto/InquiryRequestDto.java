@@ -7,7 +7,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Data
-public class InquiryCreateRequestDto {
+public class InquiryRequestDto {
 
     @NotNull(message = "Title cannot be null")
     @Size(min = 2, max = 100,

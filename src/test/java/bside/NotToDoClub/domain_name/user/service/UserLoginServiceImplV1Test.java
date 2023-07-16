@@ -19,7 +19,7 @@ class UserLoginServiceImplV1Test {
     @Test @Rollback
     void getLoginUserByAccessTokenTest(){
 
-        String accessToken = "abcde-abcde-abcde";
+        String accessToken = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqdW5zbGltMTFAZ21haWwuY29tIiwicm9sZXMiOiJVU0VSIiwiaWF0IjoxNjg4ODg3MDM3LCJleHAiOjE2OTE0NzkwMzd9.rwUvNDEy10ISKykL9KP6KDA62Vg2rgowj0VKjfkUzjI";
 
         UserEntity user = UserEntity.builder()
                 .accessToken(accessToken)
