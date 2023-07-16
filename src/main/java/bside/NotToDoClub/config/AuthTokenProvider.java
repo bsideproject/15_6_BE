@@ -8,6 +8,7 @@ import bside.NotToDoClub.global.error.ErrorCode;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -18,6 +19,7 @@ import java.util.*;
 import static io.jsonwebtoken.security.Keys.hmacShaKeyFor;
 
 @Component
+@Slf4j
 public class AuthTokenProvider {
 
     private final Key key;
@@ -76,6 +78,8 @@ public class AuthTokenProvider {
 
             Claims claims = authToken.getTokenClaims();
             String email = claims.getSubject();
+
+            log.info("user email = {}", email);
 
             UserEntity userEntity = userRepository.findByLoginId(email).orElseThrow(
                     () -> new CustomException(ErrorCode.USER_NOT_FOUND)

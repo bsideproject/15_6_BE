@@ -10,10 +10,11 @@ import bside.NotToDoClub.domain_name.user.service.UserCommonService;
 import bside.NotToDoClub.global.error.CustomException;
 import bside.NotToDoClub.global.error.ErrorCode;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-@Service
+@Service @Slf4j
 @RequiredArgsConstructor
 public class InquiryServiceImplV1 implements InquiryService{
 
@@ -28,12 +29,14 @@ public class InquiryServiceImplV1 implements InquiryService{
 
         Inquiry inquiry = Inquiry.builder()
                 .title(inquiryRequestDto.getTitle())
-                .content(inquiryRequestDto.getTitle())
-                .replyEmail(inquiryRequestDto.getUserLoginId())
+                .content(inquiryRequestDto.getContent())
+                .replyEmail(inquiryRequestDto.getReplyEmail())
                 .user(userEntity)
                 .build();
 
         Inquiry savedInquiry = inquiryJpaRepository.save(inquiry);
+
+//        log.info("saved inquiry = {}", savedInquiry);
 
         InquiryDto inquiryDto = mapper.map(savedInquiry, InquiryDto.class);
 

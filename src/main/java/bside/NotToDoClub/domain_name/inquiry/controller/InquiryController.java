@@ -29,6 +29,7 @@ public class InquiryController {
             @RequestBody @Valid InquiryRequestDto inquiryRequestDto
     ){
         InquiryDto inquiryDto = inquiryService.createInquiry(accessToken, inquiryRequestDto);
+
         InquiryResponseDto result = mapper.map(inquiryDto, InquiryResponseDto.class);
 
         return ResultResponse.of(ResponseCode.CREATE, result);
@@ -37,12 +38,14 @@ public class InquiryController {
     @PostMapping("/get/{inquiryId}")
     public ResultResponse<InquiryResponseDto> getInquiryInfo(
             @RequestHeader(value="access-token")String accessToken,
-            @PathVariable("inquiryId") Long inquiryId,
-            @RequestBody @Valid InquiryRequestDto inquiryRequestDto
+            @PathVariable("inquiryId") Long inquiryId
+//            @RequestBody @Valid InquiryRequestDto inquiryRequestDto
     ){
         userCommonService.checkUserByToken(accessToken);
         InquiryDto inquiryDto = inquiryService.getInquiryInfo(inquiryId);
-        return null;
+        InquiryResponseDto result = mapper.map(inquiryDto, InquiryResponseDto.class);
+
+        return ResultResponse.of(ResponseCode.OK_, result);
     }
 
     @PostMapping("/update/{inquiryId}/contents")

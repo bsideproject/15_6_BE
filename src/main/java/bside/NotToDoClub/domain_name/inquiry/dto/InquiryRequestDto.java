@@ -22,8 +22,4 @@ public class InquiryRequestDto {
     @Size(min = 2, message = "Reply email not be less than two characters")
     @Email
     private String replyEmail;
-
-    @NotNull(message = "User login id cannot be null")
-    @Size(min = 2, message = "User login id not be less than two characters")
-    private String userLoginId;
 }

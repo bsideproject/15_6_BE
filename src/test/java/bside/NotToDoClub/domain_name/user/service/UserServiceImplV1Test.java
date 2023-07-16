@@ -22,17 +22,10 @@ class UserServiceImplV1Test {
     void updateUserNicknameTest(){
         String accessToken = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqdW5zbGltMTFAZ21haWwuY29tIiwicm9sZXMiOiJVU0VSIiwiaWF0IjoxNjg4ODg3MDM3LCJleHAiOjE2OTE0NzkwMzd9.rwUvNDEy10ISKykL9KP6KDA62Vg2rgowj0VKjfkUzjI";
 
-        UserEntity sihun = new UserEntity().builder()
-                .nickname("시훈")
-                .loginId("osh0731@hanmail.net")
-                .accessToken(accessToken)
-                .build();
 
-        UserEntity save = userJpaRepository.save(sihun);
-
-        UserDto userDto = userService.updateUserNickname(accessToken, "지훈");
+        UserDto userDto = userService.updateUserNickname(accessToken, "임준섭");
 
         UserDto loginUserInfo = userLoginService.getLoginUserInfo(accessToken);
-        assertEquals(loginUserInfo.getNickname(), "지훈");
+        assertEquals(loginUserInfo.getNickname(), "임준섭");
     }
 }

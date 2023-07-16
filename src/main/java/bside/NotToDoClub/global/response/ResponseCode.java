@@ -24,7 +24,8 @@ public enum ResponseCode {
 
     DELETE_USER(OK, "사용자 정보 변경 성공"),
     UPDATE(OK, "업데이트 성공"),
-    DELETE(OK, "삭제 성공");
+    DELETE(OK, "삭제 성공"),
+    OK_(OK, "성공");
 
     private HttpStatus status;
     private final String message;
