@@ -2,6 +2,7 @@ package bside.NotToDoClub.domain_name.nottodo.entity;
 
 import bside.NotToDoClub.domain_name.moderationrecord.entity.ModerationRecord;
 import bside.NotToDoClub.domain_name.user.entity.UserEntity;
+import bside.NotToDoClub.global.BooleanToYNConverter;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -30,9 +31,6 @@ public class UserNotToDo {
     @ManyToOne(fetch = FetchType.LAZY)
     private UserEntity user;
 
-    @Column(name = "USER_LOGIN_ID")
-    private String userLoginId;
-
     @Column(name = "NOT_TO_DO_TEXT")
     private String notToDoText;
 
@@ -40,16 +38,18 @@ public class UserNotToDo {
     private String goal;
 
     @Column(name = "PROGRESS_STATE")
-    private String progressState;
+    @Enumerated(EnumType.STRING)
+    private ProgressState progressState;
 
     @Column(name = "SUCCESS_YN")
+    @Convert(converter = BooleanToYNConverter.class)
     private Boolean successYn;
 
     @Column(name = "START_DATE")
-    private LocalDateTime startDate;
+    private String startDate;
 
     @Column(name = "END_DATE")
-    private LocalDateTime endDate;
+    private String endDate;
 
     @Column(name = "TOTAL_CHALLENGE_DAYS")
     private Integer totalChallengeDays;
@@ -58,6 +58,7 @@ public class UserNotToDo {
     private Integer currentChallengeDays;
 
     @Column(name = "USE_YN")
+    @Convert(converter = BooleanToYNConverter.class)
     private Boolean useYn;
 
     @OneToMany(mappedBy = "userNotToDo")

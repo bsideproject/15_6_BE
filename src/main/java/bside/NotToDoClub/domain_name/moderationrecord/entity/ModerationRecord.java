@@ -41,9 +41,9 @@ public class ModerationRecord {
     @ManyToOne(fetch = FetchType.LAZY)
     private UserNotToDo userNotToDo;
 
-    @OneToMany(mappedBy = "moderationRecord")
+    /*@OneToMany(mappedBy = "moderationRecord")
     @Builder.Default
-    private List<CheerUpMessage> cheerUpMessages = new ArrayList<>();
+    private List<CheerUpMessage> cheerUpMessages = new ArrayList<>();*/
 
     @Column(name = "REG_DTM")
     @CreatedDate

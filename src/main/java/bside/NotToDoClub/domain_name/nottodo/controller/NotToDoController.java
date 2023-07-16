@@ -1,7 +1,7 @@
 package bside.NotToDoClub.domain_name.nottodo.controller;
 
 import bside.NotToDoClub.domain_name.nottodo.dto.NotToDoCreateRequestDto;
-import bside.NotToDoClub.domain_name.nottodo.dto.NotToDoResponseDto;
+import bside.NotToDoClub.domain_name.nottodo.dto.NotToDoCreateResponseDto;
 import bside.NotToDoClub.domain_name.nottodo.service.NotToDoService;
 import bside.NotToDoClub.global.response.ResponseCode;
 import bside.NotToDoClub.global.response.ResultResponse;
@@ -24,18 +24,18 @@ public class NotToDoController {
      * 낫투두 리스트 조회
      */
     @GetMapping("/list")
-    public void getNotToDoList(){
-
+    public void getNotToDoList(@RequestHeader(value="access-token")String accessToken){
+        notToDoService.getNotToDoList(accessToken);
     }
 
     /**
      * 낫투두 등록
      */
     @PostMapping("")
-    public ResultResponse<NotToDoResponseDto> createNotToDo(
+    public ResultResponse<NotToDoCreateResponseDto> createNotToDo(
             @RequestHeader(value="access-token")String accessToken,
             @RequestBody @Valid NotToDoCreateRequestDto notToDoCreateRequestDto){
-        NotToDoResponseDto notToDo = notToDoService.createNotToDo(accessToken, notToDoCreateRequestDto);
+        NotToDoCreateResponseDto notToDo = notToDoService.createNotToDo(accessToken, notToDoCreateRequestDto);
         return ResultResponse.of(ResponseCode.CREATE_USER_NOT_TO_DO, notToDo);
     }
 

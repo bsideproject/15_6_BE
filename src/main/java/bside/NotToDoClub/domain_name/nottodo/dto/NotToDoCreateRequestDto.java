@@ -9,8 +9,8 @@ import java.time.LocalDateTime;
 @Builder
 public class NotToDoCreateRequestDto {
     private String notToDoText;
-    private LocalDateTime startDate;
-    private LocalDateTime endDate;
+    private String startDate;
+    private String endDate;
     private String goal;
     private String cheerUpMsg1;
     private String cheerUpMsg2;

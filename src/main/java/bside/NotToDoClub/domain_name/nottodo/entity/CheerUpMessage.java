@@ -2,6 +2,7 @@ package bside.NotToDoClub.domain_name.nottodo.entity;
 
 import bside.NotToDoClub.domain_name.moderationrecord.entity.ModerationRecord;
 import bside.NotToDoClub.domain_name.user.entity.UserEntity;
+import bside.NotToDoClub.global.BooleanToYNConverter;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -22,12 +23,12 @@ public class CheerUpMessage {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "MODERATION_RECORD_ID")
+    @Column(name = "CHEER_UP_MESSAGE_ID")
     private Long id;
 
-    @JoinColumn(name = "MODERATION_RECORD_ID", insertable = false, updatable = false)
+    /*@JoinColumn(name = "MODERATION_RECORD_ID", insertable = false, updatable = false)
     @ManyToOne(fetch = FetchType.LAZY)
-    private ModerationRecord moderationRecord;
+    private ModerationRecord moderationRecord;*/
 
     @JoinColumn(name = "USER_ID")
     @ManyToOne(fetch = FetchType.LAZY)
@@ -38,6 +39,7 @@ public class CheerUpMessage {
     private String content;
 
     @Column(name = "USE_YN")
+    @Convert(converter = BooleanToYNConverter.class)
     private Boolean useYn;
 
     @Column(name = "REG_DTM")

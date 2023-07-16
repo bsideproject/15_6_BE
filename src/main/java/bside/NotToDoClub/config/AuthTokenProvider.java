@@ -86,4 +86,21 @@ public class AuthTokenProvider {
             throw new CustomException(ErrorCode.TOKEN_VALID_FAIL);
         }
     }
+
+    public Long getUserIdByToken(AuthToken authToken) {
+
+        if(authToken.validate()) { //토큰 유효성 체크
+
+            Claims claims = authToken.getTokenClaims();
+            String email = claims.getSubject();
+
+            UserEntity userEntity = userRepository.findByLoginId(email).orElseThrow(
+                    () -> new CustomException(ErrorCode.USER_NOT_FOUND)
+            );
+
+            return userEntity.getId();
+        } else {
+            throw new CustomException(ErrorCode.TOKEN_VALID_FAIL);
+        }
+    }
 }
