@@ -23,14 +23,15 @@ public class UserServiceImplV1 implements UserService{
 
     private final UserJpaRepository userJpaRepository;
     private final ModelMapper mapper;
-    private final AuthTokenProvider authTokenProvider;
+//    private final AuthTokenProvider authTokenProvider;
+    private final UserCommonService userCommonService;
 
-    @Value("${app.auth.accessTokenSecret}")
-    private String key;
+//    @Value("${app.auth.accessTokenSecret}")
+//    private String key;
 
     @Override
     public UserDto updateUserNickname(String accessToken, String nickname) {
-        UserEntity userEntity = checkUserByToken(accessToken);
+        UserEntity userEntity = userCommonService.checkUserByToken(accessToken);
 
         userEntity.updateNickname(nickname);
         UserEntity updateUser = userJpaRepository.save(userEntity);
@@ -41,7 +42,7 @@ public class UserServiceImplV1 implements UserService{
 
     @Override
     public UserDto deleteUser(String accessToken) {
-        UserEntity userEntity = checkUserByToken(accessToken);
+        UserEntity userEntity = userCommonService.checkUserByToken(accessToken);
 
         UserEntity deleteUser = userJpaRepository
                 .deleteByAccessToken(userEntity.getAccessToken()).get();
@@ -51,15 +52,4 @@ public class UserServiceImplV1 implements UserService{
         return userDto;
     }
 
-    private UserEntity checkUserByToken(String accessToken) {
-
-        AuthToken authToken = new AuthToken(accessToken, key);
-        String email = authTokenProvider.getEmailByToken(authToken);
-
-        UserEntity userEntity = userJpaRepository.findByLoginId(email).orElseThrow(
-                () -> new CustomException(ErrorCode.USER_NOT_FOUND)
-        );
-
-        return userEntity;
-    }
 }
