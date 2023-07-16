@@ -24,7 +24,8 @@ public class UserController {
     private final ModelMapper mapper;
 
     @PostMapping("/info")
-    public ResultResponse<UserResponseDto> getUserInfo(@RequestHeader(value="access-token")String accessToken){
+    public ResultResponse<UserResponseDto> getUserInfo(
+            @RequestHeader(value="access-token")String accessToken){
         log.info("access token = {}", accessToken);
         UserDto findUser = userLoginService.getLoginUserInfo(accessToken);
         log.info("find user by token = {}", findUser);
