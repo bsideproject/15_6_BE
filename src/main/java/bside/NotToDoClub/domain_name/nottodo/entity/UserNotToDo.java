@@ -1,6 +1,7 @@
 package bside.NotToDoClub.domain_name.nottodo.entity;
 
 import bside.NotToDoClub.domain_name.moderationrecord.entity.ModerationRecord;
+import bside.NotToDoClub.domain_name.nottodo.dto.NotToDoCreateRequestDto;
 import bside.NotToDoClub.domain_name.user.entity.UserEntity;
 import bside.NotToDoClub.global.BooleanToYNConverter;
 import lombok.*;
@@ -65,6 +66,10 @@ public class UserNotToDo {
     @Builder.Default
     private List<ModerationRecord> moderationRecords = new ArrayList<>();
 
+    @OneToMany(mappedBy = "userNotToDo")
+    @Builder.Default
+    private List<CheerUpMessage> cheerUpMessages = new ArrayList<>();
+
     @Column(name = "REG_DTM")
     @CreatedDate
     private LocalDateTime createdAt;
@@ -73,4 +78,33 @@ public class UserNotToDo {
     @LastModifiedDate
     private LocalDateTime updatedAt;
 
+    public static UserNotToDo createUserNotToDo(NotToDoCreateRequestDto notToDoCreateRequestDto, UserEntity user, List<String> cheerUpMsgList){
+        UserNotToDo userNotToDo = UserNotToDo.builder()
+                .user(user)
+                .notToDoText(notToDoCreateRequestDto.getNotToDoText())
+                .goal(notToDoCreateRequestDto.getGoal())
+                .progressState(ProgressState.BEFORE_START)
+                .successYn(false)
+                .startDate(notToDoCreateRequestDto.getStartDate())
+                .endDate(notToDoCreateRequestDto.getEndDate())
+                .useYn(true)
+                .build();
+
+        for (String msg : cheerUpMsgList){
+            CheerUpMessage newCheerUpMessage = CheerUpMessage.builder()
+                    .content(msg)
+                    .registerUser(user)
+                    .useYn(true)
+                    .build();
+
+            userNotToDo.addCheerUpMessage(newCheerUpMessage);
+        }
+
+        return userNotToDo;
+    }
+
+    public void addCheerUpMessage(CheerUpMessage cheerUpMessage){
+        cheerUpMessages.add(cheerUpMessage);
+        cheerUpMessage.setUserNotToDo(this);
+    }
 }

@@ -2,6 +2,7 @@ package bside.NotToDoClub.domain_name.nottodo.controller;
 
 import bside.NotToDoClub.domain_name.nottodo.dto.NotToDoCreateRequestDto;
 import bside.NotToDoClub.domain_name.nottodo.dto.NotToDoCreateResponseDto;
+import bside.NotToDoClub.domain_name.nottodo.dto.NotToDoListResponseDto;
 import bside.NotToDoClub.domain_name.nottodo.service.NotToDoService;
 import bside.NotToDoClub.global.response.ResponseCode;
 import bside.NotToDoClub.global.response.ResultResponse;
@@ -10,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @Slf4j
@@ -24,8 +26,9 @@ public class NotToDoController {
      * 낫투두 리스트 조회
      */
     @GetMapping("/list")
-    public void getNotToDoList(@RequestHeader(value="access-token")String accessToken){
-        notToDoService.getNotToDoList(accessToken);
+    public ResultResponse<List<NotToDoListResponseDto>> getNotToDoList(@RequestHeader(value="access-token")String accessToken){
+        List<NotToDoListResponseDto> notToDoListResponseDto = notToDoService.getNotToDoList(accessToken);
+        return ResultResponse.of(ResponseCode.GET_USER_NOT_TO_DO, notToDoListResponseDto);
     }
 
     /**

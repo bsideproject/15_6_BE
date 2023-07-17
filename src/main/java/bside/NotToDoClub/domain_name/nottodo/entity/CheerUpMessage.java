@@ -10,10 +10,12 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Builder
 @Getter
+@Setter
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
@@ -29,6 +31,10 @@ public class CheerUpMessage {
     /*@JoinColumn(name = "MODERATION_RECORD_ID", insertable = false, updatable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     private ModerationRecord moderationRecord;*/
+
+    @JoinColumn(name = "USER_NOT_TO_DO_ID")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private UserNotToDo userNotToDo;
 
     @JoinColumn(name = "USER_ID")
     @ManyToOne(fetch = FetchType.LAZY)

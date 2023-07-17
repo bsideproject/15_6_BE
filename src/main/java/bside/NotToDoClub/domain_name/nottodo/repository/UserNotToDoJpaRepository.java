@@ -7,5 +7,5 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserNotToDoJpaRepository extends JpaRepository<UserNotToDo, Long> {
-    Optional<List<UserNotToDo>> findAllById(Long userId);
+    Optional<List<UserNotToDo>> findAllByUserId(Long userId);
 }

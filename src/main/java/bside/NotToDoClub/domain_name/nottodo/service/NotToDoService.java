@@ -20,6 +20,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -32,7 +34,6 @@ public class NotToDoService {
     private final AuthTokenProvider authTokenProvider;
     private final UserNotToDoJpaRepository userNotToDoRepository;
     private final UserJpaRepository userRepository;
-    private final CheerUpMessageJpaRepository cheerUpMessageRepository;
 
     @Value("${app.auth.accessTokenSecret}")
     private String key;
@@ -46,34 +47,14 @@ public class NotToDoService {
                 () -> new CustomException(ErrorCode.USER_NOT_FOUND)
         );
 
-        UserNotToDo newUserNotToDo = UserNotToDo.builder()
-                .user(user)
-                .notToDoText(notToDoCreateRequestDto.getNotToDoText())
-                .goal(notToDoCreateRequestDto.getGoal())
-                .progressState(ProgressState.BEFORE_START)
-                .successYn(false)
-                .startDate(notToDoCreateRequestDto.getStartDate())
-                .endDate(notToDoCreateRequestDto.getEndDate())
-                .useYn(true)
-                .build();
-
-        UserNotToDo userNotToDo = userNotToDoRepository.save(newUserNotToDo);
-
         List<String> cheerUpMsgList = new ArrayList<>();
         cheerUpMsgList.add(notToDoCreateRequestDto.getCheerUpMsg1());
         cheerUpMsgList.add(notToDoCreateRequestDto.getCheerUpMsg2());
         cheerUpMsgList.add(notToDoCreateRequestDto.getCheerUpMsg3());
 
-        for(String msg : cheerUpMsgList){
-            CheerUpMessage newCheerUpMessage = CheerUpMessage.builder()
-                    .content(msg)
-                    .registerUser(user)
-                    .useYn(true)
-                    .build();
+        UserNotToDo newUserNotToDo = UserNotToDo.createUserNotToDo(notToDoCreateRequestDto, user, cheerUpMsgList);
 
-            cheerUpMessageRepository.save(newCheerUpMessage);
-        }
-
+        UserNotToDo userNotToDo = userNotToDoRepository.save(newUserNotToDo);
 
         NotToDoCreateResponseDto notToDoCreateResponseDto = NotToDoCreateResponseDto.builder()
                 .notToDoId(userNotToDo.getId())
@@ -96,10 +77,20 @@ public class NotToDoService {
         AuthToken authToken = new AuthToken(key, accessToken);
         Long userId = authTokenProvider.getUserIdByToken(authToken);
 
-        List<UserNotToDo> userNotToDoList = userNotToDoRepository.findAllById(userId).orElseThrow(
+        List<UserNotToDo> userNotToDoList = userNotToDoRepository.findAllByUserId(userId).orElseThrow(
                 () -> new CustomException(ErrorCode.USER_NOT_TO_DO_NOT_FOUND)
         );
 
+        LocalDate now = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+        //String formatedNow = now.format(formatter);
+
+        for(UserNotToDo userNotToDo : userNotToDoList){
+            //DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일");
+            LocalDate startDate = LocalDate.parse(userNotToDo.getStartDate(), formatter);
+            LocalDate endDate = LocalDate.parse(userNotToDo.getEndDate(), formatter);
+            //if(startDate.compareTo(now) <= 0)
+        }
         BooleanToYNConverter booleanToYNConverter = new BooleanToYNConverter();
         List<NotToDoListResponseDto> notToDoListResponseDtoList = userNotToDoList.stream()
                 .map(n -> NotToDoListResponseDto.builder()
@@ -112,6 +103,10 @@ public class NotToDoService {
                         .build())
                 .collect(Collectors.toList());
 
-        return null;
+        return notToDoListResponseDtoList;
+    }
+
+    public void deleteUserNotToDo(String accessToken, Long id){
+        userNotToDoRepository.deleteById(id);
     }
 }
