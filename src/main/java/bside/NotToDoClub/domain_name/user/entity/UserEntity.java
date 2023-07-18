@@ -1,6 +1,7 @@
 package bside.NotToDoClub.domain_name.user.entity;
 
 import bside.NotToDoClub.config.UserRole;
+import bside.NotToDoClub.domain_name.inquiry.entity.Inquiry;
 import bside.NotToDoClub.domain_name.nottodo.entity.CheerUpMessage;
 import bside.NotToDoClub.domain_name.nottodo.entity.UserNotToDo;
 import bside.NotToDoClub.domain_name.user.dto.UserDto;
@@ -94,6 +95,10 @@ public class UserEntity {
     @Builder.Default
     private List<UserNotToDo> userNotToDoList = new ArrayList<>();
 
+    @OneToMany(mappedBy = "user")
+    @Builder.Default
+    private List<Inquiry> userInquiryList = new ArrayList<>();
+
     @OneToMany(mappedBy = "registerUser")
     @Builder.Default
     private List<CheerUpMessage> cheerUpMessages = new ArrayList<>();
@@ -115,6 +120,10 @@ public class UserEntity {
         this.refreshToken = userDto.getRefreshToken();
 
         return this;
+    }
+
+    public void updateNickname(String nickname){
+        this.nickname = nickname;
     }
 
     public void agreeTos(UserEntity userEntity){

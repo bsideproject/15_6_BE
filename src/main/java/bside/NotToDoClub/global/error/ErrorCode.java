@@ -24,8 +24,8 @@ public enum ErrorCode {
     DUPLICATE_RESOURCE(CONFLICT, "데이터가 이미 존재합니다"),
 
     ALREADY_TOS_AGREE(INTERNAL_SERVER_ERROR,"이미 이용약관에 동의한 회원입니다."),
-    REGISTER_NOT_TO_DO_LIMIT(INTERNAL_SERVER_ERROR, "등록한 낫투두 갯수가 7개를 초과했습니다.")
-    ;
+    REGISTER_NOT_TO_DO_LIMIT(INTERNAL_SERVER_ERROR, "등록한 낫투두 갯수가 7개를 초과했습니다."),
+    INVALID_INQUIRY_ID(NOT_FOUND, "해당 문의사항을 찾을 수 없습니다.");
 
 
     private final HttpStatus status;

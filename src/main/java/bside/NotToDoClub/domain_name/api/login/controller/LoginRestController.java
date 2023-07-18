@@ -4,9 +4,8 @@ import bside.NotToDoClub.config.Constant;
 import bside.NotToDoClub.domain_name.api.login.service.LoginService;
 import bside.NotToDoClub.domain_name.auth.dto.AuthRequestDto;
 import bside.NotToDoClub.domain_name.auth.service.OauthService;
-import bside.NotToDoClub.domain_name.auth.service.OauthServiceImplV1;
 import bside.NotToDoClub.domain_name.user.dto.UserRequestDto;
-import bside.NotToDoClub.domain_name.user.service.UserService;
+import bside.NotToDoClub.domain_name.user.service.UserLoginService;
 import bside.NotToDoClub.global.response.AuthResponse;
 import bside.NotToDoClub.global.response.ResponseCode;
 import bside.NotToDoClub.global.response.ResultResponse;
@@ -25,7 +24,7 @@ public class LoginRestController {
 
     private final OauthService oAuthService;
     private final LoginService loginService;
-    private final UserService userService;
+    private final UserLoginService userService;
 
     @GetMapping("/{socialLoginType}/page") //socialLoginType=naver, google, kakao...
     public void socialLoginRedirect(HttpServletResponse response, @PathVariable(name="socialLoginType") String SocialLoginPath) throws Exception {

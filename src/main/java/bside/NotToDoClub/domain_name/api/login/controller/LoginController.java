@@ -4,7 +4,7 @@ import bside.NotToDoClub.domain_name.api.login.vo.JoinRequest;
 import bside.NotToDoClub.domain_name.api.login.vo.LoginRequest;
 import bside.NotToDoClub.domain_name.api.login.vo.ResponseUser;
 import bside.NotToDoClub.domain_name.user.dto.UserDto;
-import bside.NotToDoClub.domain_name.user.service.UserService;
+import bside.NotToDoClub.domain_name.user.service.UserLoginService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.core.Authentication;
@@ -24,7 +24,7 @@ import javax.validation.Valid;
 @RequestMapping("/security-login")
 public class LoginController {
 
-    private final UserService userService;
+    private final UserLoginService userService;
     private final ModelMapper mapper;
 
     @GetMapping(value = {"", "/"})
