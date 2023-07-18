@@ -40,7 +40,7 @@ public class NotToDoService {
 
     @Transactional
     public NotToDoCreateResponseDto createNotToDo(String accessToken, NotToDoCreateRequestDto notToDoCreateRequestDto){
-        AuthToken authToken = new AuthToken(key, accessToken);
+        AuthToken authToken = new AuthToken(accessToken, key);
         String email = authTokenProvider.getEmailByToken(authToken);
 
         UserEntity user = userRepository.findByLoginId(email).orElseThrow(
@@ -76,7 +76,7 @@ public class NotToDoService {
 
     public List<NotToDoListResponseDto> getNotToDoList(String accessToken, String orderBy){
 
-        AuthToken authToken = new AuthToken(key, accessToken);
+        AuthToken authToken = new AuthToken(accessToken, key);
         Long userId = authTokenProvider.getUserIdByToken(authToken);
 
         List<UserNotToDo> userNotToDoList = new ArrayList<>();

@@ -31,7 +31,7 @@ public class AuthToken {
         this.token = createAuthToken(socialId, role, expiry);
     }*/
 
-    public AuthToken(String key, String token) {
+    public AuthToken(String token, String key) {
         this.token = token;
         this.key = hmacShaKeyFor(key.getBytes());
     }
