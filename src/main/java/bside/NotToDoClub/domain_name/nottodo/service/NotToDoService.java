@@ -82,13 +82,11 @@ public class NotToDoService {
         List<UserNotToDo> userNotToDoList = new ArrayList<>();
 
         if(orderBy.equals("in_close")){
-            System.out.println("orderBy = " + orderBy);
             userNotToDoList = userNotToDoRepository.findAllByUserIdOrderByEndDate(userId).orElseThrow(
                     () -> new CustomException(ErrorCode.USER_NOT_TO_DO_NOT_FOUND)
             );
         }
         else if (orderBy.equals("in_distant")){
-            System.out.println("orderBy = " + orderBy);
             userNotToDoList = userNotToDoRepository.findAllByUserIdOrderByEndDateDesc(userId).orElseThrow(
                     () -> new CustomException(ErrorCode.USER_NOT_TO_DO_NOT_FOUND)
             );
@@ -124,6 +122,6 @@ public class NotToDoService {
     }
 
     public void deleteUserNotToDo(String accessToken, Long id){
-        userNotToDoRepository.deleteById(id);
+
     }
 }
