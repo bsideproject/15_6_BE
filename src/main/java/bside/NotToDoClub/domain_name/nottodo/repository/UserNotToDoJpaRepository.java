@@ -7,5 +7,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserNotToDoJpaRepository extends JpaRepository<UserNotToDo, Long> {
-    Optional<List<UserNotToDo>> findAllByUserId(Long userId);
+    Optional<List<UserNotToDo>> findAllByUserIdOrderByEndDate(Long userId);
+    Optional<List<UserNotToDo>> findAllByUserIdOrderByEndDateDesc(Long userId);
+
+    int countUserNotToDoByUserId(Long userId);
 }

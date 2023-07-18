@@ -12,7 +12,7 @@ public class NotToDoListResponseDto {
 
     private String notToDoText;
     private String goal;
-    private ProgressState progressState;
+    private String progressState;
     private String startDate;
     private String endDate;
     private String useYn;

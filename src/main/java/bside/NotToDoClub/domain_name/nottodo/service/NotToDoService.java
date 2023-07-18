@@ -47,6 +47,11 @@ public class NotToDoService {
                 () -> new CustomException(ErrorCode.USER_NOT_FOUND)
         );
 
+        int cnt = userNotToDoRepository.countUserNotToDoByUserId(user.getId());
+        if(cnt >= 7){
+            throw new CustomException(ErrorCode.REGISTER_NOT_TO_DO_LIMIT);
+        }
+
         List<String> cheerUpMsgList = new ArrayList<>();
         cheerUpMsgList.add(notToDoCreateRequestDto.getCheerUpMsg1());
         cheerUpMsgList.add(notToDoCreateRequestDto.getCheerUpMsg2());
@@ -66,42 +71,54 @@ public class NotToDoService {
                 .endDate(userNotToDo.getEndDate())
                 .build();
 
-
-        System.out.println("notToDoCreateRequestDto = " + notToDoCreateRequestDto.getNotToDoText());
-
         return notToDoCreateResponseDto;
     }
 
-    public List<NotToDoListResponseDto> getNotToDoList(String accessToken){
+    public List<NotToDoListResponseDto> getNotToDoList(String accessToken, String orderBy){
 
         AuthToken authToken = new AuthToken(key, accessToken);
         Long userId = authTokenProvider.getUserIdByToken(authToken);
 
-        List<UserNotToDo> userNotToDoList = userNotToDoRepository.findAllByUserId(userId).orElseThrow(
-                () -> new CustomException(ErrorCode.USER_NOT_TO_DO_NOT_FOUND)
-        );
+        List<UserNotToDo> userNotToDoList = new ArrayList<>();
+
+        if(orderBy.equals("in_close")){
+            System.out.println("orderBy = " + orderBy);
+            userNotToDoList = userNotToDoRepository.findAllByUserIdOrderByEndDate(userId).orElseThrow(
+                    () -> new CustomException(ErrorCode.USER_NOT_TO_DO_NOT_FOUND)
+            );
+        }
+        else if (orderBy.equals("in_distant")){
+            System.out.println("orderBy = " + orderBy);
+            userNotToDoList = userNotToDoRepository.findAllByUserIdOrderByEndDateDesc(userId).orElseThrow(
+                    () -> new CustomException(ErrorCode.USER_NOT_TO_DO_NOT_FOUND)
+            );
+        }
 
         LocalDate now = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
-        //String formatedNow = now.format(formatter);
 
-        for(UserNotToDo userNotToDo : userNotToDoList){
-            //DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일");
+        BooleanToYNConverter booleanToYNConverter = new BooleanToYNConverter();
+
+        List<NotToDoListResponseDto> notToDoListResponseDtoList = new ArrayList<>();
+        for(UserNotToDo userNotToDo : userNotToDoList) {
             LocalDate startDate = LocalDate.parse(userNotToDo.getStartDate(), formatter);
             LocalDate endDate = LocalDate.parse(userNotToDo.getEndDate(), formatter);
-            //if(startDate.compareTo(now) <= 0)
+
+            String progressState = userNotToDo.getProgressState().toString();
+            if(startDate.compareTo(now) <= 0 && endDate.compareTo(now) >= 0) progressState = "IN_PROGRESS";
+            else if(endDate.compareTo(now) < 0) progressState = "COMPLETE";
+
+            NotToDoListResponseDto notToDoListResponseDto = NotToDoListResponseDto.builder()
+                    .notToDoText(userNotToDo.getNotToDoText())
+                    .goal(userNotToDo.getGoal())
+                    .progressState(progressState)
+                    .startDate(userNotToDo.getStartDate())
+                    .endDate(userNotToDo.getEndDate())
+                    .useYn(booleanToYNConverter.convertToDatabaseColumn(userNotToDo.getUseYn()))
+                    .build();
+
+            notToDoListResponseDtoList.add(notToDoListResponseDto);
         }
-        BooleanToYNConverter booleanToYNConverter = new BooleanToYNConverter();
-        List<NotToDoListResponseDto> notToDoListResponseDtoList = userNotToDoList.stream()
-                .map(n -> NotToDoListResponseDto.builder()
-                        .notToDoText(n.getNotToDoText())
-                        .goal(n.getGoal())
-                        .progressState(n.getProgressState())
-                        .startDate(n.getStartDate())
-                        .endDate(n.getEndDate())
-                        .useYn(booleanToYNConverter.convertToDatabaseColumn(n.getUseYn()))
-                        .build())
-                .collect(Collectors.toList());
 
         return notToDoListResponseDtoList;
     }
