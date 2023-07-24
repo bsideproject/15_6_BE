@@ -107,4 +107,8 @@ public class UserNotToDo {
         cheerUpMessages.add(cheerUpMessage);
         cheerUpMessage.setUserNotToDo(this);
     }
+
+    public void updateUseYn(){
+        this.useYn = false;
+    }
 }

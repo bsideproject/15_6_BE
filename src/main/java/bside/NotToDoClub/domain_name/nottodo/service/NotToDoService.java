@@ -109,6 +109,7 @@ public class NotToDoService {
             else if(endDate.compareTo(now) < 0) progressState = "COMPLETE";
 
             NotToDoListResponseDto notToDoListResponseDto = NotToDoListResponseDto.builder()
+                    .notToDoId(userNotToDo.getId())
                     .notToDoText(userNotToDo.getNotToDoText())
                     .goal(userNotToDo.getGoal())
                     .progressState(progressState)
@@ -123,10 +124,17 @@ public class NotToDoService {
         return notToDoListResponseDtoList;
     }
 
-    public void deleteUserNotToDo(String accessToken, Long id){
+    @Transactional
+    public int deleteUserNotToDo(String accessToken, Long id){
         AuthToken authToken = new AuthToken(key, accessToken);
-        authTokenProvider.getUserIdByToken(authToken);
+        Long userId = authTokenProvider.getUserIdByToken(authToken);
 
-        userNotToDoRepository.deleteById(id);
+        UserNotToDo userNotToDo = userNotToDoRepository.findById(id).orElseThrow(
+                () -> new CustomException(ErrorCode.USER_NOT_TO_DO_NOT_FOUND)
+        );
+
+        userNotToDo.updateUseYn();
+
+        return 1;
     }
 }
