@@ -124,6 +124,9 @@ public class NotToDoService {
     }
 
     public void deleteUserNotToDo(String accessToken, Long id){
+        AuthToken authToken = new AuthToken(key, accessToken);
+        authTokenProvider.getUserIdByToken(authToken);
+
         userNotToDoRepository.deleteById(id);
     }
 }

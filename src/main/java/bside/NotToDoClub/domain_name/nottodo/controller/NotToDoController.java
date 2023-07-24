@@ -53,8 +53,11 @@ public class NotToDoController {
     /**
      * 낫투두 삭제
      */
-    @DeleteMapping("/")
-    public void deleteNotToDo(){
-
+    @DeleteMapping("/{notToDoId}")
+    public ResultResponse<Long> deleteNotToDo(
+            @RequestHeader(value="access-token")String accessToken,
+            @PathVariable(name = "notToDoId") Long id){
+        Long deleteId = notToDoService.deleteUserNotToDo(accessToken, id);
+        return ResultResponse.of(ResponseCode.DELETE_USER_NOT_TO_DO, deleteId);
     }
 }
