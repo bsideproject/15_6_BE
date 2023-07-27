@@ -1,5 +1,6 @@
 package bside.NotToDoClub.domain_name.user.respository;
 
+import bside.NotToDoClub.domain_name.nottodo.entity.UserNotToDo;
 import bside.NotToDoClub.domain_name.user.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
