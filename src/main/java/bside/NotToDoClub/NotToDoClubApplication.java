@@ -1,6 +1,5 @@
 package bside.NotToDoClub;
 
-import bside.NotToDoClub.config.NetworkUtil;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -16,7 +15,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 public class NotToDoClubApplication {
 
     public static void main(String[] args) {
-        NetworkUtil.disableSslVerification();
         SpringApplication.run(NotToDoClubApplication.class, args);
     }
 

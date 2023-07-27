@@ -3,6 +3,7 @@ package bside.NotToDoClub.domain_name.nottodo.service;
 import bside.NotToDoClub.config.AuthToken;
 import bside.NotToDoClub.config.AuthTokenProvider;
 import bside.NotToDoClub.domain_name.nottodo.dto.NotToDoListResponseDto;
+import bside.NotToDoClub.domain_name.nottodo.dto.NotToDoUpdateRequestDto;
 import bside.NotToDoClub.domain_name.nottodo.entity.CheerUpMessage;
 import bside.NotToDoClub.domain_name.nottodo.repository.CheerUpMessageJpaRepository;
 import bside.NotToDoClub.domain_name.nottodo.dto.NotToDoCreateRequestDto;
@@ -22,9 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -33,6 +32,7 @@ public class NotToDoService {
 
     private final AuthTokenProvider authTokenProvider;
     private final UserNotToDoJpaRepository userNotToDoRepository;
+    private final CheerUpMessageJpaRepository cheerUpMessageJpaRepository;
     private final UserJpaRepository userRepository;
 
     @Value("${app.auth.accessTokenSecret}")
@@ -52,14 +52,29 @@ public class NotToDoService {
             throw new CustomException(ErrorCode.REGISTER_NOT_TO_DO_LIMIT);
         }
 
-        List<String> cheerUpMsgList = new ArrayList<>();
-        cheerUpMsgList.add(notToDoCreateRequestDto.getCheerUpMsg1());
+        Map<Integer, String> cheerUpMsgMap = new HashMap<>();
+        cheerUpMsgMap.put(1, notToDoCreateRequestDto.getCheerUpMsg1());
+        cheerUpMsgMap.put(2, notToDoCreateRequestDto.getCheerUpMsg2());
+        cheerUpMsgMap.put(3, notToDoCreateRequestDto.getCheerUpMsg3());
+        /*cheerUpMsgList.add(notToDoCreateRequestDto.getCheerUpMsg1());
         cheerUpMsgList.add(notToDoCreateRequestDto.getCheerUpMsg2());
-        cheerUpMsgList.add(notToDoCreateRequestDto.getCheerUpMsg3());
+        cheerUpMsgList.add(notToDoCreateRequestDto.getCheerUpMsg3());*/
 
-        UserNotToDo newUserNotToDo = UserNotToDo.createUserNotToDo(notToDoCreateRequestDto, user, cheerUpMsgList);
+        UserNotToDo newUserNotToDo = UserNotToDo.createUserNotToDo(notToDoCreateRequestDto, user, cheerUpMsgMap);
 
         UserNotToDo userNotToDo = userNotToDoRepository.save(newUserNotToDo);
+
+        for (int i=1; i <= cheerUpMsgMap.size(); i++) {
+            CheerUpMessage newCheerUpMessage = CheerUpMessage.builder()
+                    .dspOrder(i)
+                    .userNotToDo(userNotToDo)
+                    .content(cheerUpMsgMap.get(i))
+                    .registerUser(user)
+                    .useYn(true)
+                    .build();
+
+            cheerUpMessageJpaRepository.save(newCheerUpMessage);
+        }
 
         NotToDoCreateResponseDto notToDoCreateResponseDto = NotToDoCreateResponseDto.builder()
                 .notToDoId(userNotToDo.getId())
@@ -123,6 +138,37 @@ public class NotToDoService {
 
         return notToDoListResponseDtoList;
     }
+
+    @Transactional
+    public Long updateUserNotToDo(String accessToken, Long id, NotToDoUpdateRequestDto notToDoUpdateRequestDto){
+        AuthToken authToken = new AuthToken(key, accessToken);
+        Long userId = authTokenProvider.getUserIdByToken(authToken);
+
+        UserNotToDo userNotToDo = userNotToDoRepository.findById(id).orElseThrow(
+                () -> new CustomException(ErrorCode.USER_NOT_TO_DO_NOT_FOUND)
+        );
+
+        Map<Integer, String> cheerUpMsgMap = new HashMap<>();
+        cheerUpMsgMap.put(1, notToDoUpdateRequestDto.getCheerUpMsg1());
+        cheerUpMsgMap.put(2, notToDoUpdateRequestDto.getCheerUpMsg2());
+        cheerUpMsgMap.put(3, notToDoUpdateRequestDto.getCheerUpMsg3());
+
+
+        userNotToDo.updateUserNotToDo(notToDoUpdateRequestDto, cheerUpMsgMap);
+
+        Long userNotToDoId = userNotToDo.getId();
+        for (int i=1; i <= cheerUpMsgMap.size(); i++) {
+            CheerUpMessage cheerUpMessage = cheerUpMessageJpaRepository.findByUserNotToDoIdAndDspOrder(userNotToDoId, i)
+                    .orElseThrow(
+                            () -> new CustomException(ErrorCode.CHEER_UP_MESSAGE_NOT_FOUND)
+                    );
+
+            cheerUpMessage.updateContent(cheerUpMsgMap.get(i));
+        }
+
+        return id;
+    }
+
 
     @Transactional
     public int deleteUserNotToDo(String accessToken, Long id){
