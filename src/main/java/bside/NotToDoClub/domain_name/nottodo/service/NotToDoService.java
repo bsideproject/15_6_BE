@@ -98,13 +98,13 @@ public class NotToDoService {
 
         if(orderBy.equals("in_close")){
             System.out.println("orderBy = " + orderBy);
-            userNotToDoList = userNotToDoRepository.findAllByUserIdOrderByEndDate(userId).orElseThrow(
+            userNotToDoList = userNotToDoRepository.findByUserIdAndUseYnOrderByEndDate(userId).orElseThrow(
                     () -> new CustomException(ErrorCode.USER_NOT_TO_DO_NOT_FOUND)
             );
         }
         else if (orderBy.equals("in_distant")){
             System.out.println("orderBy = " + orderBy);
-            userNotToDoList = userNotToDoRepository.findAllByUserIdOrderByEndDateDesc(userId).orElseThrow(
+            userNotToDoList = userNotToDoRepository.findByUserIdAndUseYnOrderByEndDateDesc(userId).orElseThrow(
                     () -> new CustomException(ErrorCode.USER_NOT_TO_DO_NOT_FOUND)
             );
         }

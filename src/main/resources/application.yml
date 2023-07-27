@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: local-my
+    active: local-mine
 
   jpa:
     database: mysql
@@ -10,5 +10,7 @@ spring:
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
         implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
-      format_sql: true
     open-in-view: true
+    properties:
+      hibernate:
+        format_sql: true
