@@ -5,13 +5,11 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-
 @Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class NotToDoCreateRequestDto {
+public class NotToDoUpdateRequestDto {
     private String notToDoText;
     private String startDate;
     private String endDate;

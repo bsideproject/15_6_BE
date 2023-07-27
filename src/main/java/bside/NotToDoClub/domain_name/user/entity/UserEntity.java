@@ -20,7 +20,8 @@ import java.util.List;
 
 @Entity
 @Builder
-@Getter @ToString
+@Getter
+@ToString(exclude = {"badges", "userNotToDoList", "cheerUpMessages"})
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "USER")
