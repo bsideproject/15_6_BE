@@ -1,6 +1,9 @@
 package bside.NotToDoClub.domain_name.user.controller;
 
+import bside.NotToDoClub.domain_name.nottodo.dto.CheerUpMessageDto;
+import bside.NotToDoClub.domain_name.nottodo.dto.NotToDoListResponseDto;
 import bside.NotToDoClub.domain_name.user.dto.UserDto;
+import bside.NotToDoClub.domain_name.user.dto.UserNotToDoStatusNumberDto;
 import bside.NotToDoClub.domain_name.user.dto.UserRequestDto;
 import bside.NotToDoClub.domain_name.user.dto.UserResponseDto;
 import bside.NotToDoClub.domain_name.user.service.UserLoginService;
@@ -11,7 +14,10 @@ import bside.NotToDoClub.global.response.ResultResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/user")
@@ -63,5 +69,32 @@ public class UserController {
         UserResponseDto userResponseDto = mapper.map(userDto, UserResponseDto.class);
 
         return ResultResponse.of(ResponseCode.DELETE_USER, userResponseDto);
+    }
+
+    @GetMapping("/get/nottodolist/inprogress")
+    public ResultResponse<List<NotToDoListResponseDto>> getInProgressNotToDoList(
+            @RequestHeader(value = "access-token") String accessToken
+    ){
+        List<NotToDoListResponseDto> inProgressUserNotTodoList = userService.findInProgressUserNotTodoList(accessToken);
+
+        return ResultResponse.of(ResponseCode.OK_, inProgressUserNotTodoList);
+    }
+
+    @GetMapping("/get/nottodoList/status/number")
+    public ResultResponse<UserNotToDoStatusNumberDto> getUserNotToDoListStatus(
+            @RequestHeader(value = "access-token") String accessToken
+    ){
+        UserNotToDoStatusNumberDto userNotToDoStatus = userService.getUserNotToDoStatus(accessToken);
+
+        return ResultResponse.of(ResponseCode.OK_, userNotToDoStatus);
+    }
+
+    @GetMapping("/get/cheeruplist")
+    public ResultResponse<List<CheerUpMessageDto>> getCheerUpMessages(
+            @RequestHeader(value = "access-token") String accessToken
+    ){
+        List<CheerUpMessageDto> cheerupList = userService.findCheerupList(accessToken);
+
+        return ResultResponse.of(ResponseCode.OK_, cheerupList);
     }
 }
