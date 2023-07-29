@@ -47,14 +47,14 @@ public class NotToDoController {
      * 낫투두 수정
      */
     @PutMapping("/{notToDoId}")
-    public Long updateNotToDo(
+    public ResultResponse<Long> updateNotToDo(
             @RequestHeader(value = "access-token") String accessToken,
             @PathVariable(name = "notToDoId") Long notToDoId,
             @RequestBody @Valid NotToDoUpdateRequestDto notToDoUpdateRequestDto){
 
         Long id = notToDoService.updateUserNotToDo(accessToken, notToDoId, notToDoUpdateRequestDto);
 
-        return id;
+        return ResultResponse.of(ResponseCode.UPDATE_USER_NOT_TO_DO, id);
     }
 
     /**
