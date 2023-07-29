@@ -166,7 +166,7 @@ public class NotToDoService {
             cheerUpMessage.updateContent(cheerUpMsgMap.get(i));
         }
 
-        return id;
+        return userNotToDoId;
     }
 
 
