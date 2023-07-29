@@ -44,6 +44,9 @@ public class CheerUpMessage {
     @Column(name = "CONTENT")
     private String content;
 
+    @Column(name = "DSP_ORDER")
+    private int dspOrder;
+
     @Column(name = "USE_YN")
     @Convert(converter = BooleanToYNConverter.class)
     private Boolean useYn;
@@ -55,4 +58,13 @@ public class CheerUpMessage {
     @Column(name = "MOD_DTM")
     @LastModifiedDate
     private LocalDateTime updatedAt;
+
+    public void setUserNotToDo(UserNotToDo userNotToDo){
+        this.userNotToDo = userNotToDo;
+        userNotToDo.getCheerUpMessages().add(this);
+    }
+
+    public void updateContent(String content){
+        this.content = content;
+    }
 }

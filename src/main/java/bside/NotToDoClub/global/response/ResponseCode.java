@@ -16,6 +16,8 @@ public enum ResponseCode {
     PROVIDE_APP_TOKEN(OK, "토큰 발급 성공"),
     GET_USER_NOT_TO_DO(OK, "사용자 낫투두 조회 성공"),
 
+    DELETE_USER_NOT_TO_DO(NO_CONTENT, "낫투두 삭제 완료"),
+
     TOS_AGREE(OK, "이용약관 동의 완료"),
 
     CREATE_USER_NOT_TO_DO(CREATED, "낫투두 생성 완료"),
@@ -26,7 +28,8 @@ public enum ResponseCode {
     DELETE_USER(OK, "사용자 정보 변경 성공"),
     UPDATE(OK, "업데이트 성공"),
     DELETE(OK, "삭제 성공"),
-    OK_(OK, "성공");
+    OK_(OK, "성공")
+    ;
 
     private HttpStatus status;
     private final String message;
