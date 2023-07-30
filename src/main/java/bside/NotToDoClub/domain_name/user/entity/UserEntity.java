@@ -1,6 +1,7 @@
 package bside.NotToDoClub.domain_name.user.entity;
 
 import bside.NotToDoClub.config.UserRole;
+import bside.NotToDoClub.domain_name.badge.entity.UserBadge;
 import bside.NotToDoClub.domain_name.inquiry.entity.Inquiry;
 import bside.NotToDoClub.domain_name.nottodo.entity.CheerUpMessage;
 import bside.NotToDoClub.domain_name.nottodo.entity.UserNotToDo;

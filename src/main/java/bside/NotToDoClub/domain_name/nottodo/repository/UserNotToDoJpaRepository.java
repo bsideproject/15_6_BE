@@ -21,4 +21,7 @@ public interface UserNotToDoJpaRepository extends JpaRepository<UserNotToDo, Lon
     Optional<UserNotToDo> findByIdAndUseYn(Long notToDoId);
 
     int countUserNotToDoByUserId(Long userId);
+
+    @Query("select count(n) from UserNotToDo n where n.user.id = :userId and n.useYn = true")
+    int countUserNotToDoByUserIdAndUseYn(Long userId);
 }

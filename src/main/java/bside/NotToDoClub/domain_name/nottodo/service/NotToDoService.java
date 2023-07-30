@@ -47,7 +47,7 @@ public class NotToDoService {
                 () -> new CustomException(ErrorCode.USER_NOT_FOUND)
         );
 
-        int cnt = userNotToDoRepository.countUserNotToDoByUserId(user.getId());
+        int cnt = userNotToDoRepository.countUserNotToDoByUserIdAndUseYn(user.getId());
         if(cnt >= 7){
             throw new CustomException(ErrorCode.REGISTER_NOT_TO_DO_LIMIT);
         }

@@ -1,6 +1,6 @@
-package bside.NotToDoClub.domain_name.user.entity;
+package bside.NotToDoClub.domain_name.badge.entity;
 
-import bside.NotToDoClub.domain_name.bedge.entity.Badge;
+import bside.NotToDoClub.domain_name.user.entity.UserEntity;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -43,4 +43,13 @@ public class UserBadge {
     @Column(name = "MOD_DTM")
     @LastModifiedDate
     private LocalDateTime updatedAt;
+
+    public void setUser(UserEntity user){
+        this.user = user;
+        user.getBadges().add(this);
+    }
+
+    public void createUserBadge(UserBadgeDto userBadgeDto){
+
+    }
 }
