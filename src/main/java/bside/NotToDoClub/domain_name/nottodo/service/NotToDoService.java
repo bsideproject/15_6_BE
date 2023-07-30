@@ -141,7 +141,7 @@ public class NotToDoService {
 
     @Transactional
     public Long updateUserNotToDo(String accessToken, Long id, NotToDoUpdateRequestDto notToDoUpdateRequestDto){
-        AuthToken authToken = new AuthToken(key, accessToken);
+        AuthToken authToken = new AuthToken(accessToken, key);
         Long userId = authTokenProvider.getUserIdByToken(authToken);
 
         UserNotToDo userNotToDo = userNotToDoRepository.findById(id).orElseThrow(
@@ -172,11 +172,11 @@ public class NotToDoService {
 
     @Transactional
     public int deleteUserNotToDo(String accessToken, Long id){
-        AuthToken authToken = new AuthToken(key, accessToken);
+        AuthToken authToken = new AuthToken(accessToken, key);
         Long userId = authTokenProvider.getUserIdByToken(authToken);
 
-        UserNotToDo userNotToDo = userNotToDoRepository.findById(id).orElseThrow(
-                () -> new CustomException(ErrorCode.USER_NOT_TO_DO_NOT_FOUND)
+        UserNotToDo userNotToDo = userNotToDoRepository.findByIdAndUseYn(id).orElseThrow(
+                () -> new CustomException(ErrorCode.ALREADY_USER_NOT_TO_DO_DELETE)
         );
 
         userNotToDo.updateUseYn();

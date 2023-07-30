@@ -17,5 +17,8 @@ public interface UserNotToDoJpaRepository extends JpaRepository<UserNotToDo, Lon
     @Query("select n from UserNotToDo n where n.user.id = :userId and n.useYn = true order by n.endDate desc")
     Optional<List<UserNotToDo>> findByUserIdAndUseYnOrderByEndDateDesc(Long userId);
 
+    @Query("select n from UserNotToDo n where n.id = :notToDoId and n.useYn = true")
+    Optional<UserNotToDo> findByIdAndUseYn(Long notToDoId);
+
     int countUserNotToDoByUserId(Long userId);
 }
