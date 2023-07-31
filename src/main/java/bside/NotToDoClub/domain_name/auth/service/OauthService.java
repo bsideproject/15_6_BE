@@ -12,6 +12,6 @@ public interface OauthService {
 
     String getRedirectUrl(Constant.SocialLoginType socialLoginType) throws IOException;
     GoogleUserInfoDto getGoogleUserInfo(String code) throws JsonProcessingException;
-    KakaoUserInfoDto getKakaoUserInfo(String code) throws JsonProcessingException;
+    KakaoUserInfoDto getKakaoUserInfo(String code, String redirectUri) throws JsonProcessingException;
     AppleUserInfoDto getAppleUserInfo(String code) throws Exception;
 }

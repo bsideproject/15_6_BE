@@ -61,7 +61,7 @@ public class KakaoOauth implements SocialOauth{
          * */
     }
 
-    public ResponseEntity<String> requestAccessToken(String code) {
+    public ResponseEntity<String> requestAccessToken(String code, String redirectUri) {
         RestTemplate restTemplate = new RestTemplate();
 
         //Access-Token 받기
@@ -71,12 +71,13 @@ public class KakaoOauth implements SocialOauth{
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("grant_type", "authorization_code");
         params.add("client_id", KAKAO_REST_API_KEY);
-        params.add("redirect_uri", KAKAO_REDIRECT_URL);
+        params.add("redirect_uri", redirectUri);
         params.add("code", code);
 
 
         HttpEntity<MultiValueMap<String, String>> kakaoRequest = new HttpEntity<>(params, headersAccess);
         log.info("kakao token request uri = {}", KAKAO_TOKEN_REQUEST_URL);
+        log.info("redirect Uri = {}", redirectUri);
         log.info("kakao token request parameters = {}", params);
 
         ResponseEntity<String> responseEntity = restTemplate.postForEntity(KAKAO_TOKEN_REQUEST_URL, kakaoRequest, String.class);

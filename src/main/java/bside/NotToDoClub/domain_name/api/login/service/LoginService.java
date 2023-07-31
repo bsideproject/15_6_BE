@@ -68,8 +68,8 @@ public class LoginService {
     }
 
     @Transactional
-    public AuthResponse kakaoLogin(String code) throws JsonProcessingException {
-        KakaoUserInfoDto kakaoUser = oAuthService.getKakaoUserInfo(code);
+    public AuthResponse kakaoLogin(String code, String redirectUri) throws JsonProcessingException {
+        KakaoUserInfoDto kakaoUser = oAuthService.getKakaoUserInfo(code, redirectUri);
 
         //AuthToken appToken = authTokenProvider.createUserAppToken(kakaoUser.getKakao_account().getEmail());
         TokenDto tokenDto = authTokenProvider.createAccessToken(kakaoUser.getKakao_account().getEmail(), UserRole.USER);
