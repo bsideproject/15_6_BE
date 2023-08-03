@@ -9,7 +9,7 @@ import java.util.Date;
 @Getter
 @Builder
 public class NotToDoListResponseDto {
-
+    private long notToDoId;
     private String notToDoText;
     private String goal;
     private String progressState;

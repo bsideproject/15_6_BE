@@ -19,6 +19,8 @@ public enum ErrorCode {
     /* 404 NOT_FOUND : Resource 를 찾을 수 없음 */
     USER_NOT_FOUND(NOT_FOUND, "해당 유저 정보를 찾을 수 없습니다"),
     USER_NOT_TO_DO_NOT_FOUND(NOT_FOUND, "사용자의 낫투두 정보를 찾을 수 없습니다."),
+    CHEER_UP_MESSAGE_NOT_FOUND(NOT_FOUND, "해당 낫투두 ID의 응원메시지를 찾을 수 없습니다."),
+    ALREADY_USER_NOT_TO_DO_DELETE(NOT_FOUND, "삭제된 낫투두입니다."),
 
     /* 409 CONFLICT : Resource 의 현재 상태와 충돌. 보통 중복된 데이터 존재 */
     DUPLICATE_RESOURCE(CONFLICT, "데이터가 이미 존재합니다"),

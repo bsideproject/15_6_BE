@@ -71,8 +71,8 @@ public class OauthServiceImplV1 implements OauthService {
     }
 
     @Override
-    public KakaoUserInfoDto getKakaoUserInfo(String code) throws JsonProcessingException {
-        ResponseEntity<String> accessTokenResponse = kakaoOauth.requestAccessToken(code);
+    public KakaoUserInfoDto getKakaoUserInfo(String code, String redirectUri) throws JsonProcessingException {
+        ResponseEntity<String> accessTokenResponse = kakaoOauth.requestAccessToken(code, redirectUri);
         KakaoOAuthTokenDto oAuthToken = kakaoOauth.getAccessToken(accessTokenResponse);
         ResponseEntity<String> userInfoResponse = kakaoOauth.requestUserInfo(oAuthToken);
         KakaoUserInfoDto kakaoUser = kakaoOauth.getUserInfo(userInfoResponse);

@@ -3,6 +3,7 @@ package bside.NotToDoClub.domain_name.nottodo.controller;
 import bside.NotToDoClub.domain_name.nottodo.dto.NotToDoCreateRequestDto;
 import bside.NotToDoClub.domain_name.nottodo.dto.NotToDoCreateResponseDto;
 import bside.NotToDoClub.domain_name.nottodo.dto.NotToDoListResponseDto;
+import bside.NotToDoClub.domain_name.nottodo.dto.NotToDoUpdateRequestDto;
 import bside.NotToDoClub.domain_name.nottodo.service.NotToDoService;
 import bside.NotToDoClub.global.response.ResponseCode;
 import bside.NotToDoClub.global.response.ResultResponse;
@@ -53,16 +54,26 @@ public class NotToDoController {
     /**
      * 낫투두 수정
      */
-    @PutMapping("/")
-    public void updateNotToDo(){
+    @PutMapping("/{notToDoId}")
+    public ResultResponse<Long> updateNotToDo(
+            @RequestHeader(value = "access-token") String accessToken,
+            @PathVariable(name = "notToDoId") Long notToDoId,
+            @RequestBody @Valid NotToDoUpdateRequestDto notToDoUpdateRequestDto){
 
+        Long id = notToDoService.updateUserNotToDo(accessToken, notToDoId, notToDoUpdateRequestDto);
+
+        return ResultResponse.of(ResponseCode.UPDATE_USER_NOT_TO_DO, id);
     }
 
     /**
      * 낫투두 삭제
      */
-    @DeleteMapping("/")
-    public void deleteNotToDo(){
+    @DeleteMapping("/{notToDoId}")
+    public ResultResponse<Integer> deleteNotToDo(
+            @RequestHeader(value="access-token")String accessToken,
+            @PathVariable(name = "notToDoId") Long id){
+        int result = notToDoService.deleteUserNotToDo(accessToken, id);
 
+        return ResultResponse.of(ResponseCode.DELETE_USER_NOT_TO_DO, result);
     }
 }
