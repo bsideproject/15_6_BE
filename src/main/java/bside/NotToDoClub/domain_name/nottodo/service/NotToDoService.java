@@ -5,7 +5,6 @@ import bside.NotToDoClub.config.AuthTokenProvider;
 import bside.NotToDoClub.domain_name.nottodo.dto.*;
 import bside.NotToDoClub.domain_name.nottodo.entity.CheerUpMessage;
 import bside.NotToDoClub.domain_name.nottodo.repository.CheerUpMessageJpaRepository;
-import bside.NotToDoClub.domain_name.nottodo.entity.ProgressState;
 import bside.NotToDoClub.domain_name.nottodo.entity.UserNotToDo;
 import bside.NotToDoClub.domain_name.nottodo.repository.UserNotToDoJpaRepository;
 import bside.NotToDoClub.domain_name.user.entity.UserEntity;
@@ -86,7 +85,7 @@ public class NotToDoService {
         return notToDoCreateResponseDto;
     }
 
-    public List<NotToDoListDto> getNotToDoList(String accessToken, String orderBy){
+    public List<NotToDoListCUMsgResponseDto> getNotToDoList(String accessToken, String orderBy){
 
         AuthToken authToken = new AuthToken(accessToken, key);
         Long userId = authTokenProvider.getUserIdByToken(authToken);
@@ -113,12 +112,12 @@ public class NotToDoService {
 
         //List<NotToDoListDto> notToDoListDtoList =
 
-        List<NotToDoListDto> ntdlist = userNotToDoList.stream()
-                .map(o -> new NotToDoListDto(o))
+        List<NotToDoListCUMsgResponseDto> ntdlist = userNotToDoList.stream()
+                .map(o -> new NotToDoListCUMsgResponseDto(o))
                 .collect(Collectors.toList());
 
         //List<NotToDoListResponseDto> notToDoListResponseDtoList = new ArrayList<>();
-        for(NotToDoListDto userNotToDo : ntdlist) {
+        for(NotToDoListCUMsgResponseDto userNotToDo : ntdlist) {
             LocalDate startDate = LocalDate.parse(userNotToDo.getStartDate(), formatter);
             LocalDate endDate = LocalDate.parse(userNotToDo.getEndDate(), formatter);
             //String startDate = userNotToDo.getStartDate();

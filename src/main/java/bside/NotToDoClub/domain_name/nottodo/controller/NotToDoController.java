@@ -24,8 +24,8 @@ public class NotToDoController {
      * 낫투두 리스트 조회
      */
     @GetMapping("/list")
-    public ResultResponse<List<NotToDoListDto>> getNotToDoList(@RequestHeader(value="access-token")String accessToken, @RequestParam(required = false, defaultValue = "in_close") String orderBy){
-        List<NotToDoListDto> notToDoListResponseDto = notToDoService.getNotToDoList(accessToken, orderBy);
+    public ResultResponse<List<NotToDoListCUMsgResponseDto>> getNotToDoList(@RequestHeader(value="access-token")String accessToken, @RequestParam(required = false, defaultValue = "in_close") String orderBy){
+        List<NotToDoListCUMsgResponseDto> notToDoListResponseDto = notToDoService.getNotToDoList(accessToken, orderBy);
         return ResultResponse.of(ResponseCode.GET_USER_NOT_TO_DO, notToDoListResponseDto);
     }
 

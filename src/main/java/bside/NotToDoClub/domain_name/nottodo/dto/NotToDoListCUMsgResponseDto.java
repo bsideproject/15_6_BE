@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 @Getter
 @Builder
 @AllArgsConstructor
-public class NotToDoListDto {
+public class NotToDoListCUMsgResponseDto {
     private long notToDoId;
     private String notToDoText;
     private String goal;
@@ -22,7 +22,7 @@ public class NotToDoListDto {
     private String useYn;
     List<CheerUpMessageNtdDto> cheerUpMessageList;
 
-    public NotToDoListDto(UserNotToDo userNotToDo){
+    public NotToDoListCUMsgResponseDto(UserNotToDo userNotToDo){
 
         BooleanToYNConverter booleanToYNConverter = new BooleanToYNConverter();
         notToDoId = userNotToDo.getId();
