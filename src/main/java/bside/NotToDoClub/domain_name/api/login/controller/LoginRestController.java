@@ -43,7 +43,7 @@ public class LoginRestController {
     @PostMapping("/auth/kakao-callback")
     public ResultResponse<AuthResponse> kakaoCallback(@RequestBody AuthRequestDto authRequestDto) throws IOException{
         log.info("kakao login code = {}", authRequestDto.getCode());
-        AuthResponse authResponse = loginService.kakaoLogin(authRequestDto.getCode());
+        AuthResponse authResponse = loginService.kakaoLogin(authRequestDto.getCode(), authRequestDto.getRedirectUri());
         return ResultResponse.of(ResponseCode.PROVIDE_APP_TOKEN, authResponse);
     }
 
@@ -57,7 +57,8 @@ public class LoginRestController {
     @GetMapping("/kakao")
     public ResultResponse<AuthResponse> kakaoCallbacks(@RequestParam(name="code") String code) throws IOException {
         log.info("kakao login code = {}", code);
-        AuthResponse authResponse = loginService.kakaoLogin(code);
+        String dummyUri = "http://localhost:8080/login/kakao";
+        AuthResponse authResponse = loginService.kakaoLogin(code, dummyUri);
         return ResultResponse.of(ResponseCode.PROVIDE_APP_TOKEN, authResponse);
     }
 
