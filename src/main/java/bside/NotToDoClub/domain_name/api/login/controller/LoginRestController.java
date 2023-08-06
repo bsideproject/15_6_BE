@@ -10,6 +10,7 @@ import bside.NotToDoClub.domain_name.user.service.UserLoginService;
 import bside.NotToDoClub.global.response.AuthResponse;
 import bside.NotToDoClub.global.response.ResponseCode;
 import bside.NotToDoClub.global.response.ResultResponse;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -76,6 +77,7 @@ public class LoginRestController {
     }
 
     @PutMapping("/auto-login")
+    @Operation(summary = "자동 로그인", description = "자동 로그인 동의 여부 API")
     public ResultResponse<UserResponseDto> autoLoginAgree(
             @RequestHeader(value="access-token")String accessToken,
             @RequestParam(name = "yn") Boolean autoLogin){
