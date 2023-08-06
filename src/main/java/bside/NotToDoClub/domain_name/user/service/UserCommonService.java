@@ -7,10 +7,11 @@ import bside.NotToDoClub.domain_name.user.respository.UserJpaRepository;
 import bside.NotToDoClub.global.error.CustomException;
 import bside.NotToDoClub.global.error.ErrorCode;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-@Service
+@Service @Slf4j
 @RequiredArgsConstructor
 public class UserCommonService {
 
@@ -24,8 +25,10 @@ public class UserCommonService {
         AuthToken authToken = new AuthToken(accessToken, key);
         String email = authTokenProvider.getEmailByToken(authToken);
 
-        UserEntity userEntity = userJpaRepository.findByLoginId(email).orElseThrow(
-                () -> new CustomException(ErrorCode.USER_NOT_FOUND)
+        UserEntity userEntity = userJpaRepository.findByLoginId(email).orElseThrow(() -> {
+                log.error("can not find {} user", email);
+                return new CustomException(ErrorCode.USER_NOT_FOUND);
+            }
         );
 
         return userEntity;

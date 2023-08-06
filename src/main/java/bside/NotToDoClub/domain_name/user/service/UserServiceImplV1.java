@@ -46,7 +46,10 @@ public class UserServiceImplV1 implements UserService{
         UserEntity userEntity = userCommonService.checkUserByToken(accessToken);
 
         UserEntity deleteUser = userJpaRepository
-                .deleteByAccessToken(userEntity.getAccessToken()).get();
+                .deleteByAccessToken(userEntity.getAccessToken()).orElseThrow(()->{
+                    log.error("no {} user for delete", userEntity.getLoginId());
+                    return new RuntimeException("해당 유저가 존재하지 않습니다.");
+                });
 
         UserDto userDto = mapper.map(deleteUser, UserDto.class);
 
