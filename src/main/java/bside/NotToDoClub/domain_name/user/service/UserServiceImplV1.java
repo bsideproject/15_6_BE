@@ -1,10 +1,13 @@
 package bside.NotToDoClub.domain_name.user.service;
 
+import bside.NotToDoClub.domain_name.inquiry.entity.Inquiry;
+import bside.NotToDoClub.domain_name.inquiry.repository.InquiryJpaRepository;
 import bside.NotToDoClub.domain_name.nottodo.dto.CheerUpMessageDto;
 import bside.NotToDoClub.domain_name.nottodo.dto.NotToDoListResponseDto;
 import bside.NotToDoClub.domain_name.nottodo.entity.CheerUpMessage;
 import bside.NotToDoClub.domain_name.nottodo.entity.ProgressState;
 import bside.NotToDoClub.domain_name.nottodo.entity.UserNotToDo;
+import bside.NotToDoClub.domain_name.nottodo.repository.CheerUpMessageJpaRepository;
 import bside.NotToDoClub.domain_name.nottodo.repository.UserNotToDoJpaRepository;
 import bside.NotToDoClub.domain_name.user.dto.UserDto;
 import bside.NotToDoClub.domain_name.user.dto.UserNotToDoStatusNumberDto;
@@ -27,6 +30,8 @@ public class UserServiceImplV1 implements UserService{
 
     private final UserJpaRepository userJpaRepository;
     private final UserNotToDoJpaRepository userNotToDoJpaRepository;
+    private final InquiryJpaRepository inquiryJpaRepository;
+    private final CheerUpMessageJpaRepository cheerUpMessageJpaRepository;
     private final ModelMapper mapper;
     private final UserCommonService userCommonService;
 
@@ -48,17 +53,25 @@ public class UserServiceImplV1 implements UserService{
 
         log.info("delete {} user", userEntity.getLoginId());
 
+//        List<UserNotToDo> userNotToDos = userNotToDoJpaRepository.findByUserId(userEntity.getId()).orElseThrow();
+//        List<Inquiry> inquiries = inquiryJpaRepository.findByUserId(userEntity.getId()).orElseThrow();
+//        List<CheerUpMessage> cheerUpMessages = cheerUpMessageJpaRepository.findByUserId(userEntity.getId()).orElseThrow();
+//
+////        System.out.println(userNotToDos);
+////        System.out.println(inquiries);
+////        System.out.println(cheerUpMessages);
+////
+//        userNotToDos.forEach(userNotToDo -> {
+//            userNotToDoJpaRepository.deleteById(userNotToDo.getId());
+//        });
+//        inquiries.forEach(inquiry -> {
+//            inquiryJpaRepository.deleteById(inquiry.getId());
+//        });
+//        cheerUpMessages.forEach(cheerUpMessage -> {
+//            cheerUpMessageJpaRepository.deleteById(cheerUpMessage.getId());
+//        });
+
         userJpaRepository.deleteByLoginId(userEntity.getLoginId());
-
-//        UserEntity deleteUser = userJpaRepository.dele(userEntity.getLoginId()).orElseThrow(()->{
-//                    log.error("no {} user for delete", userEntity.getLoginId());
-//                    return new RuntimeException("해당 유저가 존재하지 않습니다.");
-//                });
-//                .deleteByAccessToken(userEntity.getAccessToken()).orElseThrow(()->{
-//                    log.error("no {} user for delete", userEntity.getLoginId());
-//                    return new RuntimeException("해당 유저가 존재하지 않습니다.");
-//                });
-
         UserDto userDto = mapper.map(userEntity, UserDto.class);
 
         return userDto;
