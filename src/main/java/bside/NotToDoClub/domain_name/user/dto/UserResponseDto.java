@@ -10,14 +10,14 @@ import lombok.NoArgsConstructor;
 public class UserResponseDto {
 
     private String nickname;
-    private String email;
+    private String loginId;
     private String profileImgUrl;
     private String tosYn;
 
     @Builder
-    public UserResponseDto(String nickname, String email, String profileImgUrl, String tosYn) {
+    public UserResponseDto(String nickname, String loginId, String profileImgUrl, String tosYn) {
         this.nickname = nickname;
-        this.email = email;
+        this.loginId = loginId;
         this.profileImgUrl = profileImgUrl;
         this.tosYn = tosYn;
     }

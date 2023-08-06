@@ -44,10 +44,10 @@ public class UserController {
         BooleanToYNConverter booleanToYNConverter = new BooleanToYNConverter();
 
         UserResponseDto userResponseDto = UserResponseDto.builder()
-                .email(findUser.getLoginId())
+                .loginId(findUser.getLoginId())
                 .nickname(findUser.getNickname())
                 .profileImgUrl(findUser.getProfileImgUrl())
-                .tosYn(findUser.getTosYn())
+                .tosYn(booleanToYNConverter.convertToDatabaseColumn(findUser.getTosYn()))
                 .build();
 
         return ResultResponse.of(ResponseCode.GET_USER_INFO, userResponseDto);
