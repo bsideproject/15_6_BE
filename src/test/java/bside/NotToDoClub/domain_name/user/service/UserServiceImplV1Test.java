@@ -28,4 +28,13 @@ class UserServiceImplV1Test {
         UserDto loginUserInfo = userLoginService.getLoginUserInfo(accessToken);
         assertEquals(loginUserInfo.getNickname(), "임준섭");
     }
+
+    @Test
+    void deleteTest(){
+        String accessToken = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJoYXB5MTk5NUBuYXZlci5jb20iLCJyb2xlcyI6IlVTRVIiLCJpYXQiOjE2ODk2ODk3MDMsImV4cCI6MTY5MjI4MTcwM30.WgcCUcgPs1HoTaEtsJU5koNZc27SDw_fcUMxY8gSIts";
+
+        UserDto userDto = userService.deleteUser(accessToken);
+
+        System.out.println(userDto);
+    }
 }

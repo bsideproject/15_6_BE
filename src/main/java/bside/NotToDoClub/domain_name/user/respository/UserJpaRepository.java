@@ -27,4 +27,5 @@ public interface UserJpaRepository extends JpaRepository<UserEntity, Long> {
             "join fetch u.cheerUpMessages "+
             "where u.loginId = :loginId ")
     Optional<UserEntity> getUserCheerUpListByLoginId(String loginId);
+
 }

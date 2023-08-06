@@ -88,19 +88,23 @@ public class UserEntity {
      * user - badge
      * N:M 관계 테이블 매핑을 위한 user-badge 테이블
      */
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY,
+            orphanRemoval = true)
     @Builder.Default
     private List<UserBadge> badges = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY,
+            orphanRemoval = true)
     @Builder.Default
     private List<UserNotToDo> userNotToDoList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY,
+            orphanRemoval = true)
     @Builder.Default
     private List<Inquiry> userInquiryList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "registerUser", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "registerUser", fetch = FetchType.LAZY,
+            orphanRemoval = true)
     @Builder.Default
     private List<CheerUpMessage> cheerUpMessages = new ArrayList<>();
 
