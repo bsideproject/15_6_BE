@@ -25,7 +25,6 @@ public class NotToDoController {
      * 낫투두 리스트 조회
      */
     @GetMapping("/list")
-<<<<<<< HEAD
     @Operation(summary = "[#2 홈 메인 - 2]낫 투 두 리스트 조회", description = "#2 홈 메인 - " +
             "2번 홈 탭 케이스 구분\n" +
             "등록된 낫투두 없는 케이스\n" +
