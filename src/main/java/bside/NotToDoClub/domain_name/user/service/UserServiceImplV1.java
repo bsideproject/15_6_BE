@@ -15,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.nio.file.LinkOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -68,9 +69,13 @@ public class UserServiceImplV1 implements UserService{
     @Override
     public List<CheerUpMessageDto> findCheerupList(String accessToken) {
         UserEntity userEntity = userCommonService.checkUserByToken(accessToken);
+        log.info(userEntity.getLoginId());
 
-        UserEntity findUser = userJpaRepository.getUserCheerUpListByLoginId(userEntity.getLoginId()).orElseThrow(() ->
+        UserEntity userEntity1 = userJpaRepository.findByLoginId(userEntity.getLoginId()).orElseThrow(() ->
                 new RuntimeException());
+        log.info(userEntity1.toString());
+
+        UserEntity findUser = userJpaRepository.getUserCheerUpListByLoginId(userEntity.getLoginId()).orElseThrow(RuntimeException::new);
 
         List<CheerUpMessage> cheerUpMessages = findUser.getCheerUpMessages();
 
