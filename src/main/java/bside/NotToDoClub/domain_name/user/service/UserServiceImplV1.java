@@ -5,6 +5,7 @@ import bside.NotToDoClub.domain_name.nottodo.dto.NotToDoListResponseDto;
 import bside.NotToDoClub.domain_name.nottodo.entity.CheerUpMessage;
 import bside.NotToDoClub.domain_name.nottodo.entity.ProgressState;
 import bside.NotToDoClub.domain_name.nottodo.entity.UserNotToDo;
+import bside.NotToDoClub.domain_name.nottodo.repository.UserNotToDoJpaRepository;
 import bside.NotToDoClub.domain_name.user.dto.UserDto;
 import bside.NotToDoClub.domain_name.user.dto.UserNotToDoStatusNumberDto;
 import bside.NotToDoClub.domain_name.user.entity.UserEntity;
@@ -24,12 +25,9 @@ import java.util.stream.Collectors;
 public class UserServiceImplV1 implements UserService{
 
     private final UserJpaRepository userJpaRepository;
+    private final UserNotToDoJpaRepository userNotToDoJpaRepository;
     private final ModelMapper mapper;
-//    private final AuthTokenProvider authTokenProvider;
     private final UserCommonService userCommonService;
-
-//    @Value("${app.auth.accessTokenSecret}")
-//    private String key;
 
     @Override
     public UserDto updateUserNickname(String accessToken, String nickname) {
@@ -71,7 +69,10 @@ public class UserServiceImplV1 implements UserService{
     public List<CheerUpMessageDto> findCheerupList(String accessToken) {
         UserEntity userEntity = userCommonService.checkUserByToken(accessToken);
 
-        List<CheerUpMessage> cheerUpMessages = userEntity.getCheerUpMessages();
+        UserEntity findUser = userJpaRepository.getUserCheerUpListByLoginId(userEntity.getLoginId()).orElseThrow(() ->
+                new RuntimeException());
+
+        List<CheerUpMessage> cheerUpMessages = findUser.getCheerUpMessages();
 
         List<CheerUpMessageDto> result = new ArrayList<>();
         for(CheerUpMessage cheerUpMessage : cheerUpMessages){
@@ -101,7 +102,11 @@ public class UserServiceImplV1 implements UserService{
     private List<UserNotToDo> getUserNotToDoListInStatus(String accessToken, ProgressState progressState){
         UserEntity userEntity = userCommonService.checkUserByToken(accessToken);
 
-        List<UserNotToDo> userNotToDoList = userEntity.getUserNotToDoList();
+//        List<UserNotToDo> userNotToDoList = userEntity.getUserNotToDoList();
+
+        UserEntity findUser = userJpaRepository.getUserNotToDoByLoginId(userEntity.getLoginId()).orElseThrow(() ->
+                new RuntimeException());
+        List<UserNotToDo> userNotToDoList = findUser.getUserNotToDoList();
 
         List<UserNotToDo> userNotToDosInProgress = userNotToDoList.stream()
                 .filter(userNotToDo -> userNotToDo.getProgressState()
