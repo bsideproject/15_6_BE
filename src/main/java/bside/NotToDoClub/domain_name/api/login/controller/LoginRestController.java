@@ -5,6 +5,7 @@ import bside.NotToDoClub.domain_name.api.login.service.LoginService;
 import bside.NotToDoClub.domain_name.auth.dto.AuthRequestDto;
 import bside.NotToDoClub.domain_name.auth.service.OauthService;
 import bside.NotToDoClub.domain_name.user.dto.UserRequestDto;
+import bside.NotToDoClub.domain_name.user.dto.UserResponseDto;
 import bside.NotToDoClub.domain_name.user.service.UserLoginService;
 import bside.NotToDoClub.global.response.AuthResponse;
 import bside.NotToDoClub.global.response.ResponseCode;
@@ -72,5 +73,13 @@ public class LoginRestController {
     public ResultResponse<String> tosAgree(@RequestHeader(value="access-token")String accessToken){
         String tosYn = userService.tosAgree(accessToken);
         return ResultResponse.of(ResponseCode.TOS_AGREE, tosYn);
+    }
+
+    @PutMapping("/auto-login")
+    public ResultResponse<UserResponseDto> autoLoginAgree(
+            @RequestHeader(value="access-token")String accessToken,
+            @RequestParam(name = "yn") Boolean autoLogin){
+        UserResponseDto result = userService.autoLoginAgree(accessToken, autoLogin);
+        return ResultResponse.of(ResponseCode.AUTO_LOGIN_AGREE, result);
     }
 }

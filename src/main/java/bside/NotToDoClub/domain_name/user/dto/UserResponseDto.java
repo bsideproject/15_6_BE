@@ -13,12 +13,14 @@ public class UserResponseDto {
     private String loginId;
     private String profileImgUrl;
     private Boolean tosYn;
+    private Boolean autoLoginYn;
 
     @Builder
-    public UserResponseDto(String nickname, String loginId, String profileImgUrl, Boolean tosYn) {
+    public UserResponseDto(String nickname, String loginId, String profileImgUrl, Boolean tosYn, Boolean autoLoginYn) {
         this.nickname = nickname;
         this.loginId = loginId;
         this.profileImgUrl = profileImgUrl;
         this.tosYn = tosYn;
+        this.autoLoginYn = autoLoginYn;
     }
 }
