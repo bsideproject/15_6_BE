@@ -84,6 +84,10 @@ public class UserEntity {
     @Convert(converter = BooleanToYNConverter.class)
     private boolean tosYn;
 
+    @Column(name = "AUTO_LOGIN_YN", length = 2)
+    @Convert(converter = BooleanToYNConverter.class)
+    private boolean autoLoginYn = false;
+
     /**
      * user - badge
      * N:M 관계 테이블 매핑을 위한 user-badge 테이블
@@ -145,5 +149,9 @@ public class UserEntity {
 
     public void updateRefreshToken(String refreshToken){
         this.refreshToken = refreshToken;
+    }
+
+    public void updateAutoLoginYn(Boolean autoLoginYn){
+        this.autoLoginYn = autoLoginYn;
     }
 }

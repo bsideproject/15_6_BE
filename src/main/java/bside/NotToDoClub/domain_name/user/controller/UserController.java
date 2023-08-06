@@ -48,6 +48,7 @@ public class UserController {
                 .nickname(findUser.getNickname())
                 .profileImgUrl(findUser.getProfileImgUrl())
                 .tosYn(findUser.getTosYn())
+                .autoLoginYn(findUser.getAutoLoginYn())
                 .build();
 
         return ResultResponse.of(ResponseCode.GET_USER_INFO, userResponseDto);

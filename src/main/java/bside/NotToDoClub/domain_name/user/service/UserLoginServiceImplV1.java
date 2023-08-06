@@ -2,6 +2,7 @@ package bside.NotToDoClub.domain_name.user.service;
 import bside.NotToDoClub.config.AuthToken;
 import bside.NotToDoClub.config.AuthTokenProvider;
 import bside.NotToDoClub.domain_name.user.dto.UserDto;
+import bside.NotToDoClub.domain_name.user.dto.UserResponseDto;
 import bside.NotToDoClub.domain_name.user.entity.UserEntity;
 import bside.NotToDoClub.domain_name.user.respository.UserJpaRepository;
 import bside.NotToDoClub.global.BooleanToYNConverter;
@@ -166,6 +167,22 @@ public class UserLoginServiceImplV1 implements UserLoginService {
         BooleanToYNConverter booleanToYNConverter = new BooleanToYNConverter();
 
         return booleanToYNConverter.convertToDatabaseColumn(userEntity.isTosYn());
+    }
+
+    @Override
+    public UserResponseDto autoLoginAgree(String accessToken, Boolean autoLogin) {
+        AuthToken authToken = new AuthToken(accessToken, key);
+        String email = authTokenProvider.getEmailByToken(authToken);
+
+        UserEntity userEntity = userRepository.findByLoginId(email).orElseThrow(
+                () -> new CustomException(ErrorCode.USER_NOT_FOUND)
+        );
+        userEntity.updateAutoLoginYn(autoLogin);
+        UserEntity savedUser = userRepository.save(userEntity);
+
+        UserResponseDto result = mapper.map(savedUser, UserResponseDto.class);
+
+        return result;
     }
 
 

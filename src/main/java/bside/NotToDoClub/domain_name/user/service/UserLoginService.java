@@ -1,6 +1,7 @@
 package bside.NotToDoClub.domain_name.user.service;
 
 import bside.NotToDoClub.domain_name.user.dto.UserDto;
+import bside.NotToDoClub.domain_name.user.dto.UserResponseDto;
 
 public interface UserLoginService {
     boolean checkLoginIdDuplicate(String loginId);
@@ -14,4 +15,6 @@ public interface UserLoginService {
     UserDto getLoginUserInfo(String accessToken);
 
     String tosAgree(String accessToken);
+
+    UserResponseDto autoLoginAgree(String accessToken, Boolean autoLogin);
 }
