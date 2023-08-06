@@ -4,6 +4,7 @@ import bside.NotToDoClub.domain_name.nottodo.dto.*;
 import bside.NotToDoClub.domain_name.nottodo.service.NotToDoService;
 import bside.NotToDoClub.global.response.ResponseCode;
 import bside.NotToDoClub.global.response.ResultResponse;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +25,13 @@ public class NotToDoController {
      * 낫투두 리스트 조회
      */
     @GetMapping("/list")
+    @Operation(summary = "[#2 홈 메인 - 2]낫 투 두 리스트 조회", description = "#2 홈 메인 - " +
+            "2번 홈 탭 케이스 구분\n" +
+            "등록된 낫투두 없는 케이스\n" +
+            "등록된 낫투두 있는 케이스\n" +
+            "조회한 일자에 절제 기록 없는 케이스\n" +
+            "주간 캘린더 선택\n" +
+            "월간 캘린더 선택")
     public ResultResponse<List<NotToDoListCUMsgResponseDto>> getNotToDoList(@RequestHeader(value="access-token")String accessToken, @RequestParam(required = false, defaultValue = "in_close") String orderBy){
         List<NotToDoListCUMsgResponseDto> notToDoListResponseDto = notToDoService.getNotToDoList(accessToken, orderBy);
         return ResultResponse.of(ResponseCode.GET_USER_NOT_TO_DO, notToDoListResponseDto);
