@@ -47,7 +47,7 @@ public class UserController {
                 .email(findUser.getLoginId())
                 .nickname(findUser.getNickname())
                 .profileImgUrl(findUser.getProfileImgUrl())
-                .tosYn(booleanToYNConverter.convertToDatabaseColumn(findUser.isTosYn()))
+                .tosYn(findUser.getTosYn())
                 .build();
 
         return ResultResponse.of(ResponseCode.GET_USER_INFO, userResponseDto);

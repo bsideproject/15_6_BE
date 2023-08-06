@@ -15,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.nio.file.LinkOption;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +23,7 @@ import java.util.stream.Collectors;
 
 @Service
 @Slf4j
+@Transactional
 @RequiredArgsConstructor
 public class UserServiceImplV1 implements UserService{
 
@@ -44,6 +46,8 @@ public class UserServiceImplV1 implements UserService{
     @Override
     public UserDto deleteUser(String accessToken) {
         UserEntity userEntity = userCommonService.checkUserByToken(accessToken);
+
+        log.info("delete {} user", userEntity.getLoginId());
 
         UserEntity deleteUser = userJpaRepository
                 .deleteByAccessToken(userEntity.getAccessToken()).orElseThrow(()->{
