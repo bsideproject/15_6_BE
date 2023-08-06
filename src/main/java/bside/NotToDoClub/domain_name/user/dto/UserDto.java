@@ -16,5 +16,5 @@ public class UserDto {
     private UserRole role;
     private String accessToken;
     private String refreshToken;
-    private boolean tosYn;
+    private Boolean tosYn;
 }

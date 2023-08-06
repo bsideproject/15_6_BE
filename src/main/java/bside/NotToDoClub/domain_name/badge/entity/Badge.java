@@ -1,4 +1,4 @@
-package bside.NotToDoClub.domain_name.bedge.entity;
+package bside.NotToDoClub.domain_name.badge.entity;
 
 import bside.NotToDoClub.domain_name.user.entity.UserBadge;
 import lombok.*;

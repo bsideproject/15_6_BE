@@ -14,8 +14,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.nio.file.LinkOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -42,13 +42,24 @@ public class UserServiceImplV1 implements UserService{
     }
 
     @Override
+    @Transactional
     public UserDto deleteUser(String accessToken) {
         UserEntity userEntity = userCommonService.checkUserByToken(accessToken);
 
-        UserEntity deleteUser = userJpaRepository
-                .deleteByAccessToken(userEntity.getAccessToken()).get();
+        log.info("delete {} user", userEntity.getLoginId());
 
-        UserDto userDto = mapper.map(deleteUser, UserDto.class);
+        userJpaRepository.deleteByLoginId(userEntity.getLoginId());
+
+//        UserEntity deleteUser = userJpaRepository.dele(userEntity.getLoginId()).orElseThrow(()->{
+//                    log.error("no {} user for delete", userEntity.getLoginId());
+//                    return new RuntimeException("해당 유저가 존재하지 않습니다.");
+//                });
+//                .deleteByAccessToken(userEntity.getAccessToken()).orElseThrow(()->{
+//                    log.error("no {} user for delete", userEntity.getLoginId());
+//                    return new RuntimeException("해당 유저가 존재하지 않습니다.");
+//                });
+
+        UserDto userDto = mapper.map(userEntity, UserDto.class);
 
         return userDto;
     }
