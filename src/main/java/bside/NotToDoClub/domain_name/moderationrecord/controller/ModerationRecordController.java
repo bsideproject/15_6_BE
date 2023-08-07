@@ -5,6 +5,8 @@ import bside.NotToDoClub.domain_name.moderationrecord.entity.ModerationRecord;
 import bside.NotToDoClub.domain_name.moderationrecord.service.ModerationRecordService;
 import bside.NotToDoClub.global.response.ResponseCode;
 import bside.NotToDoClub.global.response.ResultResponse;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +19,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @CrossOrigin(origins = "http://localhost:8080")
 @RequestMapping("/moderationRecord")
+@Tag(name = "Moderation Record", description = "절제기록")
 public class ModerationRecordController {
 
     private final ModerationRecordService moderationRecordService;
@@ -25,6 +28,7 @@ public class ModerationRecordController {
      * 절제기록 리스트 조회
      */
     @GetMapping("/list/fromDate/{fromDate}/toDate/{toDate}")
+    @Operation(summary = "절제기록 리스트 조회", description = "조회 기간의 전체 절제기록 리스트 조회")
     public ResultResponse<List<ModerationRecordListResponseDto>> getModerationRecordList(
             @RequestHeader(value="access-token")String accessToken,
             @PathVariable(name = "fromDate") String fromDate,
@@ -47,6 +51,7 @@ public class ModerationRecordController {
      * 절제기록 등록
      */
     @PostMapping("/ntdId/{notToDoId}")
+    @Operation(summary = "절제기록 등록")
     public ResultResponse<ModerationRecordCreateResponseDto> createModerationRecord(
             @RequestHeader(value="access-token")String accessToken,
             @PathVariable(name = "notToDoId") Long notToDoId,
@@ -59,6 +64,7 @@ public class ModerationRecordController {
      * 절제기록 수정
      */
     @PutMapping("/{recordId}")
+    @Operation(summary = "절제기록 수정")
     public ResultResponse<ModerationRecordCreateResponseDto> updateModerationRecord(
             @RequestHeader(value = "access-token") String accessToken,
             @PathVariable(name = "recordId") Long recordId,
@@ -71,6 +77,7 @@ public class ModerationRecordController {
      * 절제기록 삭제
      */
     @DeleteMapping("/{recordId}")
+    @Operation(summary = "절제기록 삭제")
     public ResultResponse<Integer> deleteModerationRecord(
             @RequestHeader(value="access-token")String accessToken,
             @PathVariable(name = "recordId") Long recordId){
