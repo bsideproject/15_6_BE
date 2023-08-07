@@ -4,6 +4,7 @@ import bside.NotToDoClub.domain_name.moderationrecord.dto.ModerationRecordCreate
 import bside.NotToDoClub.domain_name.moderationrecord.dto.ModerationRecordCreateResponseDto;
 import bside.NotToDoClub.domain_name.moderationrecord.dto.ModerationRecordResponseDto;
 import bside.NotToDoClub.domain_name.moderationrecord.dto.ModerationRecordUpdateRequestDto;
+import bside.NotToDoClub.domain_name.moderationrecord.entity.ModerationRecord;
 import bside.NotToDoClub.domain_name.moderationrecord.service.ModerationRecordService;
 import bside.NotToDoClub.domain_name.nottodo.dto.NotToDoCreateRequestDto;
 import bside.NotToDoClub.domain_name.nottodo.dto.NotToDoCreateResponseDto;
@@ -31,8 +32,21 @@ public class ModerationRecordController {
     /**
      * 절제기록 리스트 조회
      */
-    @GetMapping("/list")
-    public ResultResponse<List<ModerationRecordResponseDto>> getModerationRecord(@RequestHeader(value="access-token")String accessToken){
+    @GetMapping("/list/fromDate/{fromDate}/toDate/{toDate}")
+    public ResultResponse<List<ModerationRecordResponseDto>> getModerationRecordList(
+            @RequestHeader(value="access-token")String accessToken,
+            @PathVariable(name = "fromDate") String fromDate,
+            @PathVariable(name = "toDate") String toDate){
+        moderationRecordService.getModerationRecordList(accessToken, fromDate, toDate);
+        return  null;
+    }
+
+    /**
+     * 절제기록 상세 조회
+     * 성공/실패 여부, 기록한 시간 (hh:mm), 기록한 텍스트
+     */
+    @GetMapping("/{recordId}")
+    public ResultResponse<ModerationRecord> getModerationRecord(@RequestHeader(value="access-token")String accessToken){
 
         return  null;
     }
@@ -58,7 +72,7 @@ public class ModerationRecordController {
             @PathVariable(name = "recordId") Long recordId,
             @RequestBody @Valid ModerationRecordUpdateRequestDto moderationRecordUpdateRequestDto){
         ModerationRecordCreateResponseDto response = moderationRecordService.updateModerationRecord(accessToken, recordId, moderationRecordUpdateRequestDto);
-        return ResultResponse.of(ResponseCode.CREATE_MODERATION_RECORD, response);
+        return ResultResponse.of(ResponseCode.UPDATE_MODERATION_RECORD, response);
     }
 
     /**
@@ -68,7 +82,7 @@ public class ModerationRecordController {
     public ResultResponse<Integer> deleteModerationRecord(
             @RequestHeader(value="access-token")String accessToken,
             @PathVariable(name = "recordId") Long recordId){
-
-        return null;
+        int result = moderationRecordService.deleteModerationRecord(accessToken, recordId);
+        return ResultResponse.of(ResponseCode.DELETE_MODERATION_RECORD, result);
     }
 }

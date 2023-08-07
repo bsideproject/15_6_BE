@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class ModerationRecordCreateResponseDto {
     private Long moderationId;
 }
