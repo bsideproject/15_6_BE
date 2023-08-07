@@ -43,21 +43,22 @@ public class ModerationRecordController {
     @PostMapping("/ntdId/{notToDoId}")
     public ResultResponse<ModerationRecordCreateResponseDto> createModerationRecord(
             @RequestHeader(value="access-token")String accessToken,
+            @PathVariable(name = "notToDoId") Long notToDoId,
             @RequestBody @Valid ModerationRecordCreateRequestDto moderationRecordCreateRequestDto){
-        ModerationRecordCreateResponseDto notToDo = moderationRecordService.createModerationRecord(accessToken, moderationRecordCreateRequestDto);
-        return ResultResponse.of(ResponseCode.CREATE_USER_NOT_TO_DO, notToDo);
+        ModerationRecordCreateResponseDto moderationRecord = moderationRecordService.createModerationRecord(accessToken, notToDoId, moderationRecordCreateRequestDto);
+        return ResultResponse.of(ResponseCode.CREATE_MODERATION_RECORD, moderationRecord);
     }
 
     /**
      * 절제기록 수정
      */
     @PutMapping("/{recordId}")
-    public ResultResponse<Long> updateModerationRecord(
+    public ResultResponse<ModerationRecordCreateResponseDto> updateModerationRecord(
             @RequestHeader(value = "access-token") String accessToken,
-            @PathVariable(name = "recordId") Long notToDoId,
-            @RequestBody @Valid ModerationRecordUpdateRequestDto ModerationRecordUpdateRequestDto){
-
-        return null;
+            @PathVariable(name = "recordId") Long recordId,
+            @RequestBody @Valid ModerationRecordUpdateRequestDto moderationRecordUpdateRequestDto){
+        ModerationRecordCreateResponseDto response = moderationRecordService.updateModerationRecord(accessToken, recordId, moderationRecordUpdateRequestDto);
+        return ResultResponse.of(ResponseCode.CREATE_MODERATION_RECORD, response);
     }
 
     /**
@@ -66,7 +67,7 @@ public class ModerationRecordController {
     @DeleteMapping("/{recordId}")
     public ResultResponse<Integer> deleteModerationRecord(
             @RequestHeader(value="access-token")String accessToken,
-            @PathVariable(name = "recordId") Long id){
+            @PathVariable(name = "recordId") Long recordId){
 
         return null;
     }

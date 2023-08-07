@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @Builder
-@NoArgsConstructor
 public class ModerationRecordCreateRequestDto {
+    private String content;
+    private String recordType;
 }
