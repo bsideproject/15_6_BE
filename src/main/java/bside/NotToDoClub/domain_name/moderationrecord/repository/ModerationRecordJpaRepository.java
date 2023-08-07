@@ -11,9 +11,6 @@ import java.util.Optional;
 
 public interface ModerationRecordJpaRepository extends JpaRepository<ModerationRecord, Long> {
 
-    /*@Query(value = "select m from ModerationRecord m join UserNotToDo u on m.userNotToDo.id = u.id where u.user.id = :userId and m.createdAt >= :fromDate and m.createdAt <= :toDate and m.useYn = true order by m.createdAt desc", nativeQuery = true)
-    Optional<List<ModerationRecord>> findByFromDateAndEndDate(@Param("userId") Long userId, @Param("fromDate") String fromDate, @Param("toDate") String toDate);*/
-
     @Query(value = "select m.moderation_record_id as moderationId, u.user_not_to_do_id as notToDoId, u.not_to_do_text as notToDoText, m.content as content, date_format(m.reg_dtm, '%Y-%m-%d %H:%m:%s') as regDtm, m.record_type as recordType, m.use_yn as useYn " +
             "from moderation_record m " +
             "join user_not_to_do u on m.user_not_to_do_id = u.user_not_to_do_id " +
