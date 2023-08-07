@@ -1,16 +1,8 @@
 package bside.NotToDoClub.domain_name.moderationrecord.controller;
 
-import bside.NotToDoClub.domain_name.moderationrecord.dto.ModerationRecordCreateRequestDto;
-import bside.NotToDoClub.domain_name.moderationrecord.dto.ModerationRecordCreateResponseDto;
-import bside.NotToDoClub.domain_name.moderationrecord.dto.ModerationRecordResponseDto;
-import bside.NotToDoClub.domain_name.moderationrecord.dto.ModerationRecordUpdateRequestDto;
+import bside.NotToDoClub.domain_name.moderationrecord.dto.*;
 import bside.NotToDoClub.domain_name.moderationrecord.entity.ModerationRecord;
 import bside.NotToDoClub.domain_name.moderationrecord.service.ModerationRecordService;
-import bside.NotToDoClub.domain_name.nottodo.dto.NotToDoCreateRequestDto;
-import bside.NotToDoClub.domain_name.nottodo.dto.NotToDoCreateResponseDto;
-import bside.NotToDoClub.domain_name.nottodo.dto.NotToDoListCUMsgResponseDto;
-import bside.NotToDoClub.domain_name.nottodo.dto.NotToDoUpdateRequestDto;
-import bside.NotToDoClub.domain_name.nottodo.service.NotToDoService;
 import bside.NotToDoClub.global.response.ResponseCode;
 import bside.NotToDoClub.global.response.ResultResponse;
 import lombok.RequiredArgsConstructor;
@@ -33,12 +25,12 @@ public class ModerationRecordController {
      * 절제기록 리스트 조회
      */
     @GetMapping("/list/fromDate/{fromDate}/toDate/{toDate}")
-    public ResultResponse<List<ModerationRecordResponseDto>> getModerationRecordList(
+    public ResultResponse<List<ModerationRecordListResponseDto>> getModerationRecordList(
             @RequestHeader(value="access-token")String accessToken,
             @PathVariable(name = "fromDate") String fromDate,
             @PathVariable(name = "toDate") String toDate){
-        moderationRecordService.getModerationRecordList(accessToken, fromDate, toDate);
-        return  null;
+        List<ModerationRecordListResponseDto> moderationRecordList = moderationRecordService.getModerationRecordList(accessToken, fromDate, toDate);
+        return  ResultResponse.of(ResponseCode.GET_MODERATION_RECORD, moderationRecordList);
     }
 
     /**
@@ -48,7 +40,7 @@ public class ModerationRecordController {
     @GetMapping("/{recordId}")
     public ResultResponse<ModerationRecord> getModerationRecord(@RequestHeader(value="access-token")String accessToken){
 
-        return  null;
+        return null;
     }
 
     /**

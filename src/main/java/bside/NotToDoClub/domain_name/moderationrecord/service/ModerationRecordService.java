@@ -3,14 +3,9 @@ package bside.NotToDoClub.domain_name.moderationrecord.service;
 
 import bside.NotToDoClub.config.AuthToken;
 import bside.NotToDoClub.config.AuthTokenProvider;
-import bside.NotToDoClub.domain_name.moderationrecord.dto.ModerationRecordCreateRequestDto;
-import bside.NotToDoClub.domain_name.moderationrecord.dto.ModerationRecordCreateResponseDto;
-import bside.NotToDoClub.domain_name.moderationrecord.dto.ModerationRecordResponseDto;
-import bside.NotToDoClub.domain_name.moderationrecord.dto.ModerationRecordUpdateRequestDto;
+import bside.NotToDoClub.domain_name.moderationrecord.dto.*;
 import bside.NotToDoClub.domain_name.moderationrecord.entity.ModerationRecord;
 import bside.NotToDoClub.domain_name.moderationrecord.repository.ModerationRecordJpaRepository;
-import bside.NotToDoClub.domain_name.nottodo.dto.NotToDoCreateRequestDto;
-import bside.NotToDoClub.domain_name.nottodo.dto.NotToDoCreateResponseDto;
 import bside.NotToDoClub.domain_name.nottodo.entity.UserNotToDo;
 import bside.NotToDoClub.domain_name.nottodo.repository.UserNotToDoJpaRepository;
 import bside.NotToDoClub.domain_name.user.entity.UserEntity;
@@ -19,13 +14,9 @@ import bside.NotToDoClub.global.error.CustomException;
 import bside.NotToDoClub.global.error.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.format.datetime.DateFormatter;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
@@ -64,7 +55,7 @@ public class ModerationRecordService {
         return moderationRecordCreateResponseDto;
     }
 
-    public List<ModerationRecordResponseDto> getModerationRecordList (String accessToken, String fromDate, String toDate){
+    public List<ModerationRecordListResponseDto> getModerationRecordList (String accessToken, String fromDate, String toDate){
 
         //일자별 전체 절제기록 리스트 형태로 노출됨 (등록시간 내림차순=최신순)
         AuthToken authToken = new AuthToken(accessToken, key);
@@ -78,11 +69,12 @@ public class ModerationRecordService {
         //LocalDate fDate = LocalDate.parse(fromDate, formatter);
         //LocalDate tDate = LocalDate.parse(toDate, formatter);
 
-        List<ModerationRecord> moderationRecords = moderationRecordJpaRepository.findByFromDateAndEndDate(userId, fromDate, toDate).orElseThrow(
+        List<ModerationRecordListResponseDto> moderationRecords = moderationRecordJpaRepository.findByFromDateAndEndDate(userId, fromDate, toDate).orElseThrow(
                 () -> new CustomException(ErrorCode.USER_MODERATION_RECORD_NOT_FOUND)
         );
 
-        return  null;
+
+        return  moderationRecords;
     }
 
 
