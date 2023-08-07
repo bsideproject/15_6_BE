@@ -1,10 +1,13 @@
 package bside.NotToDoClub.domain_name.user.service;
 
+import bside.NotToDoClub.domain_name.inquiry.entity.Inquiry;
+import bside.NotToDoClub.domain_name.inquiry.repository.InquiryJpaRepository;
 import bside.NotToDoClub.domain_name.nottodo.dto.CheerUpMessageDto;
 import bside.NotToDoClub.domain_name.nottodo.dto.NotToDoListResponseDto;
 import bside.NotToDoClub.domain_name.nottodo.entity.CheerUpMessage;
 import bside.NotToDoClub.domain_name.nottodo.entity.ProgressState;
 import bside.NotToDoClub.domain_name.nottodo.entity.UserNotToDo;
+import bside.NotToDoClub.domain_name.nottodo.repository.CheerUpMessageJpaRepository;
 import bside.NotToDoClub.domain_name.nottodo.repository.UserNotToDoJpaRepository;
 import bside.NotToDoClub.domain_name.user.dto.UserDto;
 import bside.NotToDoClub.domain_name.user.dto.UserNotToDoStatusNumberDto;
@@ -14,8 +17,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.nio.file.LinkOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,6 +30,8 @@ public class UserServiceImplV1 implements UserService{
 
     private final UserJpaRepository userJpaRepository;
     private final UserNotToDoJpaRepository userNotToDoJpaRepository;
+    private final InquiryJpaRepository inquiryJpaRepository;
+    private final CheerUpMessageJpaRepository cheerUpMessageJpaRepository;
     private final ModelMapper mapper;
     private final UserCommonService userCommonService;
 
@@ -42,13 +47,32 @@ public class UserServiceImplV1 implements UserService{
     }
 
     @Override
+    @Transactional
     public UserDto deleteUser(String accessToken) {
         UserEntity userEntity = userCommonService.checkUserByToken(accessToken);
 
-        UserEntity deleteUser = userJpaRepository
-                .deleteByAccessToken(userEntity.getAccessToken()).get();
+        log.info("delete {} user", userEntity.getLoginId());
 
-        UserDto userDto = mapper.map(deleteUser, UserDto.class);
+//        List<UserNotToDo> userNotToDos = userNotToDoJpaRepository.findByUserId(userEntity.getId()).orElseThrow();
+//        List<Inquiry> inquiries = inquiryJpaRepository.findByUserId(userEntity.getId()).orElseThrow();
+//        List<CheerUpMessage> cheerUpMessages = cheerUpMessageJpaRepository.findByUserId(userEntity.getId()).orElseThrow();
+//
+////        System.out.println(userNotToDos);
+////        System.out.println(inquiries);
+////        System.out.println(cheerUpMessages);
+////
+//        userNotToDos.forEach(userNotToDo -> {
+//            userNotToDoJpaRepository.deleteById(userNotToDo.getId());
+//        });
+//        inquiries.forEach(inquiry -> {
+//            inquiryJpaRepository.deleteById(inquiry.getId());
+//        });
+//        cheerUpMessages.forEach(cheerUpMessage -> {
+//            cheerUpMessageJpaRepository.deleteById(cheerUpMessage.getId());
+//        });
+
+        userJpaRepository.deleteByLoginId(userEntity.getLoginId());
+        UserDto userDto = mapper.map(userEntity, UserDto.class);
 
         return userDto;
     }

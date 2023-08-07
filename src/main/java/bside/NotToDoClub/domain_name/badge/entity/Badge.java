@@ -1,4 +1,4 @@
-package bside.NotToDoClub.domain_name.bedge.entity;
+package bside.NotToDoClub.domain_name.badge.entity;
 
 import bside.NotToDoClub.domain_name.user.entity.UserBadge;
 import lombok.*;
@@ -55,7 +55,8 @@ public class Badge {
      * user - badge
      * N:M 관계 테이블 매핑을 위한 user-badge 테이블
      */
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY,
+            orphanRemoval = true)
     @Builder.Default
     private List<UserBadge> users = new ArrayList<>();
 

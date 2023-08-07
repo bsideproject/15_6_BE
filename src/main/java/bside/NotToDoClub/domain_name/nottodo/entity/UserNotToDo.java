@@ -65,11 +65,13 @@ public class UserNotToDo {
     @Convert(converter = BooleanToYNConverter.class)
     private Boolean useYn;
 
-    @OneToMany(mappedBy = "userNotToDo")
+    @OneToMany(mappedBy = "userNotToDo", fetch = FetchType.LAZY,
+            orphanRemoval = true)
     @Builder.Default
     private List<ModerationRecord> moderationRecords = new ArrayList<>();
 
-    @OneToMany(mappedBy = "userNotToDo")
+    @OneToMany(mappedBy = "userNotToDo", fetch = FetchType.LAZY,
+            orphanRemoval = true)
     @Builder.Default
     private List<CheerUpMessage> cheerUpMessages = new ArrayList<>();
 

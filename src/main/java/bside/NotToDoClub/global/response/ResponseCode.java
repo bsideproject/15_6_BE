@@ -18,6 +18,7 @@ public enum ResponseCode {
     GET_MODERATION_RECORD(OK, "절제기록 조회 성공"),
 
     TOS_AGREE(OK, "이용약관 동의 완료"),
+    AUTO_LOGIN_AGREE(OK, "자동로그인 동의 완료"),
 
     CREATE_USER_NOT_TO_DO(CREATED, "낫투두 생성 완료"),
     UPDATE_USER_NOT_TO_DO(CREATED, "낫투두 수정 완료"),
