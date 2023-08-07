@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -106,22 +107,23 @@ public class NotToDoService {
         }
 
         LocalDate now = LocalDate.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
-
-        BooleanToYNConverter booleanToYNConverter = new BooleanToYNConverter();
-
-        //List<NotToDoListDto> notToDoListDtoList =
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
         List<NotToDoListCUMsgResponseDto> ntdlist = userNotToDoList.stream()
                 .map(o -> new NotToDoListCUMsgResponseDto(o))
                 .collect(Collectors.toList());
 
-        //List<NotToDoListResponseDto> notToDoListResponseDtoList = new ArrayList<>();
         for(NotToDoListCUMsgResponseDto userNotToDo : ntdlist) {
-            LocalDate startDate = LocalDate.parse(userNotToDo.getStartDate(), formatter);
-            LocalDate endDate = LocalDate.parse(userNotToDo.getEndDate(), formatter);
-            //String startDate = userNotToDo.getStartDate();
-            //String endDate = userNotToDo.getEndDate();
+            LocalDate startDate = null;
+            LocalDate endDate = null;
+
+            try {
+                startDate = LocalDate.parse(userNotToDo.getStartDate(), formatter);
+                endDate = LocalDate.parse(userNotToDo.getEndDate(), formatter);
+            }
+            catch (DateTimeParseException e){
+                throw new CustomException(ErrorCode.DATETIME_FORMAT_PARSING_ERROR);
+            }
 
             String progressState = userNotToDo.getProgressState();
             if(startDate.compareTo(now) <= 0 && endDate.compareTo(now) >= 0) progressState = "IN_PROGRESS";
