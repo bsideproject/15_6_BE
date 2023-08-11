@@ -85,23 +85,31 @@ public class UserEntity {
     @Convert(converter = BooleanToYNConverter.class)
     private boolean tosYn;
 
+    @Column(name = "AUTO_LOGIN_YN", length = 2)
+    @Convert(converter = BooleanToYNConverter.class)
+    private boolean autoLoginYn = false;
+
     /**
      * user - badge
      * N:M 관계 테이블 매핑을 위한 user-badge 테이블
      */
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY,
+            orphanRemoval = true)
     @Builder.Default
     private List<UserBadge> badges = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY,
+            orphanRemoval = true)
     @Builder.Default
     private List<UserNotToDo> userNotToDoList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY,
+            orphanRemoval = true)
     @Builder.Default
     private List<Inquiry> userInquiryList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "registerUser")
+    @OneToMany(mappedBy = "registerUser", fetch = FetchType.LAZY,
+            orphanRemoval = true)
     @Builder.Default
     private List<CheerUpMessage> cheerUpMessages = new ArrayList<>();
 
@@ -142,5 +150,9 @@ public class UserEntity {
 
     public void updateRefreshToken(String refreshToken){
         this.refreshToken = refreshToken;
+    }
+
+    public void updateAutoLoginYn(Boolean autoLoginYn){
+        this.autoLoginYn = autoLoginYn;
     }
 }

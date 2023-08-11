@@ -11,6 +11,9 @@ public interface UserNotToDoJpaRepository extends JpaRepository<UserNotToDo, Lon
     Optional<List<UserNotToDo>> findAllByUserIdOrderByEndDate(Long userId);
     Optional<List<UserNotToDo>> findAllByUserIdOrderByEndDateDesc(Long userId);
 
+    @Query("select n from UserNotToDo n where n.user.id = :userId")
+    Optional<List<UserNotToDo>> findByUserId(Long userId);
+
     @Query("select n from UserNotToDo n where n.user.id = :userId and n.useYn = true order by n.endDate")
     Optional<List<UserNotToDo>> findByUserIdAndUseYnOrderByEndDate(Long userId);
 
@@ -22,6 +25,8 @@ public interface UserNotToDoJpaRepository extends JpaRepository<UserNotToDo, Lon
 
     int countUserNotToDoByUserId(Long userId);
 
-    @Query("select count(n) from UserNotToDo n where n.user.id = :userId and n.useYn = true")
-    int countUserNotToDoByUserIdAndUseYn(Long userId);
+//    @Query("select n from UserNotToDo n " +
+//            "where n.user.loginId = :loginId " +
+//            "join fetch n.cheerUpMessages")
+//    Optional<UserNotToDo> findCheerUpMessagesByLoginId(String loginId);
 }

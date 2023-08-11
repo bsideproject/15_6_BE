@@ -2,13 +2,9 @@ package bside.NotToDoClub.domain_name.nottodo.service;
 
 import bside.NotToDoClub.config.AuthToken;
 import bside.NotToDoClub.config.AuthTokenProvider;
-import bside.NotToDoClub.domain_name.nottodo.dto.NotToDoListResponseDto;
-import bside.NotToDoClub.domain_name.nottodo.dto.NotToDoUpdateRequestDto;
+import bside.NotToDoClub.domain_name.nottodo.dto.*;
 import bside.NotToDoClub.domain_name.nottodo.entity.CheerUpMessage;
 import bside.NotToDoClub.domain_name.nottodo.repository.CheerUpMessageJpaRepository;
-import bside.NotToDoClub.domain_name.nottodo.dto.NotToDoCreateRequestDto;
-import bside.NotToDoClub.domain_name.nottodo.dto.NotToDoCreateResponseDto;
-import bside.NotToDoClub.domain_name.nottodo.entity.ProgressState;
 import bside.NotToDoClub.domain_name.nottodo.entity.UserNotToDo;
 import bside.NotToDoClub.domain_name.nottodo.repository.UserNotToDoJpaRepository;
 import bside.NotToDoClub.domain_name.user.entity.UserEntity;
@@ -23,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -89,7 +86,7 @@ public class NotToDoService {
         return notToDoCreateResponseDto;
     }
 
-    public List<NotToDoListResponseDto> getNotToDoList(String accessToken, String orderBy){
+    public List<NotToDoListCUMsgResponseDto> getNotToDoList(String accessToken, String orderBy){
 
         AuthToken authToken = new AuthToken(accessToken, key);
         Long userId = authTokenProvider.getUserIdByToken(authToken);
@@ -110,33 +107,43 @@ public class NotToDoService {
         }
 
         LocalDate now = LocalDate.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-        BooleanToYNConverter booleanToYNConverter = new BooleanToYNConverter();
+        List<NotToDoListCUMsgResponseDto> ntdlist = userNotToDoList.stream()
+                .map(o -> new NotToDoListCUMsgResponseDto(o))
+                .collect(Collectors.toList());
 
-        List<NotToDoListResponseDto> notToDoListResponseDtoList = new ArrayList<>();
-        for(UserNotToDo userNotToDo : userNotToDoList) {
-            LocalDate startDate = LocalDate.parse(userNotToDo.getStartDate(), formatter);
-            LocalDate endDate = LocalDate.parse(userNotToDo.getEndDate(), formatter);
+        for(NotToDoListCUMsgResponseDto userNotToDo : ntdlist) {
+            LocalDate startDate = null;
+            LocalDate endDate = null;
 
-            String progressState = userNotToDo.getProgressState().toString();
+            try {
+                startDate = LocalDate.parse(userNotToDo.getStartDate(), formatter);
+                endDate = LocalDate.parse(userNotToDo.getEndDate(), formatter);
+            }
+            catch (DateTimeParseException e){
+                throw new CustomException(ErrorCode.DATETIME_FORMAT_PARSING_ERROR);
+            }
+
+            String progressState = userNotToDo.getProgressState();
             if(startDate.compareTo(now) <= 0 && endDate.compareTo(now) >= 0) progressState = "IN_PROGRESS";
             else if(endDate.compareTo(now) < 0) progressState = "COMPLETE";
 
-            NotToDoListResponseDto notToDoListResponseDto = NotToDoListResponseDto.builder()
-                    .notToDoId(userNotToDo.getId())
+            userNotToDo.changeProgressState(progressState);
+            /*NotToDoListResponseDto notToDoListResponseDto = NotToDoListResponseDto.builder()
+                    .notToDoId(userNotToDo.getNotToDoId())
                     .notToDoText(userNotToDo.getNotToDoText())
                     .goal(userNotToDo.getGoal())
                     .progressState(progressState)
                     .startDate(userNotToDo.getStartDate())
                     .endDate(userNotToDo.getEndDate())
-                    .useYn(booleanToYNConverter.convertToDatabaseColumn(userNotToDo.getUseYn()))
-                    .build();
+                    .useYn(userNotToDo.getUseYn())
+                    .build();*/
 
-            notToDoListResponseDtoList.add(notToDoListResponseDto);
+            //notToDoListResponseDtoList.add(notToDoListResponseDto);
         }
 
-        return notToDoListResponseDtoList;
+        return ntdlist;
     }
 
     @Transactional

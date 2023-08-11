@@ -5,10 +5,12 @@ import bside.NotToDoClub.domain_name.api.login.service.LoginService;
 import bside.NotToDoClub.domain_name.auth.dto.AuthRequestDto;
 import bside.NotToDoClub.domain_name.auth.service.OauthService;
 import bside.NotToDoClub.domain_name.user.dto.UserRequestDto;
+import bside.NotToDoClub.domain_name.user.dto.UserResponseDto;
 import bside.NotToDoClub.domain_name.user.service.UserLoginService;
 import bside.NotToDoClub.global.response.AuthResponse;
 import bside.NotToDoClub.global.response.ResponseCode;
 import bside.NotToDoClub.global.response.ResultResponse;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -43,7 +45,7 @@ public class LoginRestController {
     @PostMapping("/auth/kakao-callback")
     public ResultResponse<AuthResponse> kakaoCallback(@RequestBody AuthRequestDto authRequestDto) throws IOException{
         log.info("kakao login code = {}", authRequestDto.getCode());
-        AuthResponse authResponse = loginService.kakaoLogin(authRequestDto.getCode());
+        AuthResponse authResponse = loginService.kakaoLogin(authRequestDto.getCode(), authRequestDto.getRedirectUri());
         return ResultResponse.of(ResponseCode.PROVIDE_APP_TOKEN, authResponse);
     }
 
@@ -57,7 +59,8 @@ public class LoginRestController {
     @GetMapping("/kakao")
     public ResultResponse<AuthResponse> kakaoCallbacks(@RequestParam(name="code") String code) throws IOException {
         log.info("kakao login code = {}", code);
-        AuthResponse authResponse = loginService.kakaoLogin(code);
+        String dummyUri = "http://localhost:8080/login/kakao";
+        AuthResponse authResponse = loginService.kakaoLogin(code, dummyUri);
         return ResultResponse.of(ResponseCode.PROVIDE_APP_TOKEN, authResponse);
     }
 
@@ -71,5 +74,14 @@ public class LoginRestController {
     public ResultResponse<String> tosAgree(@RequestHeader(value="access-token")String accessToken){
         String tosYn = userService.tosAgree(accessToken);
         return ResultResponse.of(ResponseCode.TOS_AGREE, tosYn);
+    }
+
+    @PutMapping("/auto-login")
+    @Operation(summary = "자동 로그인", description = "자동 로그인 동의 여부 API")
+    public ResultResponse<UserResponseDto> autoLoginAgree(
+            @RequestHeader(value="access-token")String accessToken,
+            @RequestParam(name = "yn") Boolean autoLogin){
+        UserResponseDto result = userService.autoLoginAgree(accessToken, autoLogin);
+        return ResultResponse.of(ResponseCode.AUTO_LOGIN_AGREE, result);
     }
 }
