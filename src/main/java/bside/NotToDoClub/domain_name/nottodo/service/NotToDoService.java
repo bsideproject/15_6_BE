@@ -2,6 +2,9 @@ package bside.NotToDoClub.domain_name.nottodo.service;
 
 import bside.NotToDoClub.config.AuthToken;
 import bside.NotToDoClub.config.AuthTokenProvider;
+import bside.NotToDoClub.domain_name.badge.repository.BadgeJpaRepository;
+import bside.NotToDoClub.domain_name.badge.service.BadgeList;
+import bside.NotToDoClub.domain_name.badge.service.BadgeService;
 import bside.NotToDoClub.domain_name.nottodo.dto.*;
 import bside.NotToDoClub.domain_name.nottodo.entity.CheerUpMessage;
 import bside.NotToDoClub.domain_name.nottodo.repository.CheerUpMessageJpaRepository;
@@ -31,6 +34,9 @@ public class NotToDoService {
     private final UserNotToDoJpaRepository userNotToDoRepository;
     private final CheerUpMessageJpaRepository cheerUpMessageJpaRepository;
     private final UserJpaRepository userRepository;
+    private final BadgeJpaRepository badgeJpaRepository;
+
+    private final BadgeService badgeService;
 
     @Value("${app.auth.accessTokenSecret}")
     private String key;
@@ -53,9 +59,6 @@ public class NotToDoService {
         cheerUpMsgMap.put(1, notToDoCreateRequestDto.getCheerUpMsg1());
         cheerUpMsgMap.put(2, notToDoCreateRequestDto.getCheerUpMsg2());
         cheerUpMsgMap.put(3, notToDoCreateRequestDto.getCheerUpMsg3());
-        /*cheerUpMsgList.add(notToDoCreateRequestDto.getCheerUpMsg1());
-        cheerUpMsgList.add(notToDoCreateRequestDto.getCheerUpMsg2());
-        cheerUpMsgList.add(notToDoCreateRequestDto.getCheerUpMsg3());*/
 
         UserNotToDo newUserNotToDo = UserNotToDo.createUserNotToDo(notToDoCreateRequestDto, user, cheerUpMsgMap);
 
@@ -71,6 +74,20 @@ public class NotToDoService {
                     .build();
 
             cheerUpMessageJpaRepository.save(newCheerUpMessage);
+        }
+
+        // 완벽한 출발 뱃지
+        int perfectStartBadge = badgeJpaRepository.countUserBadgeByBadgeId(user.getId(), BadgeList.PERFECT_START_BADGE);
+
+        if(perfectStartBadge ==  0){
+            badgeService.registerAllCondition(notToDoCreateRequestDto, cheerUpMsgMap, user);
+        }
+
+        // 첫번째 출발 뱃지
+        int firstStartBadge =  badgeJpaRepository.countUserBadgeByBadgeId(user.getId(), BadgeList.FIRST_START_BADGE);
+        int cntAfterRegister = userNotToDoRepository.countUserNotToDoByUserIdAndUseYn(user.getId());
+        if(firstStartBadge == 0 && cntAfterRegister == 1){
+            badgeService.presentBadge(BadgeList.FIRST_START_BADGE, user);
         }
 
         NotToDoCreateResponseDto notToDoCreateResponseDto = NotToDoCreateResponseDto.builder()

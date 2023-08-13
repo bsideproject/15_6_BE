@@ -1,7 +1,6 @@
 package bside.NotToDoClub.domain_name.user.entity;
 
 import bside.NotToDoClub.config.UserRole;
-import bside.NotToDoClub.domain_name.badge.entity.UserBadge;
 import bside.NotToDoClub.domain_name.inquiry.entity.Inquiry;
 import bside.NotToDoClub.domain_name.nottodo.entity.CheerUpMessage;
 import bside.NotToDoClub.domain_name.nottodo.entity.UserNotToDo;
@@ -96,7 +95,7 @@ public class UserEntity {
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY,
             orphanRemoval = true)
     @Builder.Default
-    private List<UserBadge> badges = new ArrayList<>();
+    private List<bside.NotToDoClub.domain_name.user.entity.UserBadge> badges = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY,
             orphanRemoval = true)
