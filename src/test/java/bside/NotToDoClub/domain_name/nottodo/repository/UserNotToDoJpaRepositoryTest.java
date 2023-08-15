@@ -23,6 +23,5 @@ class UserNotToDoJpaRepositoryTest {
 
         UserEntity userEntity = userCommonService.checkUserByToken(accessToken);
 
-        UserNotToDo userNotToDo = UserNotToDo.builder().
     }
 }
