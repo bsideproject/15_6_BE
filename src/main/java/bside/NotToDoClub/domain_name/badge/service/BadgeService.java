@@ -11,6 +11,7 @@ import bside.NotToDoClub.global.error.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import bside.NotToDoClub.domain_name.badge.service.*;
 
 import java.util.Map;
 import java.util.Optional;
@@ -23,7 +24,7 @@ public class BadgeService {
     private final UserBadgeJpaRepository userBadgeJpaRepository;
 
 
-    public void presentBadge(long badgeId, UserEntity user){
+    public void presentBadge(String badgeId, UserEntity user){
         Badge badge = badgeJpaRepository.findById(badgeId).orElseThrow(
                 () -> new CustomException(ErrorCode.BADGE_NOT_FOUND)
         );
@@ -62,7 +63,7 @@ public class BadgeService {
             }
         }
 
-        presentBadge(BadgeList.PERFECT_START_BADGE, user);
+        presentBadge(BadgeList.PERFECT_START.toString(), user);
 
     }
 }
