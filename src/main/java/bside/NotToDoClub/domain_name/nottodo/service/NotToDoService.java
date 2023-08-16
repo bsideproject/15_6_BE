@@ -3,6 +3,7 @@ package bside.NotToDoClub.domain_name.nottodo.service;
 import bside.NotToDoClub.config.AuthToken;
 import bside.NotToDoClub.config.AuthTokenProvider;
 import bside.NotToDoClub.domain_name.badge.repository.BadgeJpaRepository;
+import bside.NotToDoClub.domain_name.badge.repository.UserBadgeJpaRepository;
 import bside.NotToDoClub.domain_name.badge.service.BadgeList;
 import bside.NotToDoClub.domain_name.badge.service.BadgeService;
 import bside.NotToDoClub.domain_name.nottodo.dto.*;
@@ -33,7 +34,7 @@ public class NotToDoService {
     private final UserNotToDoJpaRepository userNotToDoRepository;
     private final CheerUpMessageJpaRepository cheerUpMessageJpaRepository;
     private final UserJpaRepository userRepository;
-    private final BadgeJpaRepository badgeJpaRepository;
+    private final UserBadgeJpaRepository userBadgeJpaRepository;
 
     private final BadgeService badgeService;
 
@@ -76,14 +77,14 @@ public class NotToDoService {
         }
 
         // 완벽한 출발 뱃지
-        int perfectStartBadge = badgeJpaRepository.countUserBadgeByBadgeId(user.getId(), BadgeList.PERFECT_START.toString());
+        int perfectStartBadge = userBadgeJpaRepository.countUserBadgeByBadgeId(user.getId(), BadgeList.PERFECT_START.toString());
 
         if(perfectStartBadge ==  0){
             badgeService.registerAllCondition(notToDoCreateRequestDto, cheerUpMsgMap, user);
         }
 
         // 첫번째 출발 뱃지
-        int firstStartBadge =  badgeJpaRepository.countUserBadgeByBadgeId(user.getId(), BadgeList.FIRST_START.toString());
+        int firstStartBadge =  userBadgeJpaRepository.countUserBadgeByBadgeId(user.getId(), BadgeList.FIRST_START.toString());
         int cntAfterRegister = userNotToDoRepository.countUserNotToDoByUserIdAndUseYn(user.getId());
         if(firstStartBadge == 0 && cntAfterRegister == 1){
             badgeService.presentBadge(BadgeList.FIRST_START.toString(), user);

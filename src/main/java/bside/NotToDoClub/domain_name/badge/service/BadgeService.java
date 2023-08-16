@@ -23,7 +23,11 @@ public class BadgeService {
     private final BadgeJpaRepository badgeJpaRepository;
     private final UserBadgeJpaRepository userBadgeJpaRepository;
 
-
+    /**
+     * 공통 - 사용자 뱃지 추가
+     * @param badgeId
+     * @param user
+     */
     public void presentBadge(String badgeId, UserEntity user){
         Badge badge = badgeJpaRepository.findById(badgeId).orElseThrow(
                 () -> new CustomException(ErrorCode.BADGE_NOT_FOUND)

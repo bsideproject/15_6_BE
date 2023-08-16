@@ -6,6 +6,4 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface BadgeJpaRepository extends JpaRepository<Badge, String> {
 
-    @Query("select count(b) from UserBadge b where b.user.id = :userId and b.badge.id = :badgeName")
-    int countUserBadgeByBadgeId(long userId, String badgeName);
 }
