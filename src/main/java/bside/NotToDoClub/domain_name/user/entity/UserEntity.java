@@ -95,7 +95,7 @@ public class UserEntity {
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY,
             orphanRemoval = true)
     @Builder.Default
-    private List<UserBadge> badges = new ArrayList<>();
+    private List<bside.NotToDoClub.domain_name.user.entity.UserBadge> badges = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY,
             orphanRemoval = true)

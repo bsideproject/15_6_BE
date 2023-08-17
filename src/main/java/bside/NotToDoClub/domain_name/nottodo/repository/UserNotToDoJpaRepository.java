@@ -23,10 +23,7 @@ public interface UserNotToDoJpaRepository extends JpaRepository<UserNotToDo, Lon
     @Query("select n from UserNotToDo n where n.id = :notToDoId and n.useYn = true")
     Optional<UserNotToDo> findByIdAndUseYn(Long notToDoId);
 
-    int countUserNotToDoByUserId(Long userId);
+    @Query("select count(n) from UserNotToDo n where n.user.id = :userId and n.useYn = true")
+    int countUserNotToDoByUserIdAndUseYn(Long userId);
 
-//    @Query("select n from UserNotToDo n " +
-//            "where n.user.loginId = :loginId " +
-//            "join fetch n.cheerUpMessages")
-//    Optional<UserNotToDo> findCheerUpMessagesByLoginId(String loginId);
 }

@@ -22,9 +22,8 @@ import java.util.List;
 public class Badge {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "BADGE_ID")
-    private Long id;
+    private String id;
 
     /**
      * 뱃지 이름
