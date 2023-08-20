@@ -24,4 +24,7 @@ public interface ModerationRecordJpaRepository extends JpaRepository<ModerationR
 
     @Query("select count(m) from ModerationRecord m where m.userNotToDo.user.id = :userId and m.useYn = true")
     int countModerationRecordByUserIdAndUseYn(Long userId);
+
+    @Query("select count(m) from ModerationRecord m where m.userNotToDo.user.id = :userId and m.recordType =:recordType")
+    int countModerationRecordByRecordType(Long userId, String recordType);
 }

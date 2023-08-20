@@ -56,21 +56,40 @@ public class ModerationRecordService {
         ModerationRecord moderationRecord = moderationRecordJpaRepository.save(newModerationRecord);
 
         // 첫번째 기록 뱃지
-        int firstRecordBadge = userBadgeJpaRepository.countUserBadgeByBadgeId(user.getId(), BadgeList.FIRST_RECORD.toString());
+        int firstRecordBadgeCnt = userBadgeJpaRepository.countUserBadgeByBadgeId(user.getId(), BadgeList.FIRST_RECORD.toString());
         int cntAfterRegister = moderationRecordJpaRepository.countModerationRecordByUserIdAndUseYn(user.getId());
-        if(firstRecordBadge == 0 && cntAfterRegister == 1){
+        if(firstRecordBadgeCnt == 0 && cntAfterRegister == 1){
             badgeService.presentBadge(BadgeList.FIRST_RECORD.toString(), user);
         }
 
+        // 첫번째 인내 뱃지
+        int firstPatienceBadgeCnt = userBadgeJpaRepository.countUserBadgeByBadgeId(user.getId(), BadgeList.FIRST_PATIENCE.toString());
+        if(firstPatienceBadgeCnt == 0 && moderationRecordCreateRequestDto.getRecordType().equals("SUCCESS")){
+            badgeService.presentBadge(BadgeList.FIRST_PATIENCE.toString(), user);
+        }
+
+        // 실패해도 괜찮아 뱃지
+        int firstFailBadgeCnt = userBadgeJpaRepository.countUserBadgeByBadgeId(user.getId(), BadgeList.FIRST_FAIL.toString());
+        if(firstFailBadgeCnt == 0 && moderationRecordCreateRequestDto.getRecordType().equals("FAIL")){
+            badgeService.presentBadge(BadgeList.FIRST_FAIL.toString(), user);
+        }
+
         // 성실한 기록가 뱃지
-        int diligentRecorderBadge = userBadgeJpaRepository.countUserBadgeByBadgeId(user.getId(), BadgeList.DILIGENT_RECORDER.toString());
-        if(diligentRecorderBadge == 0 && cntAfterRegister == 10){
+        int diligentRecorderBadgeCnt = userBadgeJpaRepository.countUserBadgeByBadgeId(user.getId(), BadgeList.DILIGENT_RECORDER.toString());
+        if(diligentRecorderBadgeCnt == 0 && cntAfterRegister == 10){
             badgeService.presentBadge(BadgeList.DILIGENT_RECORDER.toString(), user);
         }
 
+        // 성실한 인고자 뱃지
+        int diligentPatienceBadgeCnt = userBadgeJpaRepository.countUserBadgeByBadgeId(user.getId(), BadgeList.DILIGENT_PATIENCE.toString());
+        int successRecordCnt = moderationRecordJpaRepository.countModerationRecordByRecordType(user.getId(), moderationRecordCreateRequestDto.getRecordType());
+        if(diligentPatienceBadgeCnt == 0 && successRecordCnt == 10){
+            badgeService.presentBadge(BadgeList.DILIGENT_PATIENCE.toString(), user);
+        }
+
         // 대단한 기록가 뱃지
-        int greatRecorderBadge = userBadgeJpaRepository.countUserBadgeByBadgeId(user.getId(), BadgeList.GREAT_RECORDER.toString());
-        if (greatRecorderBadge == 0 && cntAfterRegister == 30){
+        int greatRecorderBadgeCnt = userBadgeJpaRepository.countUserBadgeByBadgeId(user.getId(), BadgeList.GREAT_RECORDER.toString());
+        if (greatRecorderBadgeCnt == 0 && cntAfterRegister == 30){
             badgeService.presentBadge(BadgeList.GREAT_RECORDER.toString(), user);
         }
 
