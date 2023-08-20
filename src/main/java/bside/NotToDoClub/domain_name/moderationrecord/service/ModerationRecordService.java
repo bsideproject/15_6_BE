@@ -64,13 +64,13 @@ public class ModerationRecordService {
 
         // 첫번째 인내 뱃지
         int firstPatienceBadgeCnt = userBadgeJpaRepository.countUserBadgeByBadgeId(user.getId(), BadgeList.FIRST_PATIENCE.toString());
-        if(firstPatienceBadgeCnt == 0 && moderationRecordCreateRequestDto.getRecordType().equals("SUCCESS")){
+        if(firstPatienceBadgeCnt == 0 && moderationRecordCreateRequestDto.getRecordType().equals("success")){
             badgeService.presentBadge(BadgeList.FIRST_PATIENCE.toString(), user);
         }
 
         // 실패해도 괜찮아 뱃지
         int firstFailBadgeCnt = userBadgeJpaRepository.countUserBadgeByBadgeId(user.getId(), BadgeList.FIRST_FAIL.toString());
-        if(firstFailBadgeCnt == 0 && moderationRecordCreateRequestDto.getRecordType().equals("FAIL")){
+        if(firstFailBadgeCnt == 0 && moderationRecordCreateRequestDto.getRecordType().equals("fail")){
             badgeService.presentBadge(BadgeList.FIRST_FAIL.toString(), user);
         }
 
