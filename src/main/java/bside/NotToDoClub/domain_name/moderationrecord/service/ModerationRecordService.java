@@ -3,6 +3,10 @@ package bside.NotToDoClub.domain_name.moderationrecord.service;
 
 import bside.NotToDoClub.config.AuthToken;
 import bside.NotToDoClub.config.AuthTokenProvider;
+import bside.NotToDoClub.domain_name.badge.repository.BadgeJpaRepository;
+import bside.NotToDoClub.domain_name.badge.repository.UserBadgeJpaRepository;
+import bside.NotToDoClub.domain_name.badge.service.BadgeList;
+import bside.NotToDoClub.domain_name.badge.service.BadgeService;
 import bside.NotToDoClub.domain_name.moderationrecord.dto.*;
 import bside.NotToDoClub.domain_name.moderationrecord.entity.ModerationRecord;
 import bside.NotToDoClub.domain_name.moderationrecord.repository.ModerationRecordJpaRepository;
@@ -27,6 +31,9 @@ public class ModerationRecordService {
     private final UserNotToDoJpaRepository userNotToDoRepository;
     private final UserJpaRepository userRepository;
     private final ModerationRecordJpaRepository moderationRecordJpaRepository;
+    private final UserBadgeJpaRepository userBadgeJpaRepository;
+
+    private final BadgeService badgeService;
 
     @Value("${app.auth.accessTokenSecret}")
     private String key;
@@ -48,6 +55,25 @@ public class ModerationRecordService {
 
         ModerationRecord moderationRecord = moderationRecordJpaRepository.save(newModerationRecord);
 
+        // 첫번째 기록 뱃지
+        int firstRecordBadge = userBadgeJpaRepository.countUserBadgeByBadgeId(user.getId(), BadgeList.FIRST_RECORD_BADGE);
+        int cntAfterRegister = moderationRecordJpaRepository.countModerationRecordByUserIdAndUseYn(user.getId());
+        if(firstRecordBadge == 0 && cntAfterRegister == 1){
+            badgeService.presentBadge(BadgeList.FIRST_RECORD_BADGE.toString(), user);
+        }
+
+        // 성실한 기록가 뱃지
+        int diligentRecorderBadge = userBadgeJpaRepository.countUserBadgeByBadgeId(user.getId(), BadgeList.DILIGENT_RECORDER_BADGE);
+        if(diligentRecorderBadge == 0 && cntAfterRegister == 10){
+            badgeService.presentBadge(BadgeList.DILIGENT_RECORDER_BADGE.toString(), user);
+        }
+
+        // 대단한 기록가 뱃지
+        int greatRecorderBadge = userBadgeJpaRepository.countUserBadgeByBadgeId(user.getId(), BadgeList.GREAT_RECORDER_BADGE);
+        if (greatRecorderBadge == 0 && cntAfterRegister == 30){
+            badgeService.presentBadge(BadgeList.GREAT_RECORDER_BADGE.toString(), user);
+        }
+
         ModerationRecordCreateResponseDto moderationRecordCreateResponseDto = ModerationRecordCreateResponseDto.builder()
                 .moderationId(moderationRecord.getId())
                 .build();
@@ -64,10 +90,6 @@ public class ModerationRecordService {
         UserEntity user = userRepository.findById(userId).orElseThrow(
                 () -> new CustomException(ErrorCode.USER_NOT_FOUND)
         );
-
-        //DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        //LocalDate fDate = LocalDate.parse(fromDate, formatter);
-        //LocalDate tDate = LocalDate.parse(toDate, formatter);
 
         List<ModerationRecordListResponseDto> moderationRecords = moderationRecordJpaRepository.findByFromDateAndEndDate(userId, fromDate, toDate).orElseThrow(
                 () -> new CustomException(ErrorCode.USER_MODERATION_RECORD_NOT_FOUND)
