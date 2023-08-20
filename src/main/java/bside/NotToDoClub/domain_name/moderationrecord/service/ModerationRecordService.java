@@ -47,7 +47,7 @@ public class ModerationRecordService {
                 () -> new CustomException(ErrorCode.USER_NOT_FOUND)
         );
 
-        UserNotToDo userNotToDo = userNotToDoRepository.findById(notToDoId).orElseThrow(
+        UserNotToDo userNotToDo = userNotToDoRepository.findByIdAndUseYn(notToDoId).orElseThrow(
                 () -> new CustomException(ErrorCode.USER_NOT_TO_DO_NOT_FOUND)
         );
 
@@ -56,22 +56,22 @@ public class ModerationRecordService {
         ModerationRecord moderationRecord = moderationRecordJpaRepository.save(newModerationRecord);
 
         // 첫번째 기록 뱃지
-        int firstRecordBadge = userBadgeJpaRepository.countUserBadgeByBadgeId(user.getId(), BadgeList.FIRST_RECORD_BADGE);
+        int firstRecordBadge = userBadgeJpaRepository.countUserBadgeByBadgeId(user.getId(), BadgeList.FIRST_RECORD.toString());
         int cntAfterRegister = moderationRecordJpaRepository.countModerationRecordByUserIdAndUseYn(user.getId());
         if(firstRecordBadge == 0 && cntAfterRegister == 1){
-            badgeService.presentBadge(BadgeList.FIRST_RECORD_BADGE.toString(), user);
+            badgeService.presentBadge(BadgeList.FIRST_RECORD.toString(), user);
         }
 
         // 성실한 기록가 뱃지
-        int diligentRecorderBadge = userBadgeJpaRepository.countUserBadgeByBadgeId(user.getId(), BadgeList.DILIGENT_RECORDER_BADGE);
+        int diligentRecorderBadge = userBadgeJpaRepository.countUserBadgeByBadgeId(user.getId(), BadgeList.DILIGENT_RECORDER.toString());
         if(diligentRecorderBadge == 0 && cntAfterRegister == 10){
-            badgeService.presentBadge(BadgeList.DILIGENT_RECORDER_BADGE.toString(), user);
+            badgeService.presentBadge(BadgeList.DILIGENT_RECORDER.toString(), user);
         }
 
         // 대단한 기록가 뱃지
-        int greatRecorderBadge = userBadgeJpaRepository.countUserBadgeByBadgeId(user.getId(), BadgeList.GREAT_RECORDER_BADGE);
+        int greatRecorderBadge = userBadgeJpaRepository.countUserBadgeByBadgeId(user.getId(), BadgeList.GREAT_RECORDER.toString());
         if (greatRecorderBadge == 0 && cntAfterRegister == 30){
-            badgeService.presentBadge(BadgeList.GREAT_RECORDER_BADGE.toString(), user);
+            badgeService.presentBadge(BadgeList.GREAT_RECORDER.toString(), user);
         }
 
         ModerationRecordCreateResponseDto moderationRecordCreateResponseDto = ModerationRecordCreateResponseDto.builder()
