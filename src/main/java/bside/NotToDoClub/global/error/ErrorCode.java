@@ -24,6 +24,7 @@ public enum ErrorCode {
     INVALID_INQUIRY_ID(NOT_FOUND, "해당 문의사항을 찾을 수 없습니다."),
     USER_MODERATION_RECORD_NOT_FOUND(NOT_FOUND, "사용자의 절제기록을 찾을 수 없습니다."),
     MODERATION_RECORD_NOT_FOUND(NOT_FOUND, "해당 절제기록 ID의 절제기록을 찾을 수 없습니다."),
+    USER_BADGE_LIST_NOT_FOUND(NOT_FOUND, "사용자의 뱃지 리스트를 찾을 수 없습니다."),
 
     BADGE_NOT_FOUND(NOT_FOUND, "해당 ID의 뱃지를 찾을 수 없습니다."),
 

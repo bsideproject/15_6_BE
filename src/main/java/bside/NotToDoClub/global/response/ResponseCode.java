@@ -16,6 +16,7 @@ public enum ResponseCode {
     PROVIDE_APP_TOKEN(OK, "토큰 발급 성공"),
     GET_USER_NOT_TO_DO(OK, "사용자 낫투두 조회 성공"),
     GET_MODERATION_RECORD(OK, "절제기록 조회 성공"),
+    GET_USER_BADGE_LIST(OK, "사용자 뱃지 리스트 조회 성공"),
 
     TOS_AGREE(OK, "이용약관 동의 완료"),
     AUTO_LOGIN_AGREE(OK, "자동로그인 동의 완료"),
