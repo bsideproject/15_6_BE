@@ -33,4 +33,9 @@ public interface UserNotToDoJpaRepository extends JpaRepository<UserNotToDo, Lon
             )
     Optional<List<UserNotToDo>> findMRByProgressState(ProgressState progressState);
 
+    @Query("select n from UserNotToDo n " +
+            "join fetch n.moderationRecords " +
+            "where n.progressState = :progressState " +
+            "and n.id = :id")
+    Optional<List<UserNotToDo>> findMRByProgressStateAndNotToDoId(ProgressState progressState, Long id);
 }

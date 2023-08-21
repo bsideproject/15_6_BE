@@ -1,4 +1,4 @@
-package bside.NotToDoClub.domain_name.badge.entity;
+package bside.NotToDoClub.domain_name.badge.dto;
 
 public class UserBadgeDto {
 }

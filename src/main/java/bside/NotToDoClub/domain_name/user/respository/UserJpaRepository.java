@@ -28,4 +28,8 @@ public interface UserJpaRepository extends JpaRepository<UserEntity, Long> {
             "where u.loginId = :loginId ")
     Optional<UserEntity> getUserCheerUpListByLoginId(String loginId);
 
+    @Query("select u from UserEntity u " +
+            "join fetch u.badges "+
+            "where u.loginId = :loginId ")
+    Optional<UserEntity> getUserWithBadge(String loginId);
 }
