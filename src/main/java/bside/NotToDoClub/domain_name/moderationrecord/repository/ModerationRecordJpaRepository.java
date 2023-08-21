@@ -18,6 +18,13 @@ public interface ModerationRecordJpaRepository extends JpaRepository<ModerationR
             "and date_format(m.reg_dtm,'%Y%m%d') >= :fromDate " +
             "and date_format(m.reg_dtm,'%Y%m%d') <= :toDate " +
             "and m.use_yn = 'Y' " +
+            "and u.use_yn = 'Y' " +
             "order by m.reg_dtm desc", nativeQuery = true)
     Optional<List<ModerationRecordListResponseDto>> findByFromDateAndEndDate(@Param("userId") Long userId, @Param("fromDate") String fromDate, @Param("toDate") String toDate);
+
+    @Query("select count(m) from ModerationRecord m where m.userNotToDo.user.id = :userId and m.useYn = true")
+    int countModerationRecordByUserIdAndUseYn(Long userId);
+
+    @Query("select count(m) from ModerationRecord m where m.userNotToDo.user.id = :userId and m.recordType =:recordType")
+    int countModerationRecordByRecordType(Long userId, String recordType);
 }

@@ -3,6 +3,10 @@ package bside.NotToDoClub.domain_name.moderationrecord.service;
 
 import bside.NotToDoClub.config.AuthToken;
 import bside.NotToDoClub.config.AuthTokenProvider;
+import bside.NotToDoClub.domain_name.badge.repository.BadgeJpaRepository;
+import bside.NotToDoClub.domain_name.badge.repository.UserBadgeJpaRepository;
+import bside.NotToDoClub.domain_name.badge.service.BadgeList;
+import bside.NotToDoClub.domain_name.badge.service.BadgeService;
 import bside.NotToDoClub.domain_name.moderationrecord.dto.*;
 import bside.NotToDoClub.domain_name.moderationrecord.entity.ModerationRecord;
 import bside.NotToDoClub.domain_name.moderationrecord.repository.ModerationRecordJpaRepository;
@@ -27,6 +31,9 @@ public class ModerationRecordService {
     private final UserNotToDoJpaRepository userNotToDoRepository;
     private final UserJpaRepository userRepository;
     private final ModerationRecordJpaRepository moderationRecordJpaRepository;
+    private final UserBadgeJpaRepository userBadgeJpaRepository;
+
+    private final BadgeService badgeService;
 
     @Value("${app.auth.accessTokenSecret}")
     private String key;
@@ -40,13 +47,51 @@ public class ModerationRecordService {
                 () -> new CustomException(ErrorCode.USER_NOT_FOUND)
         );
 
-        UserNotToDo userNotToDo = userNotToDoRepository.findById(notToDoId).orElseThrow(
+        UserNotToDo userNotToDo = userNotToDoRepository.findByIdAndUseYn(notToDoId).orElseThrow(
                 () -> new CustomException(ErrorCode.USER_NOT_TO_DO_NOT_FOUND)
         );
 
         ModerationRecord newModerationRecord =ModerationRecord.createModerationRecord(moderationRecordCreateRequestDto, userNotToDo);
 
         ModerationRecord moderationRecord = moderationRecordJpaRepository.save(newModerationRecord);
+
+        // 첫번째 기록 뱃지
+        int firstRecordBadgeCnt = userBadgeJpaRepository.countUserBadgeByBadgeId(user.getId(), BadgeList.FIRST_RECORD.toString());
+        int cntAfterRegister = moderationRecordJpaRepository.countModerationRecordByUserIdAndUseYn(user.getId());
+        if(firstRecordBadgeCnt == 0 && cntAfterRegister == 1){
+            badgeService.presentBadge(BadgeList.FIRST_RECORD.toString(), user);
+        }
+
+        // 첫번째 인내 뱃지
+        int firstPatienceBadgeCnt = userBadgeJpaRepository.countUserBadgeByBadgeId(user.getId(), BadgeList.FIRST_PATIENCE.toString());
+        if(firstPatienceBadgeCnt == 0 && moderationRecordCreateRequestDto.getRecordType().equals("success")){
+            badgeService.presentBadge(BadgeList.FIRST_PATIENCE.toString(), user);
+        }
+
+        // 실패해도 괜찮아 뱃지
+        int firstFailBadgeCnt = userBadgeJpaRepository.countUserBadgeByBadgeId(user.getId(), BadgeList.FIRST_FAIL.toString());
+        if(firstFailBadgeCnt == 0 && moderationRecordCreateRequestDto.getRecordType().equals("fail")){
+            badgeService.presentBadge(BadgeList.FIRST_FAIL.toString(), user);
+        }
+
+        // 성실한 기록가 뱃지
+        int diligentRecorderBadgeCnt = userBadgeJpaRepository.countUserBadgeByBadgeId(user.getId(), BadgeList.DILIGENT_RECORDER.toString());
+        if(diligentRecorderBadgeCnt == 0 && cntAfterRegister == 10){
+            badgeService.presentBadge(BadgeList.DILIGENT_RECORDER.toString(), user);
+        }
+
+        // 성실한 인고자 뱃지
+        int diligentPatienceBadgeCnt = userBadgeJpaRepository.countUserBadgeByBadgeId(user.getId(), BadgeList.DILIGENT_PATIENCE.toString());
+        int successRecordCnt = moderationRecordJpaRepository.countModerationRecordByRecordType(user.getId(), moderationRecordCreateRequestDto.getRecordType());
+        if(diligentPatienceBadgeCnt == 0 && successRecordCnt == 10){
+            badgeService.presentBadge(BadgeList.DILIGENT_PATIENCE.toString(), user);
+        }
+
+        // 대단한 기록가 뱃지
+        int greatRecorderBadgeCnt = userBadgeJpaRepository.countUserBadgeByBadgeId(user.getId(), BadgeList.GREAT_RECORDER.toString());
+        if (greatRecorderBadgeCnt == 0 && cntAfterRegister == 30){
+            badgeService.presentBadge(BadgeList.GREAT_RECORDER.toString(), user);
+        }
 
         ModerationRecordCreateResponseDto moderationRecordCreateResponseDto = ModerationRecordCreateResponseDto.builder()
                 .moderationId(moderationRecord.getId())
@@ -64,10 +109,6 @@ public class ModerationRecordService {
         UserEntity user = userRepository.findById(userId).orElseThrow(
                 () -> new CustomException(ErrorCode.USER_NOT_FOUND)
         );
-
-        //DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        //LocalDate fDate = LocalDate.parse(fromDate, formatter);
-        //LocalDate tDate = LocalDate.parse(toDate, formatter);
 
         List<ModerationRecordListResponseDto> moderationRecords = moderationRecordJpaRepository.findByFromDateAndEndDate(userId, fromDate, toDate).orElseThrow(
                 () -> new CustomException(ErrorCode.USER_MODERATION_RECORD_NOT_FOUND)
