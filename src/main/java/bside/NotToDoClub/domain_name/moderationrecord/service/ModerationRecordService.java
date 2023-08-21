@@ -3,6 +3,7 @@ package bside.NotToDoClub.domain_name.moderationrecord.service;
 
 import bside.NotToDoClub.config.AuthToken;
 import bside.NotToDoClub.config.AuthTokenProvider;
+import bside.NotToDoClub.domain_name.badge.service.BadgeService;
 import bside.NotToDoClub.domain_name.moderationrecord.dto.*;
 import bside.NotToDoClub.domain_name.moderationrecord.entity.ModerationRecord;
 import bside.NotToDoClub.domain_name.moderationrecord.repository.ModerationRecordJpaRepository;
@@ -10,6 +11,7 @@ import bside.NotToDoClub.domain_name.nottodo.entity.UserNotToDo;
 import bside.NotToDoClub.domain_name.nottodo.repository.UserNotToDoJpaRepository;
 import bside.NotToDoClub.domain_name.user.entity.UserEntity;
 import bside.NotToDoClub.domain_name.user.respository.UserJpaRepository;
+import bside.NotToDoClub.domain_name.user.service.UserCommonService;
 import bside.NotToDoClub.global.error.CustomException;
 import bside.NotToDoClub.global.error.ErrorCode;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
 @RequiredArgsConstructor
@@ -27,6 +30,8 @@ public class ModerationRecordService {
     private final UserNotToDoJpaRepository userNotToDoRepository;
     private final UserJpaRepository userRepository;
     private final ModerationRecordJpaRepository moderationRecordJpaRepository;
+    private final UserCommonService userCommonService;
+    private final BadgeService badgeService;
 
     @Value("${app.auth.accessTokenSecret}")
     private String key;
@@ -45,8 +50,10 @@ public class ModerationRecordService {
         );
 
         ModerationRecord newModerationRecord =ModerationRecord.createModerationRecord(moderationRecordCreateRequestDto, userNotToDo);
-
         ModerationRecord moderationRecord = moderationRecordJpaRepository.save(newModerationRecord);
+
+        // 성공은 실패의 어머니 뱃지추가
+        this.checkFirstFailModerationRecord(accessToken, moderationRecordCreateRequestDto.getRecordType());
 
         ModerationRecordCreateResponseDto moderationRecordCreateResponseDto = ModerationRecordCreateResponseDto.builder()
                 .moderationId(moderationRecord.getId())
@@ -79,7 +86,8 @@ public class ModerationRecordService {
 
 
     @Transactional
-    public ModerationRecordCreateResponseDto updateModerationRecord (String accessToken, Long recordId, ModerationRecordUpdateRequestDto moderationRecordUpdateRequestDto) {
+    public ModerationRecordCreateResponseDto updateModerationRecord (String accessToken, Long recordId,
+                                                                     ModerationRecordUpdateRequestDto moderationRecordUpdateRequestDto) {
         AuthToken authToken = new AuthToken(accessToken, key);
         String email = authTokenProvider.getEmailByToken(authToken);
 
@@ -92,6 +100,9 @@ public class ModerationRecordService {
         );
 
         moderationRecord.updateModerationRecord(moderationRecordUpdateRequestDto);
+        
+        // 성공은 실패의 어머니 뱃지추가
+        this.checkFirstFailModerationRecord(accessToken, ModerationRecordUpdateRequestDto.getRecordType());
 
         ModerationRecordCreateResponseDto response = ModerationRecordCreateResponseDto.builder()
                 .moderationId(recordId)
@@ -116,5 +127,27 @@ public class ModerationRecordService {
         moderationRecord.updateUseYn();
 
         return 1;
+    }
+
+
+    private void checkFirstFailModerationRecord(String accessToken,
+                                                String moderationRecordType){
+        if(moderationRecordType.equals("fail")){
+            UserEntity userEntity = userCommonService.checkUserByToken(accessToken);
+            List<ModerationRecord> moderationRecords = moderationRecordJpaRepository.findByUserAllRecords(userEntity.getId()).orElseThrow(() ->
+                    new CustomException(ErrorCode.MODERATION_RECORD_NOT_FOUND));
+
+            int count = 0;
+            for (ModerationRecord moderationRecord : moderationRecords) {
+                if(moderationRecord.getRecordType().equals("fail")){
+                    ++count;
+                    break;
+                }
+            }
+            if(count > 0){
+                badgeService.getFirstFailBadge(userEntity);
+            }
+        }
+
     }
 }

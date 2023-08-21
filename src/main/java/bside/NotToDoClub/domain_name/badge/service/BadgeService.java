@@ -9,6 +9,7 @@ import bside.NotToDoClub.domain_name.user.entity.UserEntity;
 import bside.NotToDoClub.global.error.CustomException;
 import bside.NotToDoClub.global.error.ErrorCode;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import bside.NotToDoClub.domain_name.badge.service.*;
@@ -18,10 +19,12 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class BadgeService {
 
     private final BadgeJpaRepository badgeJpaRepository;
     private final UserBadgeJpaRepository userBadgeJpaRepository;
+    private final BadgeCommonService badgeCommonService;
 
     /**
      * 공통 - 사용자 뱃지 추가
@@ -69,5 +72,14 @@ public class BadgeService {
 
         presentBadge(BadgeList.PERFECT_START.toString(), user);
 
+    }
+
+    public void getFirstFailBadge(UserEntity userEntity) {
+
+        int overlapBit = userBadgeJpaRepository.countUserBadgeByBadgeId(
+                userEntity.getId(), BadgeList.FIRST_FAIL.name());
+        if(overlapBit == 0){
+            badgeCommonService.createUserBadge(userEntity, BadgeList.FIRST_FAIL);
+        }
     }
 }

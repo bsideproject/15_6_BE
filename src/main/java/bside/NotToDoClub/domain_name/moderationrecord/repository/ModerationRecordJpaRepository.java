@@ -20,4 +20,11 @@ public interface ModerationRecordJpaRepository extends JpaRepository<ModerationR
             "and m.use_yn = 'Y' " +
             "order by m.reg_dtm desc", nativeQuery = true)
     Optional<List<ModerationRecordListResponseDto>> findByFromDateAndEndDate(@Param("userId") Long userId, @Param("fromDate") String fromDate, @Param("toDate") String toDate);
+
+    @Query("select m " +
+            "from UserEntity u " +
+            "join fetch u.userNotToDoList n " +
+            "join fetch n.moderationRecords m " +
+            "where u.id = :userId")
+    Optional<List<ModerationRecord>> findByUserAllRecords(Long userId);
 }

@@ -6,7 +6,7 @@ public enum BadgeList {
     /**
      * 패배는 성공의 어머니 뱃지
      */
-    FIRST_FAILURE,
+    FIRST_FAIL,
     /**
      * 인내의 달인 뱃지
      */
