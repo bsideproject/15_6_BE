@@ -22,9 +22,18 @@ public interface ModerationRecordJpaRepository extends JpaRepository<ModerationR
             "order by m.reg_dtm desc", nativeQuery = true)
     Optional<List<ModerationRecordListResponseDto>> findByFromDateAndEndDate(@Param("userId") Long userId, @Param("fromDate") String fromDate, @Param("toDate") String toDate);
 
+<<<<<<< HEAD
     @Query("select count(m) from ModerationRecord m where m.userNotToDo.user.id = :userId and m.useYn = true")
     int countModerationRecordByUserIdAndUseYn(Long userId);
 
     @Query("select count(m) from ModerationRecord m where m.userNotToDo.user.id = :userId and m.recordType =:recordType")
     int countModerationRecordByRecordType(Long userId, String recordType);
+=======
+    @Query("select m " +
+            "from UserEntity u " +
+            "join fetch u.userNotToDoList n " +
+            "join fetch n.moderationRecords m " +
+            "where u.id = :userId")
+    Optional<List<ModerationRecord>> findByUserAllRecords(Long userId);
+>>>>>>> develop_sihun
 }

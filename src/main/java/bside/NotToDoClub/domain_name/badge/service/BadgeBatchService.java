@@ -10,6 +10,8 @@ import bside.NotToDoClub.domain_name.nottodo.repository.UserNotToDoJpaRepository
 import bside.NotToDoClub.domain_name.user.entity.UserEntity;
 import bside.NotToDoClub.domain_name.user.respository.UserJpaRepository;
 import bside.NotToDoClub.domain_name.user.service.UserCommonService;
+import bside.NotToDoClub.global.error.CustomException;
+import bside.NotToDoClub.global.error.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.parameters.P;
@@ -30,6 +32,7 @@ public class BadgeBatchService {
     private final UserNotToDoJpaRepository userNotToDoJpaRepository;
     private final BadgeJpaRepository badgeJpaRepository;
     private final UserBadgeJpaRepository userBadgeJpaRepository;
+    private final BadgeCommonService badgeCommonService;
 
     /**
      * ALL_MOD_REC_SECCESS 뱃지 추가
@@ -52,21 +55,13 @@ public class BadgeBatchService {
         AtomicBoolean flag = new AtomicBoolean(true);
         AtomicBoolean successToday = isSuccessToday(priorityQueue, moderationRecords, flag);
         if(successToday.get()){
-            UserBadge userBadge = UserBadge.builder()
-                    .user(userEntity)
-                    .badge(badgeJpaRepository
-                            .findById(BadgeList.MASTER_OF_PATIENCE.name())
-                            .orElseThrow(()-> new RuntimeException("MASTER_OF_PATIENCE 뱃지가 없습니다.")))
-                    .build();
-
             /**
              * 겹치는거 없는지 유효성 체크
              */
             int overlapBit = userBadgeJpaRepository.countUserBadgeByBadgeId(
                     userEntity.getId(), BadgeList.MASTER_OF_PATIENCE.name());
             if(overlapBit == 0) {
-                UserBadge savedUserBadge = userBadgeJpaRepository.save(userBadge);
-                log.info(savedUserBadge.toString());
+                badgeCommonService.createUserBadge(userEntity, BadgeList.MASTER_OF_PATIENCE);
             }
         }
     }
