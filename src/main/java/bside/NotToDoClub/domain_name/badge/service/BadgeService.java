@@ -1,10 +1,10 @@
 package bside.NotToDoClub.domain_name.badge.service;
 
 import bside.NotToDoClub.domain_name.badge.entity.Badge;
+import bside.NotToDoClub.domain_name.badge.entity.UserBadge;
 import bside.NotToDoClub.domain_name.badge.repository.BadgeJpaRepository;
 import bside.NotToDoClub.domain_name.badge.repository.UserBadgeJpaRepository;
 import bside.NotToDoClub.domain_name.nottodo.dto.NotToDoCreateRequestDto;
-import bside.NotToDoClub.domain_name.user.entity.UserBadge;
 import bside.NotToDoClub.domain_name.user.entity.UserEntity;
 import bside.NotToDoClub.global.error.CustomException;
 import bside.NotToDoClub.global.error.ErrorCode;
