@@ -1,6 +1,7 @@
 package bside.NotToDoClub.domain_name.badge.controller;
 
 import bside.NotToDoClub.domain_name.badge.dto.UserBadgeDto;
+import bside.NotToDoClub.domain_name.badge.dto.UserBadgeResponseDto;
 import bside.NotToDoClub.domain_name.badge.service.UserBadgeService;
 import bside.NotToDoClub.global.response.ResponseCode;
 import bside.NotToDoClub.global.response.ResultResponse;
@@ -26,9 +27,9 @@ public class BadgeController {
      */
     @GetMapping("/list")
     @Operation(summary = "사용자 뱃지 리스트 조회")
-    public ResultResponse<List<UserBadgeDto>> getUserBadgeList(
+    public ResultResponse<List<UserBadgeResponseDto>> getUserBadgeList(
             @RequestHeader(value="access-token")String accessToken){
-        List<UserBadgeDto> userBadgeList = userBadgeService.getUserBadgeList(accessToken);
+        List<UserBadgeResponseDto> userBadgeList = userBadgeService.getUserBadgeList(accessToken);
 
         return  ResultResponse.of(ResponseCode.GET_USER_BADGE_LIST, userBadgeList);
     }

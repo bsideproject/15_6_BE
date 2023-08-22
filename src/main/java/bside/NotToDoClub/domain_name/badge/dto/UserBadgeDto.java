@@ -5,4 +5,6 @@ public interface UserBadgeDto {
     String getBadgeName();
     int getBadgeCnt();
     String getImageUrl();
+    String getExplanation();
+    String getQualification();
 }

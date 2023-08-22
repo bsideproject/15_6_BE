@@ -3,13 +3,16 @@ package bside.NotToDoClub.domain_name.badge.service;
 import bside.NotToDoClub.config.AuthToken;
 import bside.NotToDoClub.config.AuthTokenProvider;
 import bside.NotToDoClub.domain_name.badge.dto.UserBadgeDto;
+import bside.NotToDoClub.domain_name.badge.dto.UserBadgeResponseDto;
 import bside.NotToDoClub.domain_name.badge.repository.UserBadgeJpaRepository;
+import bside.NotToDoClub.domain_name.user.entity.UserBadge;
 import bside.NotToDoClub.global.error.CustomException;
 import bside.NotToDoClub.global.error.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -22,7 +25,7 @@ public class UserBadgeService {
     @Value("${app.auth.accessTokenSecret}")
     private String key;
 
-    public List<UserBadgeDto> getUserBadgeList (String accessToken){
+    public List<UserBadgeResponseDto> getUserBadgeList (String accessToken){
 
         AuthToken authToken = new AuthToken(accessToken, key);
         Long userId = authTokenProvider.getUserIdByToken(authToken);
@@ -31,7 +34,19 @@ public class UserBadgeService {
                 () -> new CustomException(ErrorCode.USER_BADGE_LIST_NOT_FOUND)
         );
 
-        return UserBadgeList;
+        List<UserBadgeResponseDto> userBadgeResponseDtoList = new ArrayList<>();
+
+        for (UserBadgeDto userBadgeDto : UserBadgeList) {
+            List<UserBadge> userBadge = userBadgeJpaRepository.findUserBadgeByBadgeId(userId, userBadgeDto.getBadgeId()).orElseThrow(
+                    () -> new CustomException(ErrorCode.USER_BADGE_LIST_NOT_FOUND)
+            );
+
+            UserBadgeResponseDto userBadgeResponseDto = new UserBadgeResponseDto(userBadgeDto, userBadge);
+            userBadgeResponseDtoList.add(userBadgeResponseDto);
+        }
+
+
+        return userBadgeResponseDtoList;
     }
 
 }
