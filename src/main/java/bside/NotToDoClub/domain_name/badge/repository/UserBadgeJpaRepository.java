@@ -1,6 +1,5 @@
 package bside.NotToDoClub.domain_name.badge.repository;
 
-import bside.NotToDoClub.domain_name.badge.dto.UserBadgeDto;
 import bside.NotToDoClub.domain_name.user.entity.UserBadge;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

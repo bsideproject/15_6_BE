@@ -1,5 +1,6 @@
 package bside.NotToDoClub.domain_name.nottodo.repository;
 
+import bside.NotToDoClub.domain_name.nottodo.entity.ProgressState;
 import bside.NotToDoClub.domain_name.nottodo.entity.UserNotToDo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -26,4 +27,15 @@ public interface UserNotToDoJpaRepository extends JpaRepository<UserNotToDo, Lon
     @Query("select count(n) from UserNotToDo n where n.user.id = :userId and n.useYn = true")
     int countUserNotToDoByUserIdAndUseYn(Long userId);
 
+    @Query("select n from UserNotToDo n " +
+            "join fetch n.moderationRecords " +
+            "where n.progressState = :progressState"
+            )
+    Optional<List<UserNotToDo>> findMRByProgressState(ProgressState progressState);
+
+    @Query("select n from UserNotToDo n " +
+            "join fetch n.moderationRecords " +
+            "where n.progressState = :progressState " +
+            "and n.id = :id")
+    Optional<List<UserNotToDo>> findMRByProgressStateAndNotToDoId(ProgressState progressState, Long id);
 }

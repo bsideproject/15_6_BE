@@ -1,6 +1,7 @@
-package bside.NotToDoClub.domain_name.user.entity;
+package bside.NotToDoClub.domain_name.badge.entity;
 
 import bside.NotToDoClub.domain_name.badge.entity.Badge;
+import bside.NotToDoClub.domain_name.user.entity.UserEntity;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;

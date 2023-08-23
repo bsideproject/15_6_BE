@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: local-mine
+    active: prod
 
   jpa:
     database: mysql
