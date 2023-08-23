@@ -1,4 +1,4 @@
-package bside.NotToDoClub.domain_name.badge.entity;
+package bside.NotToDoClub.domain_name.user.entity;
 
 import bside.NotToDoClub.domain_name.badge.entity.Badge;
 import bside.NotToDoClub.domain_name.user.entity.UserEntity;
