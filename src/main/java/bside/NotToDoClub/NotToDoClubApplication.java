@@ -20,7 +20,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 public class NotToDoClubApplication {
 
     public static void main(String[] args) {
-        NetworkUtil.disableSslVerification();
+        //NetworkUtil.disableSslVerification();
         SpringApplication.run(NotToDoClubApplication.class, args);
     }
 
