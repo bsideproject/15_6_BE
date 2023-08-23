@@ -1,7 +1,7 @@
 package bside.NotToDoClub.domain_name.badge.service;
 
 import bside.NotToDoClub.domain_name.badge.entity.Badge;
-import bside.NotToDoClub.domain_name.badge.entity.UserBadge;
+import bside.NotToDoClub.domain_name.user.entity.UserBadge;
 import bside.NotToDoClub.domain_name.badge.repository.BadgeJpaRepository;
 import bside.NotToDoClub.domain_name.badge.repository.UserBadgeJpaRepository;
 import bside.NotToDoClub.domain_name.nottodo.dto.NotToDoCreateRequestDto;
@@ -11,10 +11,8 @@ import bside.NotToDoClub.global.error.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import bside.NotToDoClub.domain_name.badge.service.*;
 
 import java.util.Map;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor

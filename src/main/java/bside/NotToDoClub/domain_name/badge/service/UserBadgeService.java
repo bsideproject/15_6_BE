@@ -4,7 +4,7 @@ import bside.NotToDoClub.config.AuthToken;
 import bside.NotToDoClub.config.AuthTokenProvider;
 import bside.NotToDoClub.domain_name.badge.dto.UserBadgeDto;
 import bside.NotToDoClub.domain_name.badge.dto.UserBadgeResponseDto;
-import bside.NotToDoClub.domain_name.badge.entity.UserBadge;
+import bside.NotToDoClub.domain_name.user.entity.UserBadge;
 import bside.NotToDoClub.domain_name.badge.repository.UserBadgeJpaRepository;
 import bside.NotToDoClub.global.error.CustomException;
 import bside.NotToDoClub.global.error.ErrorCode;

@@ -1,6 +1,6 @@
 package bside.NotToDoClub.domain_name.badge.dto;
 
-import bside.NotToDoClub.domain_name.badge.entity.UserBadge;
+import bside.NotToDoClub.domain_name.user.entity.UserBadge;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
