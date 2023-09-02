@@ -23,8 +23,8 @@ public interface UserBadgeJpaRepository extends JpaRepository<UserBadge, Long> {
                     "b.image_url as imageUrl, " +
                     "b.explanation as explanation," +
                     "b.qualification as qualification " +
-            "from user_badge u " +
-            "join badge b on u.badge_id = b.badge_id " +
+            "from USER_BADGE u " +
+            "join BADGE b on u.badge_id = b.badge_id " +
             "where u.user_id = :userId " +
             "group by b.badge_id", nativeQuery = true)
     Optional<List<UserBadgeDto>> findAllUserBadge(long userId);
