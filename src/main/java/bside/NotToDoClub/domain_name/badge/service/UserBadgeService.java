@@ -4,7 +4,6 @@ import bside.NotToDoClub.config.AuthToken;
 import bside.NotToDoClub.config.AuthTokenProvider;
 import bside.NotToDoClub.domain_name.badge.dto.UserBadgeDto;
 import bside.NotToDoClub.domain_name.badge.dto.UserBadgeResponseDto;
-import bside.NotToDoClub.domain_name.badge.entity.Badge;
 import bside.NotToDoClub.domain_name.badge.repository.UserBadgeJpaRepository;
 import bside.NotToDoClub.domain_name.user.entity.UserBadge;
 import bside.NotToDoClub.global.error.CustomException;
@@ -38,9 +37,7 @@ public class UserBadgeService {
         List<UserBadgeResponseDto> userBadgeResponseDtoList = new ArrayList<>();
 
         for (UserBadgeDto userBadgeDto : UserBadgeList) {
-            List<UserBadge> userBadge = userBadgeJpaRepository.findUserBadgeByBadgeId(userId, userBadgeDto.getBadgeId()).orElseThrow(
-                    () -> new CustomException(ErrorCode.USER_BADGE_LIST_NOT_FOUND)
-            );
+            List<UserBadge> userBadge = userBadgeJpaRepository.findUserBadgeByBadgeId(userId, userBadgeDto.getBadgeId());
 
             UserBadgeResponseDto userBadgeResponseDto = new UserBadgeResponseDto(userBadgeDto, userBadge);
             userBadgeResponseDtoList.add(userBadgeResponseDto);

@@ -22,7 +22,8 @@ public class UserBadgeResponseDto {
     private String imageUrl;
     private String explanation;
     private String qualification;
-    private List<Map<String, Object>> getDate;
+    private String gainYn;
+    private List<Map<String, Object>> gainDate;
 
     public UserBadgeResponseDto(UserBadgeDto userBadgeDto, List<UserBadge> userBadgeList){
         this.badgeId = userBadgeDto.getBadgeId();
@@ -31,12 +32,19 @@ public class UserBadgeResponseDto {
         this.imageUrl = userBadgeDto.getImageUrl();
         this.explanation = userBadgeDto.getExplanation();
         this.qualification = userBadgeDto.getQualification();
-        this.getDate = new ArrayList<>();
 
-        for(UserBadge badge : userBadgeList){
-            Map<String, Object> dateMap = new HashMap<>();
-            dateMap.put("regDtm", badge.getCreatedAt());
-            this.getDate.add(dateMap);
+        if(userBadgeList.size() != 0){
+            this.gainDate = new ArrayList<>();
+            this.gainYn = "Y";
+            for(UserBadge badge : userBadgeList){
+                Map<String, Object> dateMap = new HashMap<>();
+                dateMap.put("regDtm", badge.getCreatedAt());
+                this.gainDate.add(dateMap);
+            }
         }
+        else {
+            this.gainYn = "N";
+        }
+
     }
 }
