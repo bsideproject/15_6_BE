@@ -2,6 +2,8 @@ package bside.NotToDoClub.domain_name.nottodo.controller;
 
 import bside.NotToDoClub.domain_name.nottodo.dto.*;
 import bside.NotToDoClub.domain_name.nottodo.service.NotToDoService;
+import bside.NotToDoClub.global.error.CustomException;
+import bside.NotToDoClub.global.error.ErrorCode;
 import bside.NotToDoClub.global.response.ResponseCode;
 import bside.NotToDoClub.global.response.ResultResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -10,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 @RestController
@@ -44,6 +47,17 @@ public class NotToDoController {
     public ResultResponse<NotToDoCreateResponseDto> createNotToDo(
             @RequestHeader(value="access-token")String accessToken,
             @RequestBody @Valid NotToDoCreateRequestDto notToDoCreateRequestDto){
+
+        try{
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            sdf.setLenient(false);
+            sdf.parse(notToDoCreateRequestDto.getStartDate());
+            sdf.parse(notToDoCreateRequestDto.getEndDate());
+        } catch (Exception e){
+            throw new CustomException(ErrorCode.DATETIME_FORMAT_PARSING_ERROR);
+        }
+
+
         NotToDoCreateResponseDto notToDo = notToDoService.createNotToDo(accessToken, notToDoCreateRequestDto);
         return ResultResponse.of(ResponseCode.CREATE_USER_NOT_TO_DO, notToDo);
     }

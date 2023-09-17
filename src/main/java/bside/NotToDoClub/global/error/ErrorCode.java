@@ -34,7 +34,7 @@ public enum ErrorCode {
     /* 500 INTERNAL SERVER ERROR : 서버 내부 오류 */
     ALREADY_TOS_AGREE(INTERNAL_SERVER_ERROR,"이미 이용약관에 동의한 회원입니다."),
     REGISTER_NOT_TO_DO_LIMIT(INTERNAL_SERVER_ERROR, "등록한 낫투두 갯수가 7개를 초과했습니다."),
-    DATETIME_FORMAT_PARSING_ERROR(INTERNAL_SERVER_ERROR, "날짜 형식 파싱오류"),
+    DATETIME_FORMAT_PARSING_ERROR(INTERNAL_SERVER_ERROR, "날짜 형식 파싱오류 (날짜 형식은 yyyy-mm-dd)"),
     BADGE_PRESENT_FAIL(INTERNAL_SERVER_ERROR, "사용자 뱃지 등록 중 오류가 발생했습니다.");
 
     private final HttpStatus status;
